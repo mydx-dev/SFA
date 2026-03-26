@@ -1,0 +1,14 @@
+{
+  "projectName": "my-gas-project",
+  "enviroments": [
+    {
+      "name": "dev"
+    },
+    {
+      "name": "prd"
+    }
+  ],
+  "variables": [
+    "VITE_DB_ID"
+  ]
+}
