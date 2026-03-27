@@ -1,12 +1,22 @@
 {
 	"devDependencies": {
+		"@emotion/cache": "^11.14.0",
+		"@emotion/react": "^11.14.0",
+		"@emotion/styled": "^11.14.1",
 		"@eslint/eslintrc": "^3.3.5",
 		"@google/clasp": "^3.3.0",
 		"@mydx-dev/gas-boost-cli": "^0.4.17",
+		"@testing-library/jest-dom": "^6.9.1",
+		"@testing-library/react": "^16.3.2",
+		"@testing-library/user-event": "^14.6.1",
 		"@types/google-apps-script": "^2.0.8",
 		"@types/node": "^25.5.0",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"@types/react-router-dom": "^5.3.3",
 		"@typescript-eslint/eslint-plugin": "^8.57.2",
 		"@typescript-eslint/parser": "^8.57.2",
+		"@vitejs/plugin-react": "^6.0.1",
 		"@vitest/coverage-v8": "^4.1.1",
 		"cross-env": "^10.1.0",
 		"dependency-cruiser": "^17.3.9",
@@ -22,10 +32,19 @@
 		"typescript": "^6.0.2",
 		"vite": "^8.0.3",
 		"vite-plugin-env-compatible": "^2.0.1",
+		"vite-plugin-singlefile": "^2.3.2",
 		"vitest": "^4.1.1"
 	},
 	"dependencies": {
+		"@mui/icons-material": "^7.3.9",
+		"@mui/material": "^7.3.9",
+		"@mydx-dev/gas-boost-react-apps-script": "^0.1.6",
 		"@mydx-dev/gas-boost-runtime": "^4.4.1",
+		"@tanstack/react-query": "^5.95.2",
+		"notistack": "^3.0.2",
+		"react": "^19.2.4",
+		"react-dom": "^19.2.4",
+		"react-router-dom": "^7.13.2",
 		"zod": "^4.3.6"
 	}
 }
