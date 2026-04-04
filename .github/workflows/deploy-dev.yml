@@ -1,0 +1,23 @@
+name: Deploy Dev
+
+on:
+    workflow_run:
+        workflows: ["CI"]
+        types: [completed]
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        if: >-
+            (github.event_name == 'workflow_dispatch' &&
+             contains(fromJson('["taiga-automate-growth"]'), github.actor)) ||
+            (github.event_name == 'workflow_run' &&
+             github.event.workflow_run.conclusion == 'success' &&
+             github.event.workflow_run.actor.type == 'Bot')
+        uses: mydx-dev/common-workflow/.github/workflows/deploy.yml@v1
+        with:
+            environment: dev
+            clasp_json_secret: CLASP_JSON_DEV
+            ref: ${{ github.event.workflow_run.head_sha }}
+            comment: true
+        secrets: inherit

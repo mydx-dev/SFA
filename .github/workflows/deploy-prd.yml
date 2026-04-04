@@ -1,0 +1,28 @@
+name: Deploy Prd
+
+on:
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+jobs:
+    deploy_dispatch:
+        if: >-
+            github.event_name == 'workflow_dispatch' &&
+            contains(fromJson('["taiga-automate-growth"]'), github.actor)
+        uses: mydx-dev/common-workflow/.github/workflows/deploy.yml@v1
+        with:
+            environment: prd
+            clasp_json_secret: CLASP_JSON_PRD
+            comment: true
+        secrets: inherit
+    deploy_push:
+        if: >-
+            github.event_name == 'push' &&
+            contains(fromJson('["taiga-automate-growth"]'), github.actor)
+        uses: mydx-dev/common-workflow/.github/workflows/deploy.yml@v1
+        with:
+            environment: prd
+            clasp_json_secret: CLASP_JSON_PRD
+            comment: true
+        secrets: inherit
