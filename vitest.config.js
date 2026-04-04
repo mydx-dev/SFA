@@ -13,4 +13,10 @@ export default defineConfig({
             },
         },
     },
+    resolve: {
+        extensions: [".ts", ".tsx", ".js", ".jsx"],
+    },
+    esbuild: {
+        target: "es2021",
+    },
 });
