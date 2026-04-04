@@ -11,7 +11,7 @@ export async function fetchLeads(assigneeId?: string): Promise<Lead[]> {
         throw new Error("Failed to fetch leads");
     }
     
-    await dexie.leads.bulkPut(leads);
+    await dexie.leads.bulkPut(leads as any);
     return leads;
 }
 
@@ -27,7 +27,7 @@ export async function createLead(
         updatedAt: new Date(),
         pkValue: tempId
     };
-    await dexie.leads.add(tempLead);
+    await dexie.leads.add(tempLead as any);
     
     try {
         // Call API
@@ -40,7 +40,7 @@ export async function createLead(
         
         // Replace temp with real data
         await dexie.leads.delete(tempId);
-        await dexie.leads.put(createdLead);
+        await dexie.leads.put(createdLead as any);
         
         return createdLead;
     } catch (error) {
@@ -61,7 +61,7 @@ export async function updateLead(
     }
     
     // Optimistic update
-    await dexie.leads.update(id, updates);
+    await dexie.leads.update(id, updates as any);
     
     try {
         // Call API
@@ -73,7 +73,7 @@ export async function updateLead(
         }
         
         // Update with server data
-        await dexie.leads.put(updatedLead);
+        await dexie.leads.put(updatedLead as any);
         
         return updatedLead;
     } catch (error) {

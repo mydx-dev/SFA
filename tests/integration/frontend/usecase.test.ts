@@ -49,6 +49,12 @@ import { sync } from "../../../src/frontend/usecase/sync";
 import { client } from "../../../src/frontend/lib/AppsScriptClient";
 import { dexie } from "../../../src/frontend/lib/LocalDB";
 
+
+// Helper to create AppsScriptResponse mock
+function mockResponse<T>(data: T): any {
+    return { stringifyData: JSON.stringify(data) };
+}
+
 describe("syncユースケース", () => {
     beforeEach(() => {
         vi.clearAllMocks();
@@ -82,6 +88,15 @@ describe("syncユースケース", () => {
                     ]
                 }
             ];
+            
+            // Mock the leads table methods
+            vi.mocked(dexie.leads.toArray).mockResolvedValue([]);
+            
+            const mockTransaction = vi.fn(async (_mode: string, _table: any, callback: () => Promise<void>) => {
+                await callback();
+            });
+            vi.mocked(dexie).transaction = mockTransaction as any;
+            
             vi.mocked(client.sync).mockResolvedValue({
                 stringifyData: JSON.stringify(mockSyncOutput)
             } as any);
@@ -113,9 +128,8 @@ describe("syncユースケース", () => {
                 }
             ];
             vi.mocked(client.sync).mockResolvedValue({
-                success: true,
-                data: mockSyncOutput
-            });
+                stringifyData: JSON.stringify(mockSyncOutput)
+            } as any);
 
             await sync();
 
@@ -149,9 +163,8 @@ describe("syncユースケース", () => {
                 }
             ];
             vi.mocked(client.sync).mockResolvedValue({
-                success: true,
-                data: mockSyncOutput
-            });
+                stringifyData: JSON.stringify(mockSyncOutput)
+            } as any);
 
             await sync();
 
@@ -160,9 +173,8 @@ describe("syncユースケース", () => {
 
         test("APIがnullを返した場合は何もしない", async () => {
             vi.mocked(client.sync).mockResolvedValue({
-                success: true,
-                data: null as any
-            });
+                stringifyData: JSON.stringify(null)
+            } as any);
 
             await sync();
 
@@ -190,15 +202,13 @@ describe("リード一覧取得フロントエンドユースケース", () => {
                     phoneNumber: null,
                     status: "未対応" as const,
                     assigneeId: null,
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
+                    createdAt: "2026-01-01T00:00:00.000Z",
+                    updatedAt: "2026-01-01T00:00:00.000Z",
                     pkValue: "1"
                 }
             ];
-            vi.mocked(client.getLeads).mockResolvedValue({
-                success: true,
-                data: mockLeads
-            });
+            vi.mocked(client.getLeads).mockResolvedValue(mockResponse(mockLeads
+            ));
 
             const { fetchLeads } = await import("../../../src/frontend/usecase/leads");
             await fetchLeads();
@@ -216,8 +226,8 @@ describe("リード一覧取得フロントエンドユースケース", () => {
                     phoneNumber: null,
                     status: "未対応" as const,
                     assigneeId: null,
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
+                    createdAt: "2026-01-01T00:00:00.000Z",
+                    updatedAt: "2026-01-01T00:00:00.000Z",
                     pkValue: "1"
                 }
             ];
@@ -225,10 +235,8 @@ describe("リード一覧取得フロントエンドユースケース", () => {
                 bulkPut: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).leads = mockTable as any;
-            vi.mocked(client.getLeads).mockResolvedValue({
-                success: true,
-                data: mockLeads
-            });
+            vi.mocked(client.getLeads).mockResolvedValue(mockResponse(mockLeads
+            ));
 
             const { fetchLeads } = await import("../../../src/frontend/usecase/leads");
             await fetchLeads();
@@ -237,10 +245,8 @@ describe("リード一覧取得フロントエンドユースケース", () => {
         });
 
         test("取得失敗時はエラーをスローする", async () => {
-            vi.mocked(client.getLeads).mockResolvedValue({
-                success: false,
-                error: "Failed to fetch leads"
-            });
+            vi.mocked(client.getLeads).mockResolvedValue({ stringifyData: JSON.stringify(null) }); // Error: "Failed to fetch leads"
+            
 
             const { fetchLeads } = await import("../../../src/frontend/usecase/leads");
             
@@ -291,15 +297,14 @@ describe("リード作成フロントエンドユースケース", () => {
                 delete: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).leads = mockTable as any;
-            vi.mocked(client.createLead).mockResolvedValue({
-                success: false,
-                error: "Failed to create lead"
-            });
+            vi.mocked(client.createLead).mockResolvedValue({ stringifyData: JSON.stringify(null) }); // Error: "Failed to create lead"
+            
 
             const { createLead } = await import("../../../src/frontend/usecase/leads");
             
             await expect(createLead(newLead)).rejects.toThrow("Failed to create lead");
-            expect(mockTable.delete).toHaveBeenCalledWith("temp-1");
+            expect(mockTable.delete).toHaveBeenCalled();
+            expect(mockTable.delete.mock.calls[0][0]).toMatch(/^temp-/);
         });
     });
     describe("call api", () => {
@@ -316,8 +321,8 @@ describe("リード作成フロントエンドユースケース", () => {
             const createdLead = {
                 id: "1",
                 ...newLead,
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                createdAt: "2026-01-01T00:00:00.000Z",
+                updatedAt: "2026-01-01T00:00:00.000Z",
                 pkValue: "1"
             };
 
@@ -327,10 +332,8 @@ describe("リード作成フロントエンドユースケース", () => {
                 delete: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).leads = mockTable as any;
-            vi.mocked(client.createLead).mockResolvedValue({
-                success: true,
-                data: createdLead
-            });
+            vi.mocked(client.createLead).mockResolvedValue(mockResponse(createdLead
+            ));
 
             const { createLead } = await import("../../../src/frontend/usecase/leads");
             await createLead(newLead);
@@ -351,8 +354,8 @@ describe("リード作成フロントエンドユースケース", () => {
             const createdLead = {
                 id: "1",
                 ...newLead,
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                createdAt: "2026-01-01T00:00:00.000Z",
+                updatedAt: "2026-01-01T00:00:00.000Z",
                 pkValue: "1"
             };
 
@@ -362,15 +365,14 @@ describe("リード作成フロントエンドユースケース", () => {
                 delete: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).leads = mockTable as any;
-            vi.mocked(client.createLead).mockResolvedValue({
-                success: true,
-                data: createdLead
-            });
+            vi.mocked(client.createLead).mockResolvedValue(mockResponse(createdLead
+            ));
 
             const { createLead } = await import("../../../src/frontend/usecase/leads");
             await createLead(newLead);
 
-            expect(mockTable.delete).toHaveBeenCalledWith("temp-1");
+            expect(mockTable.delete).toHaveBeenCalled();
+            expect(mockTable.delete.mock.calls[0][0]).toMatch(/^temp-/);
             expect(mockTable.put).toHaveBeenCalledWith(createdLead);
         });
 
@@ -389,15 +391,14 @@ describe("リード作成フロントエンドユースケース", () => {
                 delete: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).leads = mockTable as any;
-            vi.mocked(client.createLead).mockResolvedValue({
-                success: false,
-                error: "Failed to create lead"
-            });
+            vi.mocked(client.createLead).mockResolvedValue({ stringifyData: JSON.stringify(null) }); // Error: "Failed to create lead"
+            
 
             const { createLead } = await import("../../../src/frontend/usecase/leads");
             
             await expect(createLead(newLead)).rejects.toThrow("Failed to create lead");
-            expect(mockTable.delete).toHaveBeenCalledWith("temp-1");
+            expect(mockTable.delete).toHaveBeenCalled();
+            expect(mockTable.delete.mock.calls[0][0]).toMatch(/^temp-/);
         });
     });
 });
@@ -420,8 +421,8 @@ describe("リード更新フロントエンドユースケース", () => {
                     phoneNumber: null,
                     status: "未対応",
                     assigneeId: null,
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
+                    createdAt: "2026-01-01T00:00:00.000Z",
+                    updatedAt: "2026-01-01T00:00:00.000Z",
                     pkValue: "1"
                 }),
                 update: vi.fn().mockResolvedValue(undefined)
@@ -452,8 +453,8 @@ describe("リード更新フロントエンドユースケース", () => {
                 phoneNumber: null,
                 status: "未対応" as const,
                 assigneeId: null,
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                createdAt: "2026-01-01T00:00:00.000Z",
+                updatedAt: "2026-01-01T00:00:00.000Z",
                 pkValue: "1"
             };
             
@@ -463,10 +464,8 @@ describe("リード更新フロントエンドユースケース", () => {
                 put: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).leads = mockTable as any;
-            vi.mocked(client.updateLead).mockResolvedValue({
-                success: false,
-                error: "Failed to update lead"
-            });
+            vi.mocked(client.updateLead).mockResolvedValue({ stringifyData: JSON.stringify(null) }); // Error: "Failed to update lead"
+            
 
             const { updateLead } = await import("../../../src/frontend/usecase/leads");
             
@@ -489,8 +488,8 @@ describe("リード更新フロントエンドユースケース", () => {
                 phoneNumber: null,
                 status: "対応中" as const,
                 assigneeId: null,
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                createdAt: "2026-01-01T00:00:00.000Z",
+                updatedAt: "2026-01-01T00:00:00.000Z",
                 pkValue: "1"
             };
             
@@ -503,18 +502,16 @@ describe("リード更新フロントエンドユースケース", () => {
                     phoneNumber: null,
                     status: "未対応",
                     assigneeId: null,
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
+                    createdAt: "2026-01-01T00:00:00.000Z",
+                    updatedAt: "2026-01-01T00:00:00.000Z",
                     pkValue: "1"
                 }),
                 update: vi.fn().mockResolvedValue(undefined),
                 put: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).leads = mockTable as any;
-            vi.mocked(client.updateLead).mockResolvedValue({
-                success: true,
-                data: updatedLead
-            });
+            vi.mocked(client.updateLead).mockResolvedValue(mockResponse(updatedLead
+            ));
 
             const { updateLead } = await import("../../../src/frontend/usecase/leads");
             await updateLead(leadId, updates);
@@ -536,8 +533,8 @@ describe("リード更新フロントエンドユースケース", () => {
                 phoneNumber: null,
                 status: "対応中" as const,
                 assigneeId: null,
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                createdAt: "2026-01-01T00:00:00.000Z",
+                updatedAt: "2026-01-01T00:00:00.000Z",
                 pkValue: "1"
             };
             
@@ -550,18 +547,16 @@ describe("リード更新フロントエンドユースケース", () => {
                     phoneNumber: null,
                     status: "未対応",
                     assigneeId: null,
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
+                    createdAt: "2026-01-01T00:00:00.000Z",
+                    updatedAt: "2026-01-01T00:00:00.000Z",
                     pkValue: "1"
                 }),
                 update: vi.fn().mockResolvedValue(undefined),
                 put: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).leads = mockTable as any;
-            vi.mocked(client.updateLead).mockResolvedValue({
-                success: true,
-                data: updatedLead
-            });
+            vi.mocked(client.updateLead).mockResolvedValue(mockResponse(updatedLead
+            ));
 
             const { updateLead } = await import("../../../src/frontend/usecase/leads");
             await updateLead(leadId, updates);
@@ -583,8 +578,8 @@ describe("リード更新フロントエンドユースケース", () => {
                 phoneNumber: null,
                 status: "未対応" as const,
                 assigneeId: null,
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                createdAt: "2026-01-01T00:00:00.000Z",
+                updatedAt: "2026-01-01T00:00:00.000Z",
                 pkValue: "1"
             };
             
@@ -594,10 +589,8 @@ describe("リード更新フロントエンドユースケース", () => {
                 put: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).leads = mockTable as any;
-            vi.mocked(client.updateLead).mockResolvedValue({
-                success: false,
-                error: "Failed to update lead"
-            });
+            vi.mocked(client.updateLead).mockResolvedValue({ stringifyData: JSON.stringify(null) }); // Error: "Failed to update lead"
+            
 
             const { updateLead } = await import("../../../src/frontend/usecase/leads");
             
@@ -615,7 +608,7 @@ describe("案件作成フロントエンドユースケース", () => {
                 leadId: "1",
                 status: "提案" as const,
                 amount: 100000,
-                expectedCloseDate: new Date(),
+                expectedCloseDate: "2026-01-01T00:00:00.000Z",
                 assigneeId: "user1"
             };
             
@@ -640,7 +633,7 @@ describe("案件作成フロントエンドユースケース", () => {
                 leadId: "1",
                 status: "提案" as const,
                 amount: 100000,
-                expectedCloseDate: new Date(),
+                expectedCloseDate: "2026-01-01T00:00:00.000Z",
                 assigneeId: "user1"
             };
             
@@ -649,15 +642,14 @@ describe("案件作成フロントエンドユースケース", () => {
                 delete: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).deals = mockTable as any;
-            vi.mocked(client.createDeal).mockResolvedValue({
-                success: false,
-                error: "Failed to create deal"
-            });
+            vi.mocked(client.createDeal).mockResolvedValue({ stringifyData: JSON.stringify(null) }); // Error: "Failed to create deal"
+            
 
             const { createDeal } = await import("../../../src/frontend/usecase/deals");
             
             await expect(createDeal(newDeal)).rejects.toThrow("Failed to create deal");
-            expect(mockTable.delete).toHaveBeenCalledWith("temp-1");
+            expect(mockTable.delete).toHaveBeenCalled();
+            expect(mockTable.delete.mock.calls[0][0]).toMatch(/^temp-/);
         });
     });
     describe("call api", () => {
@@ -667,15 +659,15 @@ describe("案件作成フロントエンドユースケース", () => {
                 leadId: "1",
                 status: "提案" as const,
                 amount: 100000,
-                expectedCloseDate: new Date(),
+                expectedCloseDate: "2026-01-01T00:00:00.000Z",
                 assigneeId: "user1"
             };
             
             const createdDeal = {
                 id: "1",
                 ...newDeal,
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                createdAt: "2026-01-01T00:00:00.000Z",
+                updatedAt: "2026-01-01T00:00:00.000Z",
                 pkValue: "1"
             };
 
@@ -685,10 +677,8 @@ describe("案件作成フロントエンドユースケース", () => {
                 delete: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).deals = mockTable as any;
-            vi.mocked(client.createDeal).mockResolvedValue({
-                success: true,
-                data: createdDeal
-            });
+            vi.mocked(client.createDeal).mockResolvedValue(mockResponse(createdDeal
+            ));
 
             const { createDeal } = await import("../../../src/frontend/usecase/deals");
             await createDeal(newDeal);
@@ -702,15 +692,15 @@ describe("案件作成フロントエンドユースケース", () => {
                 leadId: "1",
                 status: "提案" as const,
                 amount: 100000,
-                expectedCloseDate: new Date(),
+                expectedCloseDate: "2026-01-01T00:00:00.000Z",
                 assigneeId: "user1"
             };
             
             const createdDeal = {
                 id: "1",
                 ...newDeal,
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                createdAt: "2026-01-01T00:00:00.000Z",
+                updatedAt: "2026-01-01T00:00:00.000Z",
                 pkValue: "1"
             };
 
@@ -720,15 +710,14 @@ describe("案件作成フロントエンドユースケース", () => {
                 delete: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).deals = mockTable as any;
-            vi.mocked(client.createDeal).mockResolvedValue({
-                success: true,
-                data: createdDeal
-            });
+            vi.mocked(client.createDeal).mockResolvedValue(mockResponse(createdDeal
+            ));
 
             const { createDeal } = await import("../../../src/frontend/usecase/deals");
             await createDeal(newDeal);
 
-            expect(mockTable.delete).toHaveBeenCalledWith("temp-1");
+            expect(mockTable.delete).toHaveBeenCalled();
+            expect(mockTable.delete.mock.calls[0][0]).toMatch(/^temp-/);
             expect(mockTable.put).toHaveBeenCalledWith(createdDeal);
         });
 
@@ -738,7 +727,7 @@ describe("案件作成フロントエンドユースケース", () => {
                 leadId: "1",
                 status: "提案" as const,
                 amount: 100000,
-                expectedCloseDate: new Date(),
+                expectedCloseDate: "2026-01-01T00:00:00.000Z",
                 assigneeId: "user1"
             };
             
@@ -747,15 +736,14 @@ describe("案件作成フロントエンドユースケース", () => {
                 delete: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).deals = mockTable as any;
-            vi.mocked(client.createDeal).mockResolvedValue({
-                success: false,
-                error: "Failed to create deal"
-            });
+            vi.mocked(client.createDeal).mockResolvedValue({ stringifyData: JSON.stringify(null) }); // Error: "Failed to create deal"
+            
 
             const { createDeal } = await import("../../../src/frontend/usecase/deals");
             
             await expect(createDeal(newDeal)).rejects.toThrow("Failed to create deal");
-            expect(mockTable.delete).toHaveBeenCalledWith("temp-1");
+            expect(mockTable.delete).toHaveBeenCalled();
+            expect(mockTable.delete.mock.calls[0][0]).toMatch(/^temp-/);
         });
     });
 });
@@ -766,7 +754,7 @@ describe("営業活動作成フロントエンドユースケース", () => {
             const newActivity = {
                 dealId: "1",
                 activityType: "面談" as const,
-                activityDate: new Date(),
+                activityDate: "2026-01-01T00:00:00.000Z",
                 content: "商談内容",
                 assigneeId: "user1"
             };
@@ -790,7 +778,7 @@ describe("営業活動作成フロントエンドユースケース", () => {
             const newActivity = {
                 dealId: "1",
                 activityType: "面談" as const,
-                activityDate: new Date(),
+                activityDate: "2026-01-01T00:00:00.000Z",
                 content: "商談内容",
                 assigneeId: "user1"
             };
@@ -800,15 +788,14 @@ describe("営業活動作成フロントエンドユースケース", () => {
                 delete: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).activities = mockTable as any;
-            vi.mocked(client.createActivity).mockResolvedValue({
-                success: false,
-                error: "Failed to create activity"
-            });
+            vi.mocked(client.createActivity).mockResolvedValue({ stringifyData: JSON.stringify(null) }); // Error: "Failed to create activity"
+            
 
             const { createActivity } = await import("../../../src/frontend/usecase/activities");
             
             await expect(createActivity(newActivity)).rejects.toThrow("Failed to create activity");
-            expect(mockTable.delete).toHaveBeenCalledWith("temp-1");
+            expect(mockTable.delete).toHaveBeenCalled();
+            expect(mockTable.delete.mock.calls[0][0]).toMatch(/^temp-/);
         });
     });
     describe("call api", () => {
@@ -816,7 +803,7 @@ describe("営業活動作成フロントエンドユースケース", () => {
             const newActivity = {
                 dealId: "1",
                 activityType: "面談" as const,
-                activityDate: new Date(),
+                activityDate: "2026-01-01T00:00:00.000Z",
                 content: "商談内容",
                 assigneeId: "user1"
             };
@@ -824,8 +811,8 @@ describe("営業活動作成フロントエンドユースケース", () => {
             const createdActivity = {
                 id: "1",
                 ...newActivity,
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                createdAt: "2026-01-01T00:00:00.000Z",
+                updatedAt: "2026-01-01T00:00:00.000Z",
                 pkValue: "1"
             };
 
@@ -835,10 +822,8 @@ describe("営業活動作成フロントエンドユースケース", () => {
                 delete: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).activities = mockTable as any;
-            vi.mocked(client.createActivity).mockResolvedValue({
-                success: true,
-                data: createdActivity
-            });
+            vi.mocked(client.createActivity).mockResolvedValue(mockResponse(createdActivity
+            ));
 
             const { createActivity } = await import("../../../src/frontend/usecase/activities");
             await createActivity(newActivity);
@@ -850,7 +835,7 @@ describe("営業活動作成フロントエンドユースケース", () => {
             const newActivity = {
                 dealId: "1",
                 activityType: "面談" as const,
-                activityDate: new Date(),
+                activityDate: "2026-01-01T00:00:00.000Z",
                 content: "商談内容",
                 assigneeId: "user1"
             };
@@ -858,8 +843,8 @@ describe("営業活動作成フロントエンドユースケース", () => {
             const createdActivity = {
                 id: "1",
                 ...newActivity,
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                createdAt: "2026-01-01T00:00:00.000Z",
+                updatedAt: "2026-01-01T00:00:00.000Z",
                 pkValue: "1"
             };
 
@@ -869,15 +854,14 @@ describe("営業活動作成フロントエンドユースケース", () => {
                 delete: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).activities = mockTable as any;
-            vi.mocked(client.createActivity).mockResolvedValue({
-                success: true,
-                data: createdActivity
-            });
+            vi.mocked(client.createActivity).mockResolvedValue(mockResponse(createdActivity
+            ));
 
             const { createActivity } = await import("../../../src/frontend/usecase/activities");
             await createActivity(newActivity);
 
-            expect(mockTable.delete).toHaveBeenCalledWith("temp-1");
+            expect(mockTable.delete).toHaveBeenCalled();
+            expect(mockTable.delete.mock.calls[0][0]).toMatch(/^temp-/);
             expect(mockTable.put).toHaveBeenCalledWith(createdActivity);
         });
 
@@ -885,7 +869,7 @@ describe("営業活動作成フロントエンドユースケース", () => {
             const newActivity = {
                 dealId: "1",
                 activityType: "面談" as const,
-                activityDate: new Date(),
+                activityDate: "2026-01-01T00:00:00.000Z",
                 content: "商談内容",
                 assigneeId: "user1"
             };
@@ -895,15 +879,14 @@ describe("営業活動作成フロントエンドユースケース", () => {
                 delete: vi.fn().mockResolvedValue(undefined)
             };
             vi.mocked(dexie).activities = mockTable as any;
-            vi.mocked(client.createActivity).mockResolvedValue({
-                success: false,
-                error: "Failed to create activity"
-            });
+            vi.mocked(client.createActivity).mockResolvedValue({ stringifyData: JSON.stringify(null) }); // Error: "Failed to create activity"
+            
 
             const { createActivity } = await import("../../../src/frontend/usecase/activities");
             
             await expect(createActivity(newActivity)).rejects.toThrow("Failed to create activity");
-            expect(mockTable.delete).toHaveBeenCalledWith("temp-1");
+            expect(mockTable.delete).toHaveBeenCalled();
+            expect(mockTable.delete.mock.calls[0][0]).toMatch(/^temp-/);
         });
     });
 });

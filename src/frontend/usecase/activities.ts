@@ -15,7 +15,7 @@ export async function createActivity(
         updatedAt: new Date(),
         pkValue: tempId
     };
-    await dexie.activities.add(tempActivity);
+    await dexie.activities.add(tempActivity as any);
     
     try {
         // Call API
@@ -28,7 +28,7 @@ export async function createActivity(
         
         // Replace temp with real data
         await dexie.activities.delete(tempId);
-        await dexie.activities.put(createdActivity);
+        await dexie.activities.put(createdActivity as any);
         
         return createdActivity;
     } catch (error) {
