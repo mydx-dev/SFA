@@ -188,7 +188,7 @@ export default [
         rules: {
             "filenames/match-regex": [
                 "error",
-                "^(?:[A-Z][A-Za-z0-9]*Table|tables)$",
+                "^(?:[A-Z][A-Za-z0-9]*(?:Table|API)|tables|setup|index)$",
                 true,
             ],
         },
