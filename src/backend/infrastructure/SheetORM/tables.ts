@@ -138,4 +138,11 @@ export const ActivityTable = new SheetTable(
     }),
 );
 
+// Relations
+LeadTable.reference("担当者ID", SystemUserTable, "ID", "set null");
+DealTable.reference("リードID", LeadTable, "ID", "cascade");
+DealTable.reference("担当者ID", SystemUserTable, "ID", "set null");
+ActivityTable.reference("案件ID", DealTable, "ID", "cascade");
+ActivityTable.reference("担当者ID", SystemUserTable, "ID", "set null");
+
 export const ALL_TABLES = [SystemUserTable, LeadTable, DealTable, ActivityTable] as const;
