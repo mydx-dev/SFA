@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "target": "ES2021",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "rootDir": "..",
+        "outDir": "../dist",
+        "strict": true,
+        "esModuleInterop": true,
+        "allowJs": true,
+        "sourceMap": false,
+        "skipLibCheck": true,
+        "lib": ["ES2021", "DOM"],
+        "typeRoots": [
+            "node_modules/@types",
+            "../node_modules/@types",
+            "../types"
+        ],
+        "jsx": "react-jsx",
+        "types": ["google-apps-script"]
+    },
+    "include": ["./**/*.ts", "../types/**/*.d.ts"]
+}
