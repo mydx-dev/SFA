@@ -18,6 +18,8 @@ import { CloseDealUseCase } from "../../../../src/backend/application/usecase/Cl
 import { CreateActivityUseCase } from "../../../../src/backend/application/usecase/CreateActivityUseCase";
 import { ListActivitiesUseCase } from "../../../../src/backend/application/usecase/ListActivitiesUseCase";
 import { UpdateActivityUseCase } from "../../../../src/backend/application/usecase/UpdateActivityUseCase";
+import { DeleteDealUseCase } from "../../../../src/backend/application/usecase/DeleteDealUseCase";
+import { DeleteActivityUseCase } from "../../../../src/backend/application/usecase/DeleteActivityUseCase";
 import { ALL_TABLES, SystemUserTable, LeadTable, DealTable, ActivityTable } from "../../../../src/backend/infrastructure/SheetORM/tables";
 import { SystemUser as SystemUserEntity } from "../../../../src/backend/domain/entity/SystemUser";
 import { Lead } from "../../../../src/backend/domain/entity/Lead";
@@ -2437,6 +2439,375 @@ describe("営業活動更新ユースケース", () => {
             expect(result).toBeInstanceOf(Activity);
             expect(result.id).toBe("activity-1");
             expect(result.content).toBe("更新された内容");
+        });
+    });
+});
+
+describe("案件削除ユースケース", () => {
+    let db: SheetDB<typeof ALL_TABLES>;
+    let deleteDealUseCase: DeleteDealUseCase;
+
+    beforeEach(() => {
+        const datastore = new InMemoryDataStore();
+        datastore.set(`:システムユーザー`, [
+            ["ID", "メールアドレス"]
+        ]);
+        datastore.set(`:リード`, [
+            ["ID", "氏名", "会社名", "メールアドレス", "電話番号", "ステータス", "担当者ID", "作成日時", "更新日時"]
+        ]);
+        datastore.set(`:案件`, [
+            ["ID", "案件名", "リードID", "ステータス", "金額", "予定クローズ日", "担当者ID", "作成日時", "更新日時"]
+        ]);
+        datastore.set(`:営業活動`, [
+            ["ID", "案件ID", "活動種別", "活動日", "内容", "担当者ID", "作成日時", "更新日時"]
+        ]);
+        
+        const gateway = new InMemoryGateway(datastore);
+        db = new SheetDB(ALL_TABLES, gateway, new InMemoryCacheService(), new InMemoryUtilities());
+        deleteDealUseCase = new DeleteDealUseCase(db);
+    });
+
+    describe("バリデーション", () => {
+        test("IDが指定されていない場合エラーになる", () => {
+            expect(() => deleteDealUseCase.execute({
+                id: ""
+            })).toThrow("IDは必須です");
+        });
+
+        test("IDが存在しない場合エラーになる", () => {
+            expect(() => deleteDealUseCase.execute({
+                id: "nonexistent-id"
+            })).toThrow("案件が見つかりません");
+        });
+    });
+
+    describe("シーケンス制御", () => {
+        describe("DB操作", () => {
+            test("案件に紐づく営業活動を全て削除する", () => {
+                db.table("リード").create([
+                    {
+                        ID: "lead-1",
+                        氏名: "田中太郎",
+                        会社名: "株式会社A",
+                        メールアドレス: null,
+                        電話番号: null,
+                        ステータス: "商談化",
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    }
+                ]);
+
+                db.table("案件").create([
+                    {
+                        ID: "deal-1",
+                        案件名: "案件A",
+                        リードID: "lead-1",
+                        ステータス: "提案",
+                        金額: 1000000,
+                        予定クローズ日: null,
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    },
+                    {
+                        ID: "deal-2",
+                        案件名: "案件B",
+                        リードID: "lead-1",
+                        ステータス: "提案",
+                        金額: 2000000,
+                        予定クローズ日: null,
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    }
+                ]);
+
+                db.table("営業活動").create([
+                    {
+                        ID: "activity-1",
+                        案件ID: "deal-1",
+                        活動種別: "面談",
+                        活動日: new Date(),
+                        内容: "初回面談",
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    },
+                    {
+                        ID: "activity-2",
+                        案件ID: "deal-1",
+                        活動種別: "電話",
+                        活動日: new Date(),
+                        内容: "フォローアップ",
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    },
+                    {
+                        ID: "activity-3",
+                        案件ID: "deal-2",
+                        活動種別: "メール",
+                        活動日: new Date(),
+                        内容: "提案書送付",
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    }
+                ]);
+
+                deleteDealUseCase.execute({ id: "deal-1" });
+
+                // deal-1の営業活動が削除されている
+                const deal1Activities = db.table("営業活動").find(db.query("営業活動").and("案件ID", "=", ["deal-1"]));
+                expect(deal1Activities.length).toBe(0);
+
+                // deal-2の営業活動は残っている
+                const deal2Activities = db.table("営業活動").find(db.query("営業活動").and("案件ID", "=", ["deal-2"]));
+                expect(deal2Activities.length).toBe(1);
+            });
+
+            test("案件を削除する", () => {
+                db.table("リード").create([
+                    {
+                        ID: "lead-1",
+                        氏名: "田中太郎",
+                        会社名: "株式会社A",
+                        メールアドレス: null,
+                        電話番号: null,
+                        ステータス: "商談化",
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    }
+                ]);
+
+                db.table("案件").create([
+                    {
+                        ID: "deal-1",
+                        案件名: "案件A",
+                        リードID: "lead-1",
+                        ステータス: "提案",
+                        金額: 1000000,
+                        予定クローズ日: null,
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    },
+                    {
+                        ID: "deal-2",
+                        案件名: "案件B",
+                        リードID: "lead-1",
+                        ステータス: "提案",
+                        金額: 2000000,
+                        予定クローズ日: null,
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    }
+                ]);
+
+                deleteDealUseCase.execute({ id: "deal-1" });
+
+                // deal-1が削除されている
+                const deal1 = db.table("案件").find(db.query("案件").and("ID", "=", ["deal-1"]));
+                expect(deal1.length).toBe(0);
+
+                // deal-2は残っている
+                const deal2 = db.table("案件").find(db.query("案件").and("ID", "=", ["deal-2"]));
+                expect(deal2.length).toBe(1);
+            });
+        });
+    });
+
+    describe("出力", () => {
+        test("削除成功をbooleanで返す", () => {
+            db.table("リード").create([
+                {
+                    ID: "lead-1",
+                    氏名: "田中太郎",
+                    会社名: "株式会社A",
+                    メールアドレス: null,
+                    電話番号: null,
+                    ステータス: "商談化",
+                    担当者ID: "user-1",
+                    作成日時: new Date(),
+                    更新日時: new Date()
+                }
+            ]);
+
+            db.table("案件").create([
+                {
+                    ID: "deal-1",
+                    案件名: "案件A",
+                    リードID: "lead-1",
+                    ステータス: "提案",
+                    金額: 1000000,
+                    予定クローズ日: null,
+                    担当者ID: "user-1",
+                    作成日時: new Date(),
+                    更新日時: new Date()
+                }
+            ]);
+
+            const result = deleteDealUseCase.execute({ id: "deal-1" });
+
+            expect(result).toEqual({ success: true });
+        });
+    });
+});
+
+describe("営業活動削除ユースケース", () => {
+    let db: SheetDB<typeof ALL_TABLES>;
+    let deleteActivityUseCase: DeleteActivityUseCase;
+
+    beforeEach(() => {
+        const datastore = new InMemoryDataStore();
+        datastore.set(`:システムユーザー`, [
+            ["ID", "メールアドレス"]
+        ]);
+        datastore.set(`:リード`, [
+            ["ID", "氏名", "会社名", "メールアドレス", "電話番号", "ステータス", "担当者ID", "作成日時", "更新日時"]
+        ]);
+        datastore.set(`:案件`, [
+            ["ID", "案件名", "リードID", "ステータス", "金額", "予定クローズ日", "担当者ID", "作成日時", "更新日時"]
+        ]);
+        datastore.set(`:営業活動`, [
+            ["ID", "案件ID", "活動種別", "活動日", "内容", "担当者ID", "作成日時", "更新日時"]
+        ]);
+        
+        const gateway = new InMemoryGateway(datastore);
+        db = new SheetDB(ALL_TABLES, gateway, new InMemoryCacheService(), new InMemoryUtilities());
+        deleteActivityUseCase = new DeleteActivityUseCase(db);
+    });
+
+    describe("バリデーション", () => {
+        test("IDが指定されていない場合エラーになる", () => {
+            expect(() => deleteActivityUseCase.execute({
+                id: ""
+            })).toThrow("IDは必須です");
+        });
+
+        test("IDが存在しない場合エラーになる", () => {
+            expect(() => deleteActivityUseCase.execute({
+                id: "nonexistent-id"
+            })).toThrow("営業活動が見つかりません");
+        });
+    });
+
+    describe("シーケンス制御", () => {
+        describe("DB操作", () => {
+            test("営業活動を削除する", () => {
+                db.table("リード").create([
+                    {
+                        ID: "lead-1",
+                        氏名: "田中太郎",
+                        会社名: "株式会社A",
+                        メールアドレス: null,
+                        電話番号: null,
+                        ステータス: "商談化",
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    }
+                ]);
+
+                db.table("案件").create([
+                    {
+                        ID: "deal-1",
+                        案件名: "案件A",
+                        リードID: "lead-1",
+                        ステータス: "提案",
+                        金額: 1000000,
+                        予定クローズ日: null,
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    }
+                ]);
+
+                db.table("営業活動").create([
+                    {
+                        ID: "activity-1",
+                        案件ID: "deal-1",
+                        活動種別: "面談",
+                        活動日: new Date(),
+                        内容: "初回面談",
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    },
+                    {
+                        ID: "activity-2",
+                        案件ID: "deal-1",
+                        活動種別: "電話",
+                        活動日: new Date(),
+                        内容: "フォローアップ",
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    }
+                ]);
+
+                deleteActivityUseCase.execute({ id: "activity-1" });
+
+                // activity-1が削除されている
+                const activity1 = db.table("営業活動").find(db.query("営業活動").and("ID", "=", ["activity-1"]));
+                expect(activity1.length).toBe(0);
+
+                // activity-2は残っている
+                const activity2 = db.table("営業活動").find(db.query("営業活動").and("ID", "=", ["activity-2"]));
+                expect(activity2.length).toBe(1);
+            });
+        });
+    });
+
+    describe("出力", () => {
+        test("削除成功をbooleanで返す", () => {
+            db.table("リード").create([
+                {
+                    ID: "lead-1",
+                    氏名: "田中太郎",
+                    会社名: "株式会社A",
+                    メールアドレス: null,
+                    電話番号: null,
+                    ステータス: "商談化",
+                    担当者ID: "user-1",
+                    作成日時: new Date(),
+                    更新日時: new Date()
+                }
+            ]);
+
+            db.table("案件").create([
+                {
+                    ID: "deal-1",
+                    案件名: "案件A",
+                    リードID: "lead-1",
+                    ステータス: "提案",
+                    金額: 1000000,
+                    予定クローズ日: null,
+                    担当者ID: "user-1",
+                    作成日時: new Date(),
+                    更新日時: new Date()
+                }
+            ]);
+
+            db.table("営業活動").create([
+                {
+                    ID: "activity-1",
+                    案件ID: "deal-1",
+                    活動種別: "面談",
+                    活動日: new Date(),
+                    内容: "初回面談",
+                    担当者ID: "user-1",
+                    作成日時: new Date(),
+                    更新日時: new Date()
+                }
+            ]);
+
+            const result = deleteActivityUseCase.execute({ id: "activity-1" });
+
+            expect(result).toEqual({ success: true });
         });
     });
 });
