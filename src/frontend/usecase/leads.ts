@@ -11,7 +11,7 @@ export async function fetchLeads(assigneeId?: string): Promise<Lead[]> {
         throw new Error("Failed to fetch leads");
     }
     
-    await dexie.leads.bulkPut(leads as any);
+    await dexie["リード"].bulkPut(leads as never);
     return leads;
 }
 
@@ -27,7 +27,7 @@ export async function createLead(
         updatedAt: new Date(),
         pkValue: tempId
     };
-    await dexie.leads.add(tempLead as any);
+    await dexie["リード"].add(tempLead as never);
     
     try {
         // Call API
@@ -39,13 +39,13 @@ export async function createLead(
         }
         
         // Replace temp with real data
-        await dexie.leads.delete(tempId);
-        await dexie.leads.put(createdLead as any);
+        await dexie["リード"].delete(tempId);
+        await dexie["リード"].put(createdLead as never);
         
         return createdLead;
     } catch (error) {
         // Rollback on failure
-        await dexie.leads.delete(tempId);
+        await dexie["リード"].delete(tempId);
         throw error;
     }
 }
@@ -55,13 +55,13 @@ export async function updateLead(
     updates: Partial<Omit<Lead, "id" | "createdAt" | "updatedAt" | "pkValue">>
 ): Promise<Lead> {
     // Get original for rollback
-    const original = await dexie.leads.get(id);
+    const original = await dexie["リード"].get(id);
     if (!original) {
         throw new Error("Lead not found");
     }
     
     // Optimistic update
-    await dexie.leads.update(id, updates as any);
+    await dexie["リード"].update(id, updates as never);
     
     try {
         // Call API
@@ -73,12 +73,12 @@ export async function updateLead(
         }
         
         // Update with server data
-        await dexie.leads.put(updatedLead as any);
+        await dexie["リード"].put(updatedLead as never);
         
         return updatedLead;
     } catch (error) {
         // Rollback on failure
-        await dexie.leads.put(original);
+        await dexie["リード"].put(original);
         throw error;
     }
 }

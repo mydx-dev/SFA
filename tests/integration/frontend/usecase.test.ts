@@ -15,7 +15,7 @@ vi.mock("../../../src/frontend/lib/AppsScriptClient", () => ({
 
 vi.mock("../../../src/frontend/lib/LocalDB", () => ({
     dexie: {
-        leads: {
+        "リード": {
             toArray: vi.fn(),
             bulkPut: vi.fn(),
             bulkDelete: vi.fn(),
@@ -25,7 +25,7 @@ vi.mock("../../../src/frontend/lib/LocalDB", () => ({
             put: vi.fn(),
             get: vi.fn()
         },
-        deals: {
+        "案件": {
             toArray: vi.fn(),
             bulkPut: vi.fn(),
             bulkDelete: vi.fn(),
@@ -33,7 +33,7 @@ vi.mock("../../../src/frontend/lib/LocalDB", () => ({
             delete: vi.fn(),
             put: vi.fn()
         },
-        activities: {
+        "営業活動": {
             toArray: vi.fn(),
             bulkPut: vi.fn(),
             bulkDelete: vi.fn(),
@@ -82,7 +82,7 @@ describe("syncユースケース", () => {
         test("レスポンスをパースしてSyncOutputを取得する", async () => {
             const mockSyncOutput: SyncOutput = [
                 {
-                    table: { name: "leads", primaryKey: "id" },
+                    table: { name: "リード", primaryKey: "ID" },
                     records: [
                         { id: "1", name: "Test Lead" }
                     ]
@@ -90,7 +90,7 @@ describe("syncユースケース", () => {
             ];
             
             // Mock the leads table methods
-            vi.mocked(dexie.leads.toArray).mockResolvedValue([]);
+            vi.mocked(dexie["リード"].toArray).mockResolvedValue([]);
             
             const mockTransaction = vi.fn(async (_mode: string, _table: any, callback: () => Promise<void>) => {
                 await callback();
@@ -121,7 +121,7 @@ describe("syncユースケース", () => {
 
             const mockSyncOutput: SyncOutput = [
                 {
-                    table: { name: "leads", primaryKey: "id" },
+                    table: { name: "リード", primaryKey: "ID" },
                     records: [
                         { id: "1", name: "Test Lead" }
                     ]
@@ -156,7 +156,7 @@ describe("syncユースケース", () => {
 
             const mockSyncOutput: SyncOutput = [
                 {
-                    table: { name: "leads", primaryKey: "id" },
+                    table: { name: "リード", primaryKey: "ID" },
                     records: [
                         { id: "1", name: "Updated Lead" }
                     ]

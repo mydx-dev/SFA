@@ -15,7 +15,7 @@ export async function createActivity(
         updatedAt: new Date(),
         pkValue: tempId
     };
-    await dexie.activities.add(tempActivity as any);
+    await dexie["営業活動"].add(tempActivity as never);
     
     try {
         // Call API
@@ -27,13 +27,13 @@ export async function createActivity(
         }
         
         // Replace temp with real data
-        await dexie.activities.delete(tempId);
-        await dexie.activities.put(createdActivity as any);
+        await dexie["営業活動"].delete(tempId);
+        await dexie["営業活動"].put(createdActivity as never);
         
         return createdActivity;
     } catch (error) {
         // Rollback on failure
-        await dexie.activities.delete(tempId);
+        await dexie["営業活動"].delete(tempId);
         throw error;
     }
 }

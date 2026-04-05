@@ -15,7 +15,7 @@ export async function createDeal(
         updatedAt: new Date(),
         pkValue: tempId
     };
-    await dexie.deals.add(tempDeal as any);
+    await dexie["案件"].add(tempDeal as never);
     
     try {
         // Call API
@@ -27,13 +27,13 @@ export async function createDeal(
         }
         
         // Replace temp with real data
-        await dexie.deals.delete(tempId);
-        await dexie.deals.put(createdDeal as any);
+        await dexie["案件"].delete(tempId);
+        await dexie["案件"].put(createdDeal as never);
         
         return createdDeal;
     } catch (error) {
         // Rollback on failure
-        await dexie.deals.delete(tempId);
+        await dexie["案件"].delete(tempId);
         throw error;
     }
 }
