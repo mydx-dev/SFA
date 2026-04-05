@@ -1,22 +1,286 @@
-import { describe, test } from "vitest";
+import { describe, test, expect, beforeEach } from "vitest";
+import {
+    SheetDB,
+    InMemoryDataStore,
+    InMemoryGateway,
+    InMemoryCacheService,
+    InMemoryUtilities,
+} from "@mydx-dev/gas-boost-runtime";
+import { SyncDataBaseUseCase } from "../../../../src/backend/application/usecase/SyncDataBaseUseCase";
+import { ALL_TABLES, SystemUserTable, LeadTable, DealTable, ActivityTable } from "../../../../src/backend/infrastructure/SheetORM/tables";
+import { SystemUser as SystemUserEntity } from "../../../../src/backend/domain/entity/SystemUser";
+import { Lead } from "../../../../src/backend/domain/entity/Lead";
+import { Deal } from "../../../../src/backend/domain/entity/Deal";
+import { Activity } from "../../../../src/backend/domain/entity/Activity";
 
 describe("SyncDataBaseユースケース", () => {
+    let db: SheetDB<typeof ALL_TABLES>;
+    let useCase: SyncDataBaseUseCase;
+
+    beforeEach(() => {
+        const datastore = new InMemoryDataStore();
+        // Initialize empty tables (key format: dbId:tableName, where dbId is empty string "")
+        datastore.set(`:システムユーザー`, [
+            ["ID", "メールアドレス"]
+        ]);
+        datastore.set(`:リード`, [
+            ["ID", "氏名", "会社名", "メールアドレス", "電話番号", "ステータス", "担当者ID", "作成日時", "更新日時"]
+        ]);
+        datastore.set(`:案件`, [
+            ["ID", "案件名", "リードID", "ステータス", "金額", "予定クローズ日", "担当者ID", "作成日時", "更新日時"]
+        ]);
+        datastore.set(`:営業活動`, [
+            ["ID", "案件ID", "活動種別", "活動日", "内容", "担当者ID", "作成日時", "更新日時"]
+        ]);
+        
+        const gateway = new InMemoryGateway(datastore);
+        db = new SheetDB(ALL_TABLES, gateway, new InMemoryCacheService(), new InMemoryUtilities());
+        useCase = new SyncDataBaseUseCase(db);
+    });
+
     describe("バリデーション", () => {
-        test.todo("ユーザーが存在しない場合エラーになる");
+        test("ユーザーが存在しない場合エラーになる", () => {
+            const user = { id: "user-1", email: "nonexistent@example.com" };
+            
+            expect(() => useCase.execute(user)).toThrow("ユーザーが存在しません");
+        });
     });
 
     describe("シーケンス制御", () => {
         describe("DB操作", () => {
-            test.todo("システムユーザーテーブルからメールアドレスで絞り込んで検索する");
-            test.todo("リードテーブルから担当者IDで絞り込んで検索する");
-            test.todo("案件テーブルから担当者IDで絞り込んで検索する");
-            test.todo("営業活動テーブルから担当者IDで絞り込んで検索する");
+            test("システムユーザーテーブルからメールアドレスで絞り込んで検索する", () => {
+                db.table("システムユーザー").create([{
+                    ID: "user-1",
+                    メールアドレス: "test@example.com"
+                }]);
+
+                const user = { id: "user-1", email: "test@example.com" };
+                const result = useCase.execute(user);
+
+                const usersTable = result.find(r => r.table === SystemUserTable);
+                expect(usersTable).toBeDefined();
+                expect(usersTable!.records).toHaveLength(1);
+                expect(usersTable!.records[0]).toMatchObject({
+                    ID: "user-1",
+                    メールアドレス: "test@example.com"
+                });
+            });
+
+            test("リードテーブルから担当者IDで絞り込んで検索する", () => {
+                db.table("システムユーザー").create([{
+                    ID: "user-1",
+                    メールアドレス: "test@example.com"
+                }]);
+
+                db.table("リード").create([
+                    {
+                        ID: "lead-1",
+                        氏名: "田中太郎",
+                        会社名: "株式会社A",
+                        メールアドレス: null,
+                        電話番号: null,
+                        ステータス: "未対応",
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    },
+                    {
+                        ID: "lead-2",
+                        氏名: "佐藤花子",
+                        会社名: "株式会社B",
+                        メールアドレス: null,
+                        電話番号: null,
+                        ステータス: "未対応",
+                        担当者ID: "user-2",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    }
+                ]);
+
+                const user = { id: "user-1", email: "test@example.com" };
+                const result = useCase.execute(user);
+
+                const leadsTable = result.find(r => r.table === LeadTable);
+                expect(leadsTable).toBeDefined();
+                expect(leadsTable!.records).toHaveLength(1);
+                expect(leadsTable!.records[0]).toMatchObject({
+                    ID: "lead-1",
+                    担当者ID: "user-1"
+                });
+            });
+
+            test("案件テーブルから担当者IDで絞り込んで検索する", () => {
+                db.table("システムユーザー").create([{
+                    ID: "user-1",
+                    メールアドレス: "test@example.com"
+                }]);
+
+                db.table("リード").create([{
+                    ID: "lead-1",
+                    氏名: "田中太郎",
+                    会社名: null,
+                    メールアドレス: null,
+                    電話番号: null,
+                    ステータス: "商談化",
+                    担当者ID: "user-1",
+                    作成日時: new Date(),
+                    更新日時: new Date()
+                }]);
+
+                db.table("案件").create([
+                    {
+                        ID: "deal-1",
+                        案件名: "案件A",
+                        リードID: "lead-1",
+                        ステータス: "提案",
+                        金額: null,
+                        予定クローズ日: null,
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    },
+                    {
+                        ID: "deal-2",
+                        案件名: "案件B",
+                        リードID: "lead-1",
+                        ステータス: "提案",
+                        金額: null,
+                        予定クローズ日: null,
+                        担当者ID: "user-2",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    }
+                ]);
+
+                const user = { id: "user-1", email: "test@example.com" };
+                const result = useCase.execute(user);
+
+                const dealsTable = result.find(r => r.table === DealTable);
+                expect(dealsTable).toBeDefined();
+                expect(dealsTable!.records).toHaveLength(1);
+                expect(dealsTable!.records[0]).toMatchObject({
+                    ID: "deal-1",
+                    担当者ID: "user-1"
+                });
+            });
+
+            test("営業活動テーブルから担当者IDで絞り込んで検索する", () => {
+                db.table("システムユーザー").create([{
+                    ID: "user-1",
+                    メールアドレス: "test@example.com"
+                }]);
+
+                db.table("リード").create([{
+                    ID: "lead-1",
+                    氏名: "田中太郎",
+                    会社名: null,
+                    メールアドレス: null,
+                    電話番号: null,
+                    ステータス: "商談化",
+                    担当者ID: "user-1",
+                    作成日時: new Date(),
+                    更新日時: new Date()
+                }]);
+
+                db.table("案件").create([{
+                    ID: "deal-1",
+                    案件名: "案件A",
+                    リードID: "lead-1",
+                    ステータス: "提案",
+                    金額: null,
+                    予定クローズ日: null,
+                    担当者ID: "user-1",
+                    作成日時: new Date(),
+                    更新日時: new Date()
+                }]);
+
+                db.table("営業活動").create([
+                    {
+                        ID: "activity-1",
+                        案件ID: "deal-1",
+                        活動種別: "面談",
+                        活動日: new Date(),
+                        内容: "打ち合わせ",
+                        担当者ID: "user-1",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    },
+                    {
+                        ID: "activity-2",
+                        案件ID: "deal-1",
+                        活動種別: "電話",
+                        活動日: new Date(),
+                        内容: "電話対応",
+                        担当者ID: "user-2",
+                        作成日時: new Date(),
+                        更新日時: new Date()
+                    }
+                ]);
+
+                const user = { id: "user-1", email: "test@example.com" };
+                const result = useCase.execute(user);
+
+                const activitiesTable = result.find(r => r.table === ActivityTable);
+                expect(activitiesTable).toBeDefined();
+                expect(activitiesTable!.records).toHaveLength(1);
+                expect(activitiesTable!.records[0]).toMatchObject({
+                    ID: "activity-1",
+                    担当者ID: "user-1"
+                });
+            });
         });
     });
 
     describe("出力", () => {
-        test.todo("SyncOutput形式で全テーブルのデータを返す");
-        test.todo("各テーブルのレコードはシリアライズされた形式で返る");
+        test("SyncOutput形式で全テーブルのデータを返す", () => {
+            db.table("システムユーザー").create([{
+                ID: "user-1",
+                メールアドレス: "test@example.com"
+            }]);
+
+            const user = { id: "user-1", email: "test@example.com" };
+            const result = useCase.execute(user);
+
+            expect(result).toBeInstanceOf(Array);
+            expect(result).toHaveLength(4);
+            expect(result.map(r => r.table)).toEqual([
+                SystemUserTable,
+                LeadTable,
+                DealTable,
+                ActivityTable
+            ]);
+        });
+
+        test("各テーブルのレコードはシリアライズされた形式で返る", () => {
+            db.table("システムユーザー").create([{
+                ID: "user-1",
+                メールアドレス: "test@example.com"
+            }]);
+
+            db.table("リード").create([{
+                ID: "lead-1",
+                氏名: "田中太郎",
+                会社名: null,
+                メールアドレス: null,
+                電話番号: null,
+                ステータス: "未対応",
+                担当者ID: "user-1",
+                作成日時: new Date(),
+                更新日時: new Date()
+            }]);
+
+            const user = { id: "user-1", email: "test@example.com" };
+            const result = useCase.execute(user);
+
+            const usersTable = result.find(r => r.table === SystemUserTable);
+            expect(usersTable!.records[0]).toHaveProperty("ID");
+            expect(usersTable!.records[0]).toHaveProperty("メールアドレス");
+
+            const leadsTable = result.find(r => r.table === LeadTable);
+            expect(leadsTable!.records[0]).toHaveProperty("ID");
+            expect(leadsTable!.records[0]).toHaveProperty("氏名");
+            expect(leadsTable!.records[0]).toHaveProperty("ステータス");
+        });
     });
 });
 
