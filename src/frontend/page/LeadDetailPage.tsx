@@ -105,7 +105,7 @@ export const LeadDetailPage = () => {
                                 companyName: lead.companyName,
                                 email: lead.email,
                                 phoneNumber: lead.phoneNumber,
-                                status: lead.status as any,
+                                status: lead.status as LeadFormValues["status"],
                             }}
                             onSubmit={handleUpdateLead}
                             onCancel={() => setIsEditing(false)}

@@ -175,7 +175,6 @@ describe("LeadListPage", () => {
             vi.mocked(leadsUseCase.fetchLeads).mockResolvedValue(mockLeads);
             const user = userEvent.setup();
 
-            let currentPath = "/leads";
             render(
                 <QueryClientProvider client={queryClient}>
                     <MemoryRouter initialEntries={["/leads"]}>
