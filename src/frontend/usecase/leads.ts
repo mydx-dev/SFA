@@ -15,6 +15,16 @@ export async function fetchLeads(assigneeId?: string): Promise<Lead[]> {
     return leads;
 }
 
+export async function getLeadById(id: string): Promise<Lead | undefined> {
+    const lead = await dexie["リード"].get(id);
+    return lead as Lead | undefined;
+}
+
+export async function getLeadsFromLocal(): Promise<Lead[]> {
+    const leads = await dexie["リード"].toArray();
+    return leads as Lead[];
+}
+
 export async function createLead(
     lead: Omit<Lead, "id" | "createdAt" | "updatedAt" | "pkValue">
 ): Promise<Lead> {
