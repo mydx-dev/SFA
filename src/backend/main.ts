@@ -3,8 +3,10 @@ import { sync } from "./presentation/controller/sync";
 import { createLead, getLeads, updateLead, deleteLead } from "./presentation/controller/lead";
 import { createDeal, getDeals, updateDeal, closeDeal, deleteDeal } from "./presentation/controller/deal";
 import { createActivity, getActivities, updateActivity, deleteActivity } from "./presentation/controller/activity";
+import { doGet } from "./presentation/controller/webapp";
 
 const ServerFunctions = {
+    doGet,
     migrate,
     seed,
     protect,
