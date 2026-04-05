@@ -7,6 +7,7 @@ import { AppLayout } from "../../../src/frontend/layout/AppLayout";
 import * as syncUseCase from "../../../src/frontend/usecase/sync";
 
 vi.mock("../../../src/frontend/usecase/sync");
+vi.mock("../../../src/frontend/usecase/deals");
 
 describe("AppLayout", () => {
     let queryClient: QueryClient;
@@ -38,7 +39,7 @@ describe("AppLayout", () => {
             expect(screen.getByText("テストコンテンツ")).toBeInTheDocument();
         });
 
-        test("ヘッダーが表示される", () => {
+        test("サイドバーが表示される", () => {
             vi.mocked(syncUseCase.performSync).mockResolvedValue();
             
             render(
@@ -51,10 +52,11 @@ describe("AppLayout", () => {
                 </QueryClientProvider>
             );
             
-            expect(screen.getByRole("banner")).toBeInTheDocument();
+            // サイドバーのロゴが表示される
+            expect(screen.getByText("SFA")).toBeInTheDocument();
         });
 
-        test("TaskListコンポーネントがヘッダーに表示される", () => {
+        test("サイドバーに新規案件作成ボタンが表示される", () => {
             vi.mocked(syncUseCase.performSync).mockResolvedValue();
             
             render(
@@ -67,8 +69,8 @@ describe("AppLayout", () => {
                 </QueryClientProvider>
             );
             
-            // TaskListはタスクがある場合のみ表示されるので、ヘッダーの存在を確認
-            expect(screen.getByRole("banner")).toBeInTheDocument();
+            // 新規案件作成ボタンが表示される
+            expect(screen.getByText("新規案件作成")).toBeInTheDocument();
         });
 
         test("ナビゲーションメニューが表示される", () => {
@@ -190,7 +192,7 @@ describe("AppLayout", () => {
     });
 
     describe("共通状態", () => {
-        test("syncのタスク状態がTaskListコンポーネントで表示できる", () => {
+        test("サイドバーのナビゲーションが全ページ共通で表示される", () => {
             vi.mocked(syncUseCase.performSync).mockResolvedValue();
             
             render(
@@ -203,11 +205,12 @@ describe("AppLayout", () => {
                 </QueryClientProvider>
             );
             
-            // TaskListコンポーネントはヘッダーに含まれている
-            expect(screen.getByRole("banner")).toBeInTheDocument();
+            // サイドバーのナビゲーションが表示される
+            expect(screen.getByText("SFA")).toBeInTheDocument();
+            expect(screen.getByText("新規案件作成")).toBeInTheDocument();
         });
 
-        test("全ページ共通でTaskListコンポーネントが利用できる", () => {
+        test("全ページ共通でサイドバーが利用できる", () => {
             vi.mocked(syncUseCase.performSync).mockResolvedValue();
             
             render(
@@ -220,7 +223,7 @@ describe("AppLayout", () => {
                 </QueryClientProvider>
             );
             
-            expect(screen.getByRole("banner")).toBeInTheDocument();
+            expect(screen.getByText("SFA")).toBeInTheDocument();
             expect(screen.getByText("ページ1")).toBeInTheDocument();
         });
     });
