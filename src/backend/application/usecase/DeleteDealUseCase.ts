@@ -28,7 +28,7 @@ export class DeleteDealUseCase {
             this.db.query("営業活動").and("案件ID", "=", [input.id])
         );
         if (activities.length > 0) {
-            this.db.table("営業活動").delete(activities.map(a => a.ID));
+            this.db.table("営業活動").delete(activities.map(a => a.id));
         }
 
         // 案件を削除

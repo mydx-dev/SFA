@@ -6,6 +6,19 @@ import {
 } from "@mydx-dev/gas-boost-runtime";
 import { Authentication } from "./application/service/Authentication";
 import { SyncDataBaseUseCase } from "./application/usecase/SyncDataBaseUseCase";
+import { CreateLeadUseCase } from "./application/usecase/CreateLeadUseCase";
+import { ListLeadsUseCase } from "./application/usecase/ListLeadsUseCase";
+import { UpdateLeadUseCase } from "./application/usecase/UpdateLeadUseCase";
+import { DeleteLeadUseCase } from "./application/usecase/DeleteLeadUseCase";
+import { CreateDealUseCase } from "./application/usecase/CreateDealUseCase";
+import { ListDealsUseCase } from "./application/usecase/ListDealsUseCase";
+import { UpdateDealUseCase } from "./application/usecase/UpdateDealUseCase";
+import { CloseDealUseCase } from "./application/usecase/CloseDealUseCase";
+import { DeleteDealUseCase } from "./application/usecase/DeleteDealUseCase";
+import { CreateActivityUseCase } from "./application/usecase/CreateActivityUseCase";
+import { ListActivitiesUseCase } from "./application/usecase/ListActivitiesUseCase";
+import { UpdateActivityUseCase } from "./application/usecase/UpdateActivityUseCase";
+import { DeleteActivityUseCase } from "./application/usecase/DeleteActivityUseCase";
 import { ALL_TABLES } from "./infrastructure/SheetORM/tables";
 
 function getEnviromentVariables() {
@@ -49,6 +62,24 @@ export const db = new SheetDB(
     CacheService,
     Utilities,
 );
-export const syncDataBaseUseCase = new SyncDataBaseUseCase(db);
+
+// Services
 export const authentication = new Authentication(Session, db);
+
+// Use Cases
+export const syncDataBaseUseCase = new SyncDataBaseUseCase(db);
+export const createLeadUseCase = new CreateLeadUseCase(db);
+export const listLeadsUseCase = new ListLeadsUseCase(db);
+export const updateLeadUseCase = new UpdateLeadUseCase(db);
+export const deleteLeadUseCase = new DeleteLeadUseCase(db);
+export const createDealUseCase = new CreateDealUseCase(db);
+export const listDealsUseCase = new ListDealsUseCase(db);
+export const updateDealUseCase = new UpdateDealUseCase(db);
+export const closeDealUseCase = new CloseDealUseCase(db);
+export const deleteDealUseCase = new DeleteDealUseCase(db);
+export const createActivityUseCase = new CreateActivityUseCase(db);
+export const listActivitiesUseCase = new ListActivitiesUseCase(db);
+export const updateActivityUseCase = new UpdateActivityUseCase(db);
+export const deleteActivityUseCase = new DeleteActivityUseCase(db);
+
 export { scriptId };
