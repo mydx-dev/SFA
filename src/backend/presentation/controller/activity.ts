@@ -23,14 +23,7 @@ export const getActivities: API["getActivities"] = function (dealId) {
     return new AppsScriptResponse(activities);
 };
 
-export const updateActivity = function (
-    id: string,
-    activity: {
-        content?: string;
-        activityDate?: Date;
-        activityType?: "面談" | "電話" | "メール" | "その他";
-    }
-) {
+export const updateActivity: API["updateActivity"] = function (id, activity) {
     const updatedActivity = updateActivityUseCase.execute({
         id,
         content: activity.content,
@@ -40,7 +33,7 @@ export const updateActivity = function (
     return new AppsScriptResponse(updatedActivity);
 };
 
-export const deleteActivity = function (id: string) {
+export const deleteActivity: API["deleteActivity"] = function (id) {
     const result = deleteActivityUseCase.execute({ id });
     return new AppsScriptResponse(result);
 };

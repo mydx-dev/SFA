@@ -37,7 +37,7 @@ export const updateLead: API["updateLead"] = function (id, lead) {
     return new AppsScriptResponse(updatedLead);
 };
 
-export const deleteLead = function (id: string) {
+export const deleteLead: API["deleteLead"] = function (id) {
     const result = deleteLeadUseCase.execute({ id });
     return new AppsScriptResponse(result);
 };

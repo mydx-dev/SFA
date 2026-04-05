@@ -36,12 +36,12 @@ export const updateDeal: API["updateDeal"] = function (id, deal) {
     return new AppsScriptResponse(updatedDeal);
 };
 
-export const closeDeal = function (id: string, isWon: boolean) {
+export const closeDeal: API["closeDeal"] = function (id, isWon) {
     const closedDeal = closeDealUseCase.execute({ id, isWon });
     return new AppsScriptResponse(closedDeal);
 };
 
-export const deleteDeal = function (id: string) {
+export const deleteDeal: API["deleteDeal"] = function (id) {
     const result = deleteDealUseCase.execute({ id });
     return new AppsScriptResponse(result);
 };
