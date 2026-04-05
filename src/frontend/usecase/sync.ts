@@ -44,3 +44,7 @@ export async function sync() {
         });
     }
 }
+
+export async function performSync(): Promise<void> {
+    await sync();
+}
