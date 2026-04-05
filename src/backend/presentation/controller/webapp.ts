@@ -9,6 +9,9 @@
  * This is a standard pattern for Google Apps Script web applications.
  */
 export function doGet(): GoogleAppsScript.HTML.HtmlOutput {
-    const html = HtmlService.createHtmlOutputFromFile('index');
+    const scriptId = ScriptApp.getScriptId();
+    const template = HtmlService.createTemplateFromFile('index');
+    template.scriptId = scriptId;
+    const html = template.evaluate();
     return html.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
