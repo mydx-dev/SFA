@@ -49,7 +49,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
 
     const sidebarContent = (
         <Box
-            component="nav"
+            component="aside"
             sx={{ 
                 width: SIDEBAR_WIDTH,
                 height: "100%",
@@ -57,7 +57,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                 flexDirection: "column",
                 bgcolor: theme.palette.mode === "dark" ? "#0a0f1a" : "#1e293b", // slate-900
             }}
-            role="navigation"
+            role="complementary"
+            aria-label="サイドナビゲーション"
         >
             <Box sx={{ p: 3, borderBottom: "1px solid", borderColor: "rgba(255, 255, 255, 0.1)" }}>
                 <Typography 
@@ -72,38 +73,42 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                     SFA
                 </Typography>
             </Box>
-            <List sx={{ py: 2, flexGrow: 1 }}>
-                {navItems.map((item) => {
-                    const isActive = location.pathname.startsWith(item.path);
-                    return (
-                        <ListItem key={item.path} disablePadding>
-                            <ListItemButton 
-                                component={Link} 
-                                to={item.path}
-                                selected={isActive}
-                                sx={{
-                                    py: 1.5,
-                                    px: 3,
-                                    color: isActive ? "#10b981" : "#94a3b8", // text-emerald-500 : text-slate-400
-                                    bgcolor: isActive ? "rgba(16, 185, 129, 0.1)" : "transparent", // bg-emerald-500/10
-                                    fontFamily: "Manrope, sans-serif",
-                                    "&:hover": {
-                                        bgcolor: isActive ? "rgba(16, 185, 129, 0.15)" : "rgba(255, 255, 255, 0.05)",
-                                    },
-                                }}
-                            >
-                                <ListItemText 
-                                    primary={item.label}
-                                    primaryTypographyProps={{
-                                        fontWeight: isActive ? 600 : 400,
-                                        fontSize: "0.875rem",
+            <Box component="nav" role="navigation" sx={{ flexGrow: 1 }}>
+                <List sx={{ py: 2 }}>
+                    {navItems.map((item) => {
+                        const isActive = location.pathname.startsWith(item.path);
+                        return (
+                            <ListItem key={item.path} disablePadding>
+                                <ListItemButton 
+                                    component={Link} 
+                                    to={item.path}
+                                    selected={isActive}
+                                    role="tab"
+                                    aria-selected={isActive}
+                                    sx={{
+                                        py: 1.5,
+                                        px: 3,
+                                        color: isActive ? "#10b981" : "#94a3b8", // text-emerald-500 : text-slate-400
+                                        bgcolor: isActive ? "rgba(16, 185, 129, 0.1)" : "transparent", // bg-emerald-500/10
+                                        fontFamily: "Manrope, sans-serif",
+                                        "&:hover": {
+                                            bgcolor: isActive ? "rgba(16, 185, 129, 0.15)" : "rgba(255, 255, 255, 0.05)",
+                                        },
                                     }}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    );
-                })}
-            </List>
+                                >
+                                    <ListItemText 
+                                        primary={item.label}
+                                        primaryTypographyProps={{
+                                            fontWeight: isActive ? 600 : 400,
+                                            fontSize: "0.875rem",
+                                        }}
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                        );
+                    })}
+                </List>
+            </Box>
         </Box>
     );
 
@@ -188,19 +193,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                                 <MenuIcon />
                             </IconButton>
                         )}
-                        <Typography 
-                            variant="h1" 
-                            component="div" 
-                            sx={{ 
-                                flexGrow: 1, 
-                                fontSize: "1.25rem",
-                                fontWeight: 600,
-                                fontFamily: "Manrope, sans-serif",
-                                color: "#002045", // text-primary
-                            }}
-                        >
-                            {navItems.find(item => location.pathname.startsWith(item.path))?.label || "SFA"}
-                        </Typography>
+                        <Box sx={{ flexGrow: 1 }} />
                         <TaskList />
                     </Toolbar>
                 </AppBar>
