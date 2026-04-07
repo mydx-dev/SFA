@@ -89,11 +89,7 @@ export const LeadListPage = () => {
             <LeadList leads={leads || []} onLeadClick={handleLeadClick} />
 
             <Dialog open={isFormOpen} onClose={() => setIsFormOpen(false)} maxWidth="sm" fullWidth>
-                <DialogTitle>
-                    <Typography variant="h2" sx={{ fontSize: "1.25rem" }}>
-                        リード作成
-                    </Typography>
-                </DialogTitle>
+                <DialogTitle>リード作成</DialogTitle>
                 <DialogContent>
                     <Box pt={1}>
                         <LeadForm
