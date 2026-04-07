@@ -319,6 +319,7 @@ describe("LeadListPage", () => {
 });
 
 describe("LeadDetailPage", () => {
+    // Placeholders - all test.todo items for LeadDetailPage
     describe("初期表示", () => {
         test.todo("初期表示時にリード詳細情報が表示される");
         test.todo("初期表示時に関連する案件一覧が表示される");
