@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { DealKanbanBoard } from "../component/deal/DealKanbanBoard";
 import { SearchFilterPanel } from "../component/search/SearchFilterPanel";
+import { getDealsFromLocal } from "../usecase/deals";
 
 export const DealKanbanPage = () => {
     const [searchKeyword, setSearchKeyword] = useState("");
@@ -11,7 +12,7 @@ export const DealKanbanPage = () => {
 
     const { data: deals, isLoading, error } = useQuery({
         queryKey: ["deals-kanban", filters, searchKeyword],
-        queryFn: async () => ([]),
+        queryFn: () => getDealsFromLocal(),
     });
 
     if (isLoading) {

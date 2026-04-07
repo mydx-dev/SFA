@@ -1,16 +1,35 @@
-import { Box, Button, CircularProgress, Paper, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { Box, CircularProgress, Typography } from "@mui/material";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PhaseManagement } from "../component/phase/PhaseManagement";
+import { getPhases, createPhase, updatePhase, deletePhase, reorderPhases } from "../usecase/phases";
 
 export const PhaseManagementPage = () => {
-    const [editingPhaseId, setEditingPhaseId] = useState<string | null>(null);
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-    const [formMode, setFormMode] = useState<"add" | "edit" | null>(null);
+    const queryClient = useQueryClient();
 
     const { data: phases, isLoading, error } = useQuery({
         queryKey: ["phases"],
-        queryFn: async () => ([]),
+        queryFn: getPhases,
+    });
+
+    const createMutation = useMutation({
+        mutationFn: ({ name }: { name: string; probability: number; description?: string }) => createPhase(name),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["phases"] }),
+    });
+
+    const updateMutation = useMutation({
+        mutationFn: ({ id, name }: { id: string; name: string; probability?: number; description?: string }) =>
+            updatePhase(id, { name }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["phases"] }),
+    });
+
+    const deleteMutation = useMutation({
+        mutationFn: (id: string) => deletePhase(id),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["phases"] }),
+    });
+
+    const reorderMutation = useMutation({
+        mutationFn: (orderedIds: string[]) => reorderPhases(orderedIds),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["phases"] }),
     });
 
     if (isLoading) {
@@ -33,43 +52,15 @@ export const PhaseManagementPage = () => {
         <Box>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
                 <Typography variant="h4">フェーズ管理</Typography>
-                <Button
-                    variant="contained"
-                    onClick={() => setFormMode("add")}
-                >
-                    フェーズ追加
-                </Button>
             </Box>
 
-            <Paper>
-                <PhaseManagement
-                    phases={phases || []}
-                    onEdit={(id) => {
-                        setEditingPhaseId(id);
-                        setFormMode("edit");
-                    }}
-                    onDelete={(id) => {
-                        setEditingPhaseId(id);
-                        setShowDeleteConfirm(true);
-                    }}
-                    onReorder={() => {}}
-                />
-            </Paper>
-
-            {showDeleteConfirm && (
-                <Box sx={{ mt: 2, p: 2, border: "1px solid #ccc" }}>
-                    <Typography>削除確認ダイアログ</Typography>
-                    <Button onClick={() => setShowDeleteConfirm(false)}>キャンセル</Button>
-                    <Button onClick={() => setShowDeleteConfirm(false)}>削除</Button>
-                </Box>
-            )}
-
-            {formMode && (
-                <Box sx={{ mt: 2, p: 2, border: "1px solid #ccc" }}>
-                    <Typography>フェーズフォーム ({formMode})</Typography>
-                    <Button onClick={() => setFormMode(null)}>閉じる</Button>
-                </Box>
-            )}
+            <PhaseManagement
+                phases={(phases || []).map(p => ({ ...p, probability: 0 }))}
+                onPhaseAdd={(phase) => createMutation.mutate(phase)}
+                onPhaseEdit={(id, phase) => updateMutation.mutate({ id, name: phase.name || "", ...phase })}
+                onPhaseDelete={(id) => deleteMutation.mutate(id)}
+                onPhaseReorder={(orderedIds) => reorderMutation.mutate(orderedIds)}
+            />
         </Box>
     );
 };

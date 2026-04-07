@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CustomerHierarchyTree } from "../component/customer/CustomerHierarchyTree";
 import { CustomerDetailPanel } from "../component/customer/CustomerDetailPanel";
 import { DealList } from "../component/deal/DealList";
+import { getCustomerHierarchy, getCustomerDetail, getCustomerDeals } from "../usecase/customers";
 
 export const CustomerManagementPage = () => {
     const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
@@ -11,18 +12,18 @@ export const CustomerManagementPage = () => {
 
     const { data: customerHierarchy, isLoading: loadingHierarchy, error: hierarchyError } = useQuery({
         queryKey: ["customer-hierarchy"],
-        queryFn: async () => ([]),
+        queryFn: getCustomerHierarchy,
     });
 
     const { data: customerDetail, isLoading: loadingDetail } = useQuery({
         queryKey: ["customer", selectedCustomerId],
-        queryFn: async () => null,
+        queryFn: () => getCustomerDetail(selectedCustomerId!),
         enabled: !!selectedCustomerId,
     });
 
     const { data: relatedDeals, isLoading: loadingDeals } = useQuery({
         queryKey: ["customer-deals", selectedCustomerId],
-        queryFn: async () => ([]),
+        queryFn: () => getCustomerDeals(selectedCustomerId!),
         enabled: !!selectedCustomerId,
     });
 

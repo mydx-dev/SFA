@@ -95,3 +95,28 @@ export async function updateDeal(
         throw error;
     }
 }
+
+export async function closeDeal(id: string, isWon: boolean): Promise<Deal> {
+    const original = await dexie.deals.get(id);
+    if (!original) {
+        throw new Error("Deal not found");
+    }
+
+    const newStatus = isWon ? "クローズ(成功)" : "クローズ(失敗)";
+    await dexie.deals.update(id, { status: newStatus } as never);
+
+    try {
+        const response = await client.closeDeal(id, isWon);
+        const closedDeal = parseAppsScriptResponse(response);
+
+        if (!closedDeal) {
+            throw new Error("Failed to close deal");
+        }
+
+        await dexie.deals.put(closedDeal as never);
+        return closedDeal;
+    } catch (error) {
+        await dexie.deals.put(original);
+        throw error;
+    }
+}

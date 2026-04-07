@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { MobileDealList } from "../component/mobile/MobileDealList";
 import { MobileSearchBar } from "../component/mobile/MobileSearchBar";
+import { getDealsFromLocal } from "../usecase/deals";
 
 export const MobileDealListPage = () => {
     const [searchKeyword, setSearchKeyword] = useState("");
@@ -12,7 +13,7 @@ export const MobileDealListPage = () => {
 
     const { data: deals, isLoading, error } = useQuery({
         queryKey: ["mobile-deals", filters, searchKeyword, page],
-        queryFn: async () => ([]),
+        queryFn: () => getDealsFromLocal(),
     });
 
     if (isLoading) {
