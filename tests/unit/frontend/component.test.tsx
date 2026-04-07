@@ -35,6 +35,15 @@ describe("TaskItemComponent", () => {
     describe("副作用", () => {
         test.todo("マウント時にコンソールログが出力される");
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("TaskListComponent", () => {
@@ -63,6 +72,15 @@ describe("TaskListComponent", () => {
 
     describe("副作用", () => {
         test.todo("マウント時にtaskSchedulerのタスク一覧を取得する");
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -185,6 +203,15 @@ describe("LeadListComponent", () => {
             expect(consoleSpy).not.toHaveBeenCalled();
             consoleSpy.mockRestore();
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -346,6 +373,15 @@ describe("LeadFormComponent", () => {
             consoleSpy.mockRestore();
         });
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("DealListComponent", () => {
@@ -454,6 +490,15 @@ describe("DealListComponent", () => {
             expect(consoleSpy).not.toHaveBeenCalled();
             consoleSpy.mockRestore();
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -623,6 +668,15 @@ describe("ActivityFormComponent", () => {
             consoleSpy.mockRestore();
         });
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("DealListTableComponent", () => {
@@ -759,6 +813,15 @@ describe("DealListTableComponent", () => {
             consoleSpy.mockRestore();
         });
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 // ========================================
@@ -799,6 +862,15 @@ describe("DashboardComponent", () => {
         test.todo("マウント時にダッシュボードデータを取得する");
         test.todo("期間変更時にグラフデータを再取得する");
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("KPICardComponent", () => {
@@ -823,6 +895,15 @@ describe("KPICardComponent", () => {
         test.todo("カードクリックでonClickイベントが発火する");
         test.todo("ホバー時にカードが持ち上がるアニメーションが発生する");
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("SalesChartComponent", () => {
@@ -845,6 +926,15 @@ describe("SalesChartComponent", () => {
     describe("インタラクション", () => {
         test.todo("データポイントホバーで詳細情報がツールチップに表示される");
         test.todo("期間変更ボタンクリックでチャートが更新される");
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -876,6 +966,15 @@ describe("PipelineViewComponent", () => {
 
     describe("副作用", () => {
         test.todo("マウント時に各ステージの案件数を集計する");
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -913,6 +1012,15 @@ describe("ActivityHistoryComponent", () => {
     describe("副作用", () => {
         test.todo("フィルター変更時に活動履歴を再取得する");
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("CustomerHierarchyTreeComponent", () => {
@@ -945,6 +1053,15 @@ describe("CustomerHierarchyTreeComponent", () => {
     describe("副作用", () => {
         test.todo("マウント時に初期展開状態を設定する");
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("CustomerDetailPanelComponent", () => {
@@ -970,6 +1087,15 @@ describe("CustomerDetailPanelComponent", () => {
         test.todo("編集ボタンクリックでonEditイベントが発火する");
         test.todo("親顧客リンククリックで親顧客詳細に遷移する");
         test.todo("関連案件クリックで案件詳細に遷移する");
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -1010,6 +1136,15 @@ describe("DealKanbanBoardComponent", () => {
         test.todo("マウント時に各カラムの案件数を集計する");
         test.todo("フィルター変更時に表示案件を再計算する");
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("DealKanbanCardComponent", () => {
@@ -1032,6 +1167,15 @@ describe("DealKanbanCardComponent", () => {
         test.todo("カードクリックでonClickイベントが発火する");
         test.todo("カードホバーで影が強調される");
         test.todo("ドラッグ開始時にカードの透明度が変わる");
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -1063,6 +1207,15 @@ describe("SearchFilterPanelComponent", () => {
         test.todo("期間選択でonFilterChangeが呼ばれる");
         test.todo("金額範囲変更でonFilterChangeが呼ばれる");
         test.todo("クリアボタンクリックで全フィルターがリセットされる");
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -1098,6 +1251,15 @@ describe("MobileDealListComponent", () => {
     describe("副作用", () => {
         test.todo("スクロール位置が下部に達したら自動で追加読み込みする");
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("MobileSearchBarComponent", () => {
@@ -1120,6 +1282,15 @@ describe("MobileSearchBarComponent", () => {
         test.todo("検索ボタンタップでonSearchイベントが発火する");
         test.todo("フィルターボタンタップでonFilterClickイベントが発火する");
         test.todo("クリアボタンタップで入力値がクリアされる");
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -1160,6 +1331,15 @@ describe("PhaseManagementComponent", () => {
     describe("副作用", () => {
         test.todo("マウント時にフェーズを順序順にソートする");
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("PhaseFormComponent", () => {
@@ -1189,6 +1369,15 @@ describe("PhaseFormComponent", () => {
         test.todo("送信ボタンクリックでonSubmitイベントが発火する");
         test.todo("キャンセルボタンクリックでonCancelイベントが発火する");
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("TimelineComponent", () => {
@@ -1209,5 +1398,14 @@ describe("TimelineComponent", () => {
     describe("インタラクション", () => {
         test.todo("イベントアイテムクリックで詳細が展開される");
         test.todo("グループヘッダークリックでグループが折りたたまれる");
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });

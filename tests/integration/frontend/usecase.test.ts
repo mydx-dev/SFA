@@ -182,6 +182,15 @@ describe("syncユースケース", () => {
             expect(dexie.transaction).not.toHaveBeenCalled();
         });
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("リード一覧取得フロントエンドユースケース", () => {
@@ -252,6 +261,15 @@ describe("リード一覧取得フロントエンドユースケース", () => {
             
             await expect(fetchLeads()).rejects.toThrow("Failed to fetch leads");
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -400,6 +418,15 @@ describe("リード作成フロントエンドユースケース", () => {
             expect(mockTable.delete).toHaveBeenCalled();
             expect(mockTable.delete.mock.calls[0][0]).toMatch(/^temp-/);
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -598,6 +625,15 @@ describe("リード更新フロントエンドユースケース", () => {
             expect(mockTable.put).toHaveBeenCalledWith(originalLead);
         });
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("案件作成フロントエンドユースケース", () => {
@@ -746,6 +782,15 @@ describe("案件作成フロントエンドユースケース", () => {
             expect(mockTable.delete.mock.calls[0][0]).toMatch(/^temp-/);
         });
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("営業活動作成フロントエンドユースケース", () => {
@@ -888,5 +933,14 @@ describe("営業活動作成フロントエンドユースケース", () => {
             expect(mockTable.delete).toHaveBeenCalled();
             expect(mockTable.delete.mock.calls[0][0]).toMatch(/^temp-/);
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });

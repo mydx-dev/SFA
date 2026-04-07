@@ -364,6 +364,15 @@ describe("LeadListPage", () => {
             });
         });
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("LeadDetailPage", () => {
@@ -743,6 +752,15 @@ describe("LeadDetailPage", () => {
             });
         });
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("DealListPage", () => {
@@ -973,6 +991,15 @@ describe("DealListPage", () => {
 
             expect(screen.getByRole("progressbar")).toBeInTheDocument();
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -1441,6 +1468,15 @@ describe("DealDetailPage", () => {
             expect(screen.queryByText("クローズ")).not.toBeInTheDocument();
         });
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 
@@ -1639,6 +1675,15 @@ describe("DashboardPage", () => {
             await waitFor(() => { expect(screen.getByText("ダッシュボード")).toBeInTheDocument(); });
         });
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("ActivityHistoryPage", () => {
@@ -1766,6 +1811,15 @@ describe("ActivityHistoryPage", () => {
             render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
             await waitFor(() => { expect(screen.getByText(/ページ 1/)).toBeInTheDocument(); });
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -1899,6 +1953,15 @@ describe("CustomerManagementPage", () => {
             render(<QueryClientProvider client={queryClient}><MemoryRouter><CustomerManagementPage /></MemoryRouter></QueryClientProvider>);
             await waitFor(() => { expect(screen.getByText("顧客管理")).toBeInTheDocument(); });
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -2057,6 +2120,15 @@ describe("DealKanbanPage", () => {
             await user.click(screen.getByText("フィルター"));
             await waitFor(() => { expect(dealsUseCase.getDealsFromLocal).toHaveBeenCalled(); });
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -2220,6 +2292,15 @@ describe("MobileDealListPage", () => {
             await user.click(screen.getByText("フィルターボタン"));
             await waitFor(() => { expect(screen.getByText("フィルタードロワー")).toBeInTheDocument(); });
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -2385,5 +2466,14 @@ describe("PhaseManagementPage", () => {
             await user.click(screen.getByText("フェーズを追加"));
             await waitFor(() => { expect(phasesUseCase.getPhases).toHaveBeenCalled(); });
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
