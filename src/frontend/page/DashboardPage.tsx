@@ -1,43 +1,40 @@
-import { Box, CircularProgress, Grid, Paper, Skeleton, Stack, Typography } from "@mui/material";
+import { Box, Grid, Paper, Skeleton, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { KPICard } from "../component/dashboard/KPICard";
 import { SalesChart } from "../component/dashboard/SalesChart";
 import { PipelineView } from "../component/dashboard/PipelineView";
 import { ActivityHistory } from "../component/activity/ActivityHistory";
+import { getDashboardMetrics, getRecentActivities, getUpcomingTasks, getSalesTrend, getPipelineData } from "../usecase/dashboard";
 
 export const DashboardPage = () => {
     // Mock data fetching for now
     const { data: metrics, isLoading: loadingMetrics } = useQuery({
         queryKey: ["dashboard-metrics"],
-        queryFn: async () => ({
-            totalRevenue: 50000000,
-            dealsCount: 25,
-            leadsCount: 100,
-            conversionRate: 0.25
-        }),
+        queryFn: getDashboardMetrics,
     });
 
     const { data: activities, isLoading: loadingActivities } = useQuery({
         queryKey: ["recent-activities"],
-        queryFn: async () => ([]),
+        queryFn: getRecentActivities,
     });
 
     const { data: tasks, isLoading: loadingTasks } = useQuery({
         queryKey: ["upcoming-tasks"],
-        queryFn: async () => ([]),
+        queryFn: getUpcomingTasks,
     });
 
     const { data: salesData, isLoading: loadingSales } = useQuery({
         queryKey: ["sales-trend"],
-        queryFn: async () => ([]),
+        queryFn: getSalesTrend,
     });
 
     const { data: pipelineData, isLoading: loadingPipeline } = useQuery({
         queryKey: ["pipeline-data"],
-        queryFn: async () => ([]),
+        queryFn: getPipelineData,
     });
 
     const isLoading = loadingMetrics || loadingActivities || loadingTasks || loadingSales || loadingPipeline;
+    const hasError = !metrics && !loadingMetrics;
 
     if (isLoading) {
         return (
@@ -55,6 +52,14 @@ export const DashboardPage = () => {
                         <Skeleton variant="rectangular" height={300} />
                     </Grid>
                 </Grid>
+            </Box>
+        );
+    }
+
+    if (hasError) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+                <Typography color="error">エラーが発生しました</Typography>
             </Box>
         );
     }
@@ -89,7 +94,10 @@ export const DashboardPage = () => {
                 <Grid item xs={12} md={4}>
                     <Paper sx={{ p: 2 }}>
                         <Typography variant="h6" gutterBottom>パイプライン状況</Typography>
-                        <PipelineView data={pipelineData || []} />
+                        <PipelineView
+                            stages={(pipelineData || []).map(d => ({ id: d.stage, name: d.stage }))}
+                            deals={[]}
+                        />
                     </Paper>
                 </Grid>
 

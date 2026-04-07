@@ -1,10 +1,10 @@
-import { Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Stack, Typography } from "@mui/material";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ActivityForm, ActivityFormValues } from "../component/activity/ActivityForm";
 import { ActivityList } from "../component/activity/ActivityList";
-import { getDealById } from "../usecase/deals";
+import { getDealById, closeDeal } from "../usecase/deals";
 import { getActivitiesFromLocal, createActivity } from "../usecase/activities";
 
 export const DealDetailPage = () => {
@@ -12,6 +12,7 @@ export const DealDetailPage = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const [isActivityFormOpen, setIsActivityFormOpen] = useState(false);
+    const [isCloseDialogOpen, setIsCloseDialogOpen] = useState(false);
 
     // Fetch deal details
     const { data: deal, isLoading: loadingDeal, error: dealError } = useQuery({
@@ -37,6 +38,14 @@ export const DealDetailPage = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["activities", id] });
             setIsActivityFormOpen(false);
+        },
+    });
+
+    const closeDealMutation = useMutation({
+        mutationFn: (isWon: boolean) => closeDeal(id!, isWon),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["deal", id] });
+            setIsCloseDialogOpen(false);
         },
     });
 
@@ -76,7 +85,7 @@ export const DealDetailPage = () => {
                                 <Button variant="contained" onClick={() => setIsActivityFormOpen(true)}>
                                     営業活動追加
                                 </Button>
-                                <Button variant="outlined" color="success">
+                                <Button variant="outlined" color="success" onClick={() => setIsCloseDialogOpen(true)}>
                                     クローズ
                                 </Button>
                             </>
@@ -120,6 +129,18 @@ export const DealDetailPage = () => {
                         />
                     </Box>
                 </DialogContent>
+            </Dialog>
+
+            <Dialog open={isCloseDialogOpen} onClose={() => setIsCloseDialogOpen(false)}>
+                <DialogTitle>案件をクローズしますか？</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>クローズ理由を選択してください。</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setIsCloseDialogOpen(false)}>キャンセル</Button>
+                    <Button onClick={() => closeDealMutation.mutate(false)} color="error">失敗クローズ</Button>
+                    <Button onClick={() => closeDealMutation.mutate(true)} color="success" variant="contained">成功クローズ</Button>
+                </DialogActions>
             </Dialog>
         </Box>
     );

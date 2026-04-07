@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { ActivityHistory } from "../component/activity/ActivityHistory";
 import { SearchFilterPanel } from "../component/search/SearchFilterPanel";
+import { getActivitiesFromLocal } from "../usecase/activities";
 
 export const ActivityHistoryPage = () => {
     const [filters, setFilters] = useState({});
@@ -11,7 +12,7 @@ export const ActivityHistoryPage = () => {
 
     const { data: activities, isLoading, error } = useQuery({
         queryKey: ["activities-history", filters, page, sortBy],
-        queryFn: async () => ([]),
+        queryFn: () => getActivitiesFromLocal(),
     });
 
     if (isLoading) {
