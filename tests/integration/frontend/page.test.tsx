@@ -1676,13 +1676,60 @@ describe("DashboardPage", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("画面全体は最大幅1440pxのコンテナで中央配置される");
+            test.todo("KPIカードは1行に4カラム配置される");
+            test.todo("売上推移グラフは8カラム幅で配置される");
+            test.todo("パイプライン状況は4カラム幅でグラフ右隣に配置される");
+            test.todo("最近の活動セクションは6カラム幅で配置される");
+            test.todo("今後のタスクセクションは6カラム幅で活動セクション右隣に配置される");
+            test.todo("各セクション間は32px（spacing-xl）のギャップが設定される");
+            test.todo("コンテンツエリア全体の上下マージンは48px（spacing-2xl）である");
+        });
+        describe("サイズ", () => {
+            test.todo("KPIカードの最小高さは120pxである");
+            test.todo("売上推移グラフの高さは400pxである");
+            test.todo("パイプライン状況の高さは400pxである");
+            test.todo("最近の活動リストの高さは最大600pxで、超過時はスクロール可能である");
+            test.todo("今後のタスクリストの高さは最大600pxで、超過時はスクロール可能である");
+        });
+        describe("色", () => {
+            test.todo("ページ背景色は#f7fafc（surface）である");
+            test.todo("KPIカードの背景色は#ffffff（surface_container_lowest）である");
+            test.todo("KPIカードのタイトルテキスト色は#555f71（secondary）である");
+            test.todo("KPIカードの数値テキスト色は#002045（primary）である");
+            test.todo("セクションの背景色は#ffffff（surface_container_lowest）である");
+            test.todo("セクションタイトルのテキスト色は#181c1e（on_background）である");
+            test.todo("グラフのプライマリー系列の色は#002045（primary）である");
+            test.todo("増加を示す数値は#10b981（Success）のアクセントカラーで表示される");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("ページタイトルはManropeフォント、32px（headline-1）、weight 600で表示される");
+            test.todo("KPIカードタイトルはInterフォント、16px（body-large）、weight 400で表示される");
+            test.todo("KPIカードの数値はManropeフォント、32px（headline-1）、weight 600で表示される");
+            test.todo("セクションタイトルはManropeフォント、24px（headline-2）、weight 600で表示される");
+            test.todo("活動・タスクリスト項目のテキストはInterフォント、14px（body）で表示される");
+            test.todo("キャプションテキストはInterフォント、12px（caption）、color #555f71で表示される");
+        });
+        describe("形状", () => {
+            test.todo("KPIカードのborder-radiusは12px（xl）である");
+            test.todo("セクションカードのborder-radiusは12px（xl）である");
+            test.todo("KPIカードはrounded corners（角丸）で表示される");
+        });
+        describe("装飾", () => {
+            test.todo("KPIカードはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("KPIカードの内側paddingは24px（lg）である");
+            test.todo("セクションカードの内側paddingは24px（lg）である");
+            test.todo("セクションカードはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("カードに対するbox-shadowは使用されない（トーナルレイヤリングを使用）");
+        });
+        describe("インタラクション", () => {
+            test.todo("KPIカードホバー時に背景色がrgba(0, 32, 69, 0.04)に変化する");
+            test.todo("KPIカードホバー時にカーソルがpointerに変化する");
+            test.todo("活動リスト項目ホバー時に背景色がrgba(0, 32, 69, 0.04)に変化する");
+            test.todo("タスクリスト項目ホバー時に背景色がrgba(0, 32, 69, 0.04)に変化する");
+            test.todo("期間フィルター選択時にアニメーション（transition: 200ms ease）が適用される");
+        });
     });
 });
 
@@ -1813,13 +1860,51 @@ describe("ActivityHistoryPage", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("フィルターパネルは画面上部に固定表示される（sticky top）");
+            test.todo("テーブルはフィルターパネル下に全幅で配置される");
+            test.todo("ページネーションはテーブル下部に中央配置される");
+            test.todo("フィルターパネルとテーブル間のマージンは24px（lg）である");
+            test.todo("テーブルとページネーション間のマージンは16px（md）である");
+        });
+        describe("サイズ", () => {
+            test.todo("フィルターパネルの高さは最小80pxである");
+            test.todo("テーブル行の高さは56pxである");
+            test.todo("テーブルヘッダーの高さは48pxである");
+            test.todo("1ページあたり最大30行まで表示される");
+            test.todo("テーブルカラム幅は内容に応じて可変である（min-width設定あり）");
+        });
+        describe("色", () => {
+            test.todo("ページ背景色は#f7fafc（surface）である");
+            test.todo("フィルターパネル背景色は#ffffff（surface_container_lowest）である");
+            test.todo("テーブルヘッダー背景色は#f7fafc（surface）である");
+            test.todo("テーブル行ホバー時の背景色はrgba(0, 32, 69, 0.04)である");
+            test.todo("テーブルセルのテキスト色は#181c1e（on_background）である");
+            test.todo("テーブル行のゴーストボーダー色はrgba(85, 95, 113, 0.15)である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("ページタイトルはManropeフォント、32px（headline-1）、weight 600で表示される");
+            test.todo("テーブルヘッダーテキストはInterフォント、14px、weight 600で表示される");
+            test.todo("テーブルセルテキストはInterフォント、14px、weight 400で表示される");
+            test.todo("フィルターラベルはInterフォント、12px（caption）で表示される");
+        });
+        describe("形状", () => {
+            test.todo("フィルターパネルのborder-radiusは12px（xl）である");
+            test.todo("検索入力フィールドのborder-radiusは6pxである");
+        });
+        describe("装飾", () => {
+            test.todo("フィルターパネルはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("フィルターパネルの内側paddingは24px（lg）である");
+            test.todo("テーブルセルの内側paddingは16px（md）である");
+            test.todo("テーブル行間にゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）が表示される");
+            test.todo("重いbox-shadowは使用されない（トーナルレイヤリングで表現）");
+        });
+        describe("インタラクション", () => {
+            test.todo("テーブル行ホバー時に背景色が変化する（transition: 150ms ease）");
+            test.todo("テーブルヘッダーホバー時にソートアイコンが表示される");
+            test.todo("活動行クリック時にカーソルがpointerに変化する");
+            test.todo("ページネーションボタンホバー時に背景色がrgba(0, 32, 69, 0.08)に変化する");
+        });
     });
 });
 
@@ -1955,13 +2040,51 @@ describe("CustomerManagementPage", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("ページは2カラムレイアウト（左40%、右60%）で構成される");
+            test.todo("左カラムには階層ツリーが配置される");
+            test.todo("右カラムには顧客詳細パネルが配置される");
+            test.todo("カラム間にはリサイザー（幅4px）が配置される");
+            test.todo("モバイル表示では2カラムがタブ切り替え形式になる");
+        });
+        describe("サイズ", () => {
+            test.todo("左カラムの最小幅は280pxである");
+            test.todo("右カラムの最小幅は400pxである");
+            test.todo("ツリーノードの高さは40pxである");
+            test.todo("リサイザーの幅は4pxである");
+            test.todo("詳細パネル内の各セクションの最小高さは120pxである");
+        });
+        describe("色", () => {
+            test.todo("ページ背景色は#f7fafc（surface）である");
+            test.todo("左カラム背景色は#ebeef0（surface_container）である");
+            test.todo("右カラム背景色は#ffffff（surface_container_lowest）である");
+            test.todo("選択中のツリーノード背景色はrgba(0, 32, 69, 0.08)である");
+            test.todo("ツリーノードホバー時の背景色はrgba(0, 32, 69, 0.04)である");
+            test.todo("リサイザー背景色は#c4c6cf（outline_variant）である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("ページタイトルはManropeフォント、32px（headline-1）、weight 600で表示される");
+            test.todo("ツリーノードテキストはInterフォント、14px、weight 400で表示される");
+            test.todo("詳細パネルのセクションタイトルはManropeフォント、20px、weight 600で表示される");
+            test.todo("詳細パネルのラベルはInterフォント、12px（caption）で表示される");
+            test.todo("詳細パネルの値はInterフォント、14px、weight 400で表示される");
+        });
+        describe("形状", () => {
+            test.todo("右カラムのborder-radiusは12px（xl）である");
+            test.todo("ツリーノード選択時の角丸は6pxである");
+        });
+        describe("装飾", () => {
+            test.todo("右カラムはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("詳細パネルの内側paddingは24px（lg）である");
+            test.todo("ツリーノードのインデントは階層ごとに20pxずつ増加する");
+            test.todo("セクション間の区切りにゴーストボーダーが使用される");
+        });
+        describe("インタラクション", () => {
+            test.todo("ツリーノードホバー時に背景色が変化する（transition: 150ms ease）");
+            test.todo("ツリーノードクリック時に選択状態が視覚的にフィードバックされる");
+            test.todo("リサイザードラッグ時にカーソルがcol-resizeに変化する");
+            test.todo("展開/折りたたみアイコンクリック時にスムーズなアニメーション（300ms ease）が適用される");
+        });
     });
 });
 
@@ -2122,13 +2245,54 @@ describe("DealKanbanPage", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("検索バーは画面上部に配置される");
+            test.todo("カンバンボードは水平スクロール可能なコンテナで配置される");
+            test.todo("各フェーズカラムは横並びで配置される");
+            test.todo("カラム間のギャップは16px（md）である");
+            test.todo("カンバンボード全体の上下マージンは24px（lg）である");
+        });
+        describe("サイズ", () => {
+            test.todo("各フェーズカラムの幅は320pxである");
+            test.todo("案件カードの最小高さは120pxである");
+            test.todo("検索バーの高さは48pxである");
+            test.todo("カラムヘッダーの高さは56pxである");
+            test.todo("カード間のギャップは12pxである");
+        });
+        describe("色", () => {
+            test.todo("ページ背景色は#f7fafc（surface）である");
+            test.todo("カラム背景色は#ebeef0（surface_container）である");
+            test.todo("案件カード背景色は#ffffff（surface_container_lowest）である");
+            test.todo("カラムヘッダー背景色は#e5e9eb（surface_container_high）である");
+            test.todo("ドラッグ中のカード背景色はrgba(255, 255, 255, 0.8)（グラスモーフィズム）である");
+            test.todo("ドロップ可能エリアの背景色はrgba(0, 32, 69, 0.04)である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("ページタイトルはManropeフォント、32px（headline-1）、weight 600で表示される");
+            test.todo("カラムヘッダータイトルはManropeフォント、16px、weight 600で表示される");
+            test.todo("カラムヘッダーのカウントはInterフォント、14px、weight 400で表示される");
+            test.todo("カードタイトルはInterフォント、14px、weight 600で表示される");
+            test.todo("カード内容テキストはInterフォント、12px（caption）で表示される");
+        });
+        describe("形状", () => {
+            test.todo("カラムのborder-radiusは12px（xl）である");
+            test.todo("案件カードのborder-radiusは8pxである");
+            test.todo("検索バーのborder-radiusは6pxである");
+        });
+        describe("装飾", () => {
+            test.todo("カラムはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("案件カードはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("案件カードの内側paddingは16px（md）である");
+            test.todo("カラムヘッダーの内側paddingは16px（md）である");
+            test.todo("ドラッグ中のカードにbackdrop-filter: blur(20px)が適用される");
+        });
+        describe("インタラクション", () => {
+            test.todo("案件カードホバー時に背景色がrgba(0, 32, 69, 0.02)に変化する");
+            test.todo("案件カードドラッグ開始時にカーソルがgrabに変化する");
+            test.todo("案件カードドラッグ中にカーソルがgrabbingに変化する");
+            test.todo("ドロップ可能エリアホバー時に視覚的フィードバックがある");
+            test.todo("カード移動時にスムーズなアニメーション（transition: 200ms ease）が適用される");
+        });
     });
 });
 
@@ -2294,13 +2458,54 @@ describe("MobileDealListPage", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("検索バーは画面最上部に固定表示される（sticky top）");
+            test.todo("案件カードリストは縦方向にスタック配置される");
+            test.todo("フィルターボタンは画面右下に固定表示される（fixed bottom-right）");
+            test.todo("カード間のギャップは16px（md）である");
+            test.todo("リスト全体の左右paddingは16px（md）である");
+        });
+        describe("サイズ", () => {
+            test.todo("検索バーの高さは56pxである");
+            test.todo("案件カードの最小高さは140pxである");
+            test.todo("フィルターボタンのサイズは56x56pxである");
+            test.todo("スワイプアクションボタンの幅は80pxである");
+            test.todo("画面幅は390px（モバイル基準）である");
+        });
+        describe("色", () => {
+            test.todo("ページ背景色は#f7fafc（surface）である");
+            test.todo("検索バー背景色は#ffffff（surface_container_lowest）である");
+            test.todo("案件カード背景色は#ffffff（surface_container_lowest）である");
+            test.todo("フィルターボタン背景色は#002045（primary）のグラデーションである");
+            test.todo("フィルターボタンアイコン色は#ffffff（on_primary）である");
+            test.todo("スワイプ削除ボタン背景色は#ef4444（Error）である");
+            test.todo("スワイプ編集ボタン背景色は#3b82f6（Info）である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("検索プレースホルダーはInterフォント、16px、weight 400で表示される");
+            test.todo("カードタイトルはInterフォント、16px、weight 600で表示される");
+            test.todo("カード内容テキストはInterフォント、14px、weight 400で表示される");
+            test.todo("カードメタデータはInterフォント、12px（caption）で表示される");
+        });
+        describe("形状", () => {
+            test.todo("検索バーのborder-radiusは24pxである（丸みを強調）");
+            test.todo("案件カードのborder-radiusは12px（xl）である");
+            test.todo("フィルターボタンはborder-radius: 50%で円形である");
+        });
+        describe("装飾", () => {
+            test.todo("案件カードはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("案件カードの内側paddingは16px（md）である");
+            test.todo("フィルターボタンにbox-shadow: 0 8px 16px rgba(0, 32, 69, 0.12)が適用される");
+            test.todo("検索バーにゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）が適用される");
+        });
+        describe("インタラクション", () => {
+            test.todo("案件カードタップ時に背景色がrgba(0, 32, 69, 0.04)に変化する");
+            test.todo("案件カード左スワイプ時に削除ボタンがスライドイン（transition: 200ms ease）する");
+            test.todo("案件カード右スワイプ時に編集ボタンがスライドイン（transition: 200ms ease）する");
+            test.todo("Pull to Refresh時にスピナーアニメーションが表示される");
+            test.todo("無限スクロール時にローディングスピナーが表示される");
+            test.todo("フィルタードロワーは下から上にスライドイン（transition: 300ms ease）する");
+        });
     });
 });
 
@@ -2468,12 +2673,51 @@ describe("PhaseManagementPage", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("フェーズ追加ボタンは画面右上に配置される");
+            test.todo("フェーズテーブルはページ中央に全幅で配置される");
+            test.todo("編集フォームはテーブル右側またはモーダルで表示される");
+            test.todo("テーブルとボタン間のマージンは24px（lg）である");
+        });
+        describe("サイズ", () => {
+            test.todo("テーブル行の高さは64pxである");
+            test.todo("テーブルヘッダーの高さは56pxである");
+            test.todo("ドラッグハンドルの幅は32pxである");
+            test.todo("編集・削除ボタンのサイズは40x40pxである");
+            test.todo("フォーム幅は最大480pxである");
+        });
+        describe("色", () => {
+            test.todo("ページ背景色は#f7fafc（surface）である");
+            test.todo("テーブル背景色は#ffffff（surface_container_lowest）である");
+            test.todo("テーブルヘッダー背景色は#f7fafc（surface）である");
+            test.todo("テーブル行ホバー時の背景色はrgba(0, 32, 69, 0.04)である");
+            test.todo("ドラッグ中の行背景色はrgba(255, 255, 255, 0.8)（グラスモーフィズム）である");
+            test.todo("ドロップ可能エリアの背景色はrgba(0, 32, 69, 0.04)である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("ページタイトルはManropeフォント、32px（headline-1）、weight 600で表示される");
+            test.todo("テーブルヘッダーテキストはInterフォント、14px、weight 600で表示される");
+            test.todo("テーブルセルテキストはInterフォント、14px、weight 400で表示される");
+            test.todo("フォームラベルはInterフォント、14px、weight 500で表示される");
+        });
+        describe("形状", () => {
+            test.todo("テーブルのborder-radiusは12px（xl）である");
+            test.todo("編集・削除ボタンのborder-radiusは8pxである");
+            test.todo("フォーム入力フィールドのborder-radiusは6pxである");
+        });
+        describe("装飾", () => {
+            test.todo("テーブルはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("テーブルセルの内側paddingは16px（md）である");
+            test.todo("テーブル行間にゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）が表示される");
+            test.todo("ドラッグ中の行にbackdrop-filter: blur(20px)が適用される");
+            test.todo("フォームの内側paddingは24px（lg）である");
+        });
+        describe("インタラクション", () => {
+            test.todo("テーブル行ホバー時に背景色が変化する（transition: 150ms ease）");
+            test.todo("ドラッグハンドルホバー時にカーソルがgrabに変化する");
+            test.todo("ドラッグ中にカーソルがgrabbingに変化する");
+            test.todo("行ドラッグ時にスムーズなアニメーション（transition: 200ms ease）が適用される");
+            test.todo("編集・削除ボタンホバー時に背景色がrgba(0, 32, 69, 0.08)に変化する");
+        });
     });
 });
