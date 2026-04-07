@@ -547,6 +547,15 @@ describe("AppLayout", () => {
                 expect(screen.getByRole("main")).toBeInTheDocument();
                 expect(screen.getByRole("contentinfo")).toBeInTheDocument();
             });
+            
+            test.todo("SideNavBarが画面左端に固定配置される（fixed left-0 top-0）");
+            test.todo("SideNavBarのz-indexが40である");
+            test.todo("TopAppBarが画面上部にsticky配置される（sticky top-0）");
+            test.todo("TopAppBarのz-indexが30である");
+            test.todo("TopAppBarの左マージンがml-64（256px）でSideNavBarの幅分オフセットされる");
+            test.todo("TopAppBarの幅がw-[calc(100%-16rem)]でSideNavBarを除いた全幅になる");
+            test.todo("メインコンテンツエリアの左マージンがml-64（256px）でSideNavBarの幅分オフセットされる");
+            test.todo("メインコンテンツエリアのパディングがp-8である");
         });
         describe("サイズ", () => {
             test("全体のレイアウトサイズが適切である", () => {
@@ -565,6 +574,11 @@ describe("AppLayout", () => {
                 // メインコンテンツが存在することを確認
                 expect(screen.getByRole("main")).toBeInTheDocument();
             });
+            
+            test.todo("SideNavBarの幅がw-64（256px）である");
+            test.todo("SideNavBarの高さがh-full（画面全体）である");
+            test.todo("TopAppBarのパディングがpx-8 py-4である");
+            test.todo("メインコンテンツエリアの最小高さがmin-h-screenである");
         });
         describe("色", () => {
             test("主要な要素が適切に表示される", () => {
@@ -584,6 +598,12 @@ describe("AppLayout", () => {
                 expect(screen.getByRole("banner")).toBeInTheDocument();
                 expect(screen.getByText("テストコンテンツ")).toBeInTheDocument();
             });
+            
+            test.todo("SideNavBarの背景色がslate-900（ライトモード）・slate-950（ダークモード）である");
+            test.todo("TopAppBarの背景色がslate-50/80（ライトモード）・slate-900/80（ダークモード）である");
+            test.todo("メインコンテンツエリアの背景色がsurfaceである");
+            test.todo("ページ全体の背景色がbg-surfaceである");
+            test.todo("ページ全体のテキスト色がtext-on-surfaceである");
         });
         describe("タイポグラフィ", () => {
             test("タイトルとナビゲーションテキストが表示される", () => {
@@ -604,6 +624,10 @@ describe("AppLayout", () => {
                 // ナビゲーションリンクが表示される
                 expect(screen.getByText("リード")).toBeInTheDocument();
             });
+            
+            test.todo("ページ全体のフォントファミリーがfont-body（Inter）である");
+            test.todo("SideNavBarのフォントファミリーがfont-manrope（Manrope）である");
+            test.todo("TopAppBarのフォントファミリーがfont-manrope（Manrope）である");
         });
         describe("形状", () => {
             test("基本的なレイアウト要素が表示される", () => {
@@ -622,6 +646,8 @@ describe("AppLayout", () => {
                 // 主要な要素が表示される
                 expect(screen.getByRole("banner")).toBeInTheDocument();
             });
+            
+            test.todo("SideNavBarの右側にボーダーがない（border-r-0）");
         });
         describe("装飾", () => {
             test("ナビゲーション要素が適切に表示される", () => {
@@ -641,6 +667,9 @@ describe("AppLayout", () => {
                 const leadLink = screen.getByRole("tab", { name: "リード" });
                 expect(leadLink).toHaveAttribute("aria-selected", "true");
             });
+            
+            test.todo("SideNavBarにshadow-2xl shadow-slate-950/20のシャドウが適用される");
+            test.todo("TopAppBarにbackdrop-filter: blur-xlが適用される");
         });
         describe("インタラクション", () => {
             test("ナビゲーションリンクが機能する", async () => {
@@ -660,6 +689,9 @@ describe("AppLayout", () => {
                 // ナビゲーションリンクが存在する
                 expect(screen.getByRole("tab", { name: "案件" })).toBeInTheDocument();
             });
+            
+            test.todo("SideNavBarとTopAppBarが連動してアクティブ項目を表示する");
+            test.todo("TopAppBarのスクロール時にsticky配置が維持される");
         });
     });
 });
