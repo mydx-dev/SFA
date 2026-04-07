@@ -60,7 +60,7 @@ export const DealDetailPage = () => {
         );
     }
 
-    const isClosed = deal.status === "成約" || deal.status === "失注";
+    const isClosed = deal.status === "クローズ(成功)" || deal.status === "クローズ(失敗)";
 
     return (
         <Box>
