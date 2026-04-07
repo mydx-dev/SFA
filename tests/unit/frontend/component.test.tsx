@@ -896,13 +896,41 @@ describe("KPICardComponent", () => {
         test.todo("ホバー時にカードが持ち上がるアニメーションが発生する");
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("アイコンは左上に配置される");
+            test.todo("タイトルはアイコン右側またはアイコン下に配置される");
+            test.todo("値はカード中央に大きく配置される");
+            test.todo("変化率とトレンドアイコンは値の右下に配置される");
+        });
+        describe("サイズ", () => {
+            test.todo("カードの最小高さは120pxである");
+            test.todo("カードの内側paddingは24px（lg）である");
+            test.todo("アイコンサイズは32x32pxである");
+        });
+        describe("色", () => {
+            test.todo("カード背景色は#ffffff（surface_container_lowest）である");
+            test.todo("タイトルテキスト色は#555f71（secondary）である");
+            test.todo("値テキスト色は#002045（primary）である");
+            test.todo("上昇トレンドの色は#10b981（Success）である");
+            test.todo("下降トレンドの色は#ef4444（Error）である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("タイトルはInterフォント、16px（body-large）、weight 400で表示される");
+            test.todo("値はManropeフォント、32px（headline-1）、weight 600で表示される");
+            test.todo("変化率はInterフォント、14px、weight 500で表示される");
+        });
+        describe("形状", () => {
+            test.todo("カードのborder-radiusは12px（xl）である");
+        });
+        describe("装飾", () => {
+            test.todo("カードはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("重いbox-shadowは使用されない（トーナルレイヤリング）");
+        });
+        describe("インタラクション", () => {
+            test.todo("ホバー時に背景色がrgba(0, 32, 69, 0.04)に変化する（transition: 150ms ease）");
+            test.todo("ホバー時にカーソルがpointerに変化する");
+            test.todo("ホバー時にscale: 1.02のアニメーションが適用される");
+        });
     });
 });
 
@@ -928,13 +956,40 @@ describe("SalesChartComponent", () => {
         test.todo("期間変更ボタンクリックでチャートが更新される");
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("チャートタイトルは上部左寄せで配置される");
+            test.todo("期間選択ボタンは上部右寄せで配置される");
+            test.todo("グラフエリアはコンテナ全体に広がる");
+            test.todo("凡例はグラフ上部または下部に配置される");
+        });
+        describe("サイズ", () => {
+            test.todo("グラフコンテナの高さは400pxである");
+            test.todo("グラフの内側paddingは16px（md）である");
+        });
+        describe("色", () => {
+            test.todo("グラフコンテナ背景色は#ffffff（surface_container_lowest）である");
+            test.todo("プライマリー系列の色は#002045（primary）である");
+            test.todo("セカンダリー系列の色は#555f71（secondary）である");
+            test.todo("グリッドライン色はrgba(85, 95, 113, 0.1)である");
+            test.todo("軸ラベル色は#43474e（on_surface_variant）である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("チャートタイトルはManropeフォント、20px、weight 600で表示される");
+            test.todo("軸ラベルはInterフォント、12px（caption）で表示される");
+            test.todo("ツールチップテキストはInterフォント、14px、weight 400で表示される");
+        });
+        describe("形状", () => {
+            test.todo("グラフコンテナのborder-radiusは12px（xl）である");
+            test.todo("データポイントは円形（border-radius: 50%）である");
+        });
+        describe("装飾", () => {
+            test.todo("グラフコンテナはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("ツールチップ背景は80%透明度でbackdrop-filter: blur(20px)が適用される");
+        });
+        describe("インタラクション", () => {
+            test.todo("データポイントホバー時にツールチップがフェードイン（transition: 200ms ease）する");
+            test.todo("期間変更時にグラフがスムーズに遷移（transition: 300ms ease）する");
+        });
     });
 });
 
@@ -1169,13 +1224,42 @@ describe("DealKanbanCardComponent", () => {
         test.todo("ドラッグ開始時にカードの透明度が変わる");
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("案件名は上部に配置される");
+            test.todo("金額は案件名の下に配置される");
+            test.todo("担当者名と期限は下部に横並びで配置される");
+            test.todo("優先度バッジは右上に配置される");
+        });
+        describe("サイズ", () => {
+            test.todo("カードの最小高さは120pxである");
+            test.todo("カードの内側paddingは16px（md）である");
+            test.todo("カード間のギャップは12pxである");
+        });
+        describe("色", () => {
+            test.todo("カード背景色は#ffffff（surface_container_lowest）である");
+            test.todo("ドラッグ中の背景色はrgba(255, 255, 255, 0.8)（グラスモーフィズム）である");
+            test.todo("案件名のテキスト色は#181c1e（on_background）である");
+            test.todo("金額のテキスト色は#002045（primary）である");
+            test.todo("期限超過時のテキスト色は#ef4444（Error）である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("案件名はInterフォント、14px、weight 600で表示される");
+            test.todo("金額はManropeフォント、16px、weight 600で表示される");
+            test.todo("担当者名と期限はInterフォント、12px（caption）で表示される");
+        });
+        describe("形状", () => {
+            test.todo("カードのborder-radiusは8pxである");
+        });
+        describe("装飾", () => {
+            test.todo("カードはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("ドラッグ中にbackdrop-filter: blur(20px)が適用される");
+        });
+        describe("インタラクション", () => {
+            test.todo("ホバー時に背景色がrgba(0, 32, 69, 0.02)に変化する");
+            test.todo("ドラッグ開始時にカーソルがgrabに変化する");
+            test.todo("ドラッグ中にカーソルがgrabbingに変化する");
+            test.todo("ドラッグ中にopacity: 0.7が適用される");
+        });
     });
 });
 
@@ -1209,13 +1293,38 @@ describe("SearchFilterPanelComponent", () => {
         test.todo("クリアボタンクリックで全フィルターがリセットされる");
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("検索ボックスは最上部に配置される");
+            test.todo("フィルター項目は検索ボックス下に縦並びで配置される");
+            test.todo("クリアボタンは右上に配置される");
+            test.todo("フィルター項目間のギャップは16px（md）である");
+        });
+        describe("サイズ", () => {
+            test.todo("パネルの最小高さは80pxである");
+            test.todo("パネルの内側paddingは24px（lg）である");
+            test.todo("検索ボックスの高さは48pxである");
+        });
+        describe("色", () => {
+            test.todo("パネル背景色は#ffffff（surface_container_lowest）である");
+            test.todo("検索ボックス背景色は#f7fafc（surface）である");
+            test.todo("ラベルテキスト色は#43474e（on_surface_variant）である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("ラベルはInterフォント、12px（caption）で表示される");
+            test.todo("検索ボックスのプレースホルダーはInterフォント、14px、weight 400で表示される");
+        });
+        describe("形状", () => {
+            test.todo("パネルのborder-radiusは12px（xl）である");
+            test.todo("検索ボックスのborder-radiusは6pxである");
+        });
+        describe("装飾", () => {
+            test.todo("パネルはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("検索ボックスはゴーストボーダー（1px solid rgba(85, 95, 113, 0.2)）を持つ");
+        });
+        describe("インタラクション", () => {
+            test.todo("検索ボックスフォーカス時にボーダー色が#002045（primary）に変化する");
+            test.todo("クリアボタンホバー時に背景色がrgba(0, 32, 69, 0.04)に変化する");
+        });
     });
 });
 
@@ -1252,13 +1361,40 @@ describe("MobileDealListComponent", () => {
         test.todo("スクロール位置が下部に達したら自動で追加読み込みする");
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("カードは縦方向にスタック配置される");
+            test.todo("カード間のギャップは16px（md）である");
+            test.todo("もっと見るボタンはリスト下部に中央配置される");
+            test.todo("スワイプアクションボタンはカード右端に配置される");
+        });
+        describe("サイズ", () => {
+            test.todo("各カードの最小高さは140pxである");
+            test.todo("カードの内側paddingは16px（md）である");
+            test.todo("スワイプアクションボタンの幅は80pxである");
+        });
+        describe("色", () => {
+            test.todo("カード背景色は#ffffff（surface_container_lowest）である");
+            test.todo("リスト背景色は#f7fafc（surface）である");
+            test.todo("削除ボタン背景色は#ef4444（Error）である");
+            test.todo("編集ボタン背景色は#3b82f6（Info）である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("案件名はInterフォント、16px、weight 600で表示される");
+            test.todo("金額はManropeフォント、16px、weight 600で表示される");
+            test.todo("ステータスバッジはInterフォント、12px、weight 500で表示される");
+        });
+        describe("形状", () => {
+            test.todo("カードのborder-radiusは12px（xl）である");
+            test.todo("ステータスバッジのborder-radiusは16px（pill形状）である");
+        });
+        describe("装飾", () => {
+            test.todo("カードはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+        });
+        describe("インタラクション", () => {
+            test.todo("カードタップ時に背景色がrgba(0, 32, 69, 0.04)に変化する");
+            test.todo("左スワイプ時に削除ボタンがスライドイン（transition: 200ms ease）する");
+            test.todo("右スワイプ時に編集ボタンがスライドイン（transition: 200ms ease）する");
+        });
     });
 });
 
