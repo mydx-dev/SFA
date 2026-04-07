@@ -1,4 +1,5 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography, IconButton, Drawer } from "@mui/material";
+import FilterListIcon from "@mui/icons-material/FilterList";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { MobileDealList } from "../component/mobile/MobileDealList";
@@ -26,35 +27,53 @@ export const MobileDealListPage = () => {
 
     if (error) {
         return (
-            <Typography color="error" align="center" sx={{ mt: 2 }}>
+            <Typography color="error" align="center" variant="h3" sx={{ mt: 2 }}>
                 エラーが発生しました
             </Typography>
         );
     }
 
     return (
-        <Box>
-            <MobileSearchBar
-                value={searchKeyword}
-                onChange={setSearchKeyword}
-                onFilterClick={() => setIsFilterDrawerOpen(true)}
-            />
+        <Box sx={{ pb: 2 }}>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+                <Typography variant="h1" sx={{ fontSize: "1.5rem" }}>
+                    案件一覧
+                </Typography>
+                <IconButton 
+                    onClick={() => setIsFilterDrawerOpen(true)}
+                    color="primary"
+                >
+                    <FilterListIcon />
+                </IconButton>
+            </Box>
 
-            <button onClick={() => setIsFilterDrawerOpen(!isFilterDrawerOpen)}>
-                フィルターボタン
-            </button>
+            <Box mb={2}>
+                <MobileSearchBar
+                    value={searchKeyword}
+                    onChange={setSearchKeyword}
+                    onFilterClick={() => setIsFilterDrawerOpen(true)}
+                />
+            </Box>
 
             <MobileDealList
                 deals={deals || []}
                 onDealClick={() => {}}
             />
 
-            {isFilterDrawerOpen && (
-                <Box sx={{ p: 2, border: "1px solid #ccc", mt: 2 }}>
-                    <Typography>フィルタードロワー</Typography>
-                    {/* MobileFilterDrawer component would go here */}
+            <Drawer 
+                anchor="right" 
+                open={isFilterDrawerOpen} 
+                onClose={() => setIsFilterDrawerOpen(false)}
+            >
+                <Box sx={{ width: 300, p: 3 }}>
+                    <Typography variant="h2" gutterBottom sx={{ fontSize: "1.25rem" }}>
+                        フィルター
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        フィルター機能は開発中です
+                    </Typography>
                 </Box>
-            )}
+            </Drawer>
         </Box>
     );
 };

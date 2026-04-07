@@ -43,15 +43,18 @@ export const PhaseManagementPage = () => {
     if (error) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
-                <Typography color="error">エラーが発生しました</Typography>
+                <Typography color="error" variant="h3">エラーが発生しました</Typography>
             </Box>
         );
     }
 
     return (
         <Box>
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-                <Typography variant="h4">フェーズ管理</Typography>
+            <Box mb={4}>
+                <Typography variant="h1">フェーズ管理</Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                    案件のフェーズを管理します。ドラッグ&ドロップで並び替えができます。
+                </Typography>
             </Box>
 
             <PhaseManagement

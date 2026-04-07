@@ -48,18 +48,18 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
     };
 
     const navItems = [
+        { label: "ダッシュボード", path: "/dashboard" },
         { label: "リード", path: "/leads" },
         { label: "案件", path: "/deals" },
-        { label: "ダッシュボード", path: "/dashboard" },
-        { label: "活動履歴", path: "/activities" },
         { label: "顧客管理", path: "/customers" },
+        { label: "活動履歴", path: "/activities" },
         { label: "フェーズ管理", path: "/phases" },
     ];
 
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-            <AppBar position="static" component="header">
-                <Toolbar>
+        <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh", bgcolor: "background.default" }}>
+            <AppBar position="static" component="header" color="primary" elevation={0}>
+                <Toolbar sx={{ minHeight: { xs: 56, sm: 64 } }}>
                     {isMobile && (
                         <IconButton
                             color="inherit"
@@ -71,13 +71,42 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                             <MenuIcon />
                         </IconButton>
                     )}
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography 
+                        variant="h1" 
+                        component="div" 
+                        sx={{ 
+                            flexGrow: 1, 
+                            fontSize: "1.5rem",
+                            fontWeight: 700,
+                            letterSpacing: "-0.02em",
+                        }}
+                    >
                         SFA
                     </Typography>
                     <TaskList />
                 </Toolbar>
                 {!isMobile && (
-                    <Tabs value={getTabValue()} textColor="inherit" indicatorColor="secondary">
+                    <Tabs 
+                        value={getTabValue()} 
+                        textColor="inherit" 
+                        sx={{
+                            bgcolor: "primary.dark",
+                            "& .MuiTab-root": {
+                                color: "rgba(255, 255, 255, 0.7)",
+                                fontWeight: 600,
+                                fontSize: "0.875rem",
+                                letterSpacing: "0.02em",
+                                minHeight: 48,
+                                "&.Mui-selected": {
+                                    color: "#ffffff",
+                                },
+                            },
+                            "& .MuiTabs-indicator": {
+                                backgroundColor: "#ffffff",
+                                height: 3,
+                            },
+                        }}
+                    >
                         {navItems.map((item) => (
                             <Tab key={item.path} label={item.label} value={item.path} component={Link} to={item.path} />
                         ))}
@@ -92,15 +121,41 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
             >
                 <Box
                     component="nav"
-                    sx={{ width: 240 }}
+                    sx={{ width: 280 }}
                     role="navigation"
                     onClick={() => setDrawerOpen(false)}
                 >
-                    <List>
+                    <Box sx={{ p: 3, borderBottom: "1px solid", borderColor: "divider" }}>
+                        <Typography variant="h2" sx={{ fontSize: "1.25rem" }}>
+                            SFA
+                        </Typography>
+                    </Box>
+                    <List sx={{ py: 2 }}>
                         {navItems.map((item) => (
                             <ListItem key={item.path} disablePadding>
-                                <ListItemButton component={Link} to={item.path}>
-                                    <ListItemText primary={item.label} />
+                                <ListItemButton 
+                                    component={Link} 
+                                    to={item.path}
+                                    selected={location.pathname.startsWith(item.path)}
+                                    sx={{
+                                        py: 1.5,
+                                        px: 3,
+                                        "&.Mui-selected": {
+                                            bgcolor: "rgba(0, 32, 69, 0.08)",
+                                            borderLeft: "3px solid",
+                                            borderColor: "primary.main",
+                                            "&:hover": {
+                                                bgcolor: "rgba(0, 32, 69, 0.12)",
+                                            },
+                                        },
+                                    }}
+                                >
+                                    <ListItemText 
+                                        primary={item.label}
+                                        primaryTypographyProps={{
+                                            fontWeight: location.pathname.startsWith(item.path) ? 600 : 400,
+                                        }}
+                                    />
                                 </ListItemButton>
                             </ListItem>
                         ))}
@@ -109,21 +164,32 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
             </Drawer>
 
             <Box sx={{ display: "flex", flexGrow: 1 }}>
-                {!isMobile && (
-                    <Box
-                        component="aside"
-                        sx={{ width: 0, flexShrink: 0 }}
-                        aria-label="sidebar"
-                    />
-                )}
-                <Container component="main" sx={{ flexGrow: 1, py: 3 }}>
+                <Container 
+                    component="main" 
+                    maxWidth="xl" 
+                    sx={{ 
+                        flexGrow: 1, 
+                        py: { xs: 3, md: 4 },
+                        px: { xs: 2, sm: 3, md: 4 },
+                    }}
+                >
                     {children}
                 </Container>
             </Box>
 
-            <Box component="footer" sx={{ py: 2, textAlign: "center", borderTop: "1px solid", borderColor: "divider" }}>
-                <Typography variant="body2" color="text.secondary">
-                    © SFA System
+            <Box 
+                component="footer" 
+                sx={{ 
+                    py: 2.5, 
+                    px: 3,
+                    textAlign: "center", 
+                    borderTop: "1px solid", 
+                    borderColor: "divider",
+                    bgcolor: "background.paper",
+                }}
+            >
+                <Typography variant="caption" color="text.secondary" sx={{ fontSize: "0.75rem" }}>
+                    © 2026 SFA System - The Digital Curator
                 </Typography>
             </Box>
         </Box>

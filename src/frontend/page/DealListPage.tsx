@@ -46,16 +46,16 @@ export const DealListPage = () => {
     if (error) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
-                <Typography color="error">エラーが発生しました</Typography>
+                <Typography color="error" variant="h3">エラーが発生しました</Typography>
             </Box>
         );
     }
 
     return (
         <Box>
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                <Typography variant="h4">案件一覧</Typography>
-                <FormControl size="small" sx={{ minWidth: 160 }}>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+                <Typography variant="h1">案件一覧</Typography>
+                <FormControl size="small" sx={{ minWidth: 200 }}>
                     <InputLabel>ステータス</InputLabel>
                     <Select
                         value={statusFilter}

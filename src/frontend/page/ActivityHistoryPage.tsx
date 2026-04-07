@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Paper, Typography } from "@mui/material";
+import { Box, Card, CardContent, CircularProgress, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { ActivityHistory } from "../component/activity/ActivityHistory";
@@ -26,14 +26,18 @@ export const ActivityHistoryPage = () => {
     if (error) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
-                <Typography color="error">エラーが発生しました</Typography>
+                <Typography color="error" variant="h3">エラーが発生しました</Typography>
             </Box>
         );
     }
 
     return (
         <Box>
-            <Typography variant="h4" gutterBottom>
+            <Typography 
+                variant="h1" 
+                gutterBottom 
+                sx={{ mb: 4 }}
+            >
                 活動履歴
             </Typography>
 
@@ -45,15 +49,19 @@ export const ActivityHistoryPage = () => {
                 />
             </Box>
 
-            <Paper>
-                <ActivityHistory activities={activities || []} />
-            </Paper>
+            <Card>
+                <CardContent sx={{ p: 0 }}>
+                    <ActivityHistory activities={activities || []} />
+                </CardContent>
+            </Card>
 
-            <Box display="flex" justifyContent="center" mt={2}>
-                <Typography variant="body2" color="text.secondary">
-                    ページ {page}
-                </Typography>
-            </Box>
+            {page && (
+                <Box display="flex" justifyContent="center" mt={3}>
+                    <Typography variant="caption" color="text.secondary">
+                        ページ {page}
+                    </Typography>
+                </Box>
+            )}
         </Box>
     );
 };
