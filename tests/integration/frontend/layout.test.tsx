@@ -527,6 +527,15 @@ describe("AppLayout", () => {
             expect(screen.getByText("フェーズ管理")).toBeInTheDocument();
         });
     });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
+    });
 });
 
 describe("DashboardLayout", () => {
@@ -619,6 +628,15 @@ describe("DashboardLayout", () => {
             );
             expect(screen.getByText("KPI")).toBeInTheDocument();
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
 
@@ -795,5 +813,14 @@ describe("TwoColumnLayout", () => {
             
             vi.unstubAllGlobals();
         });
+    });
+    describe("レイアウト", () => {
+        describe("配置", () => {});
+        describe("サイズ", () => {});
+        describe("色", () => {});
+        describe("タイポグラフィ", () => {});
+        describe("形状", () => {});
+        describe("装飾", () => {});
+        describe("インタラクション", () => {});
     });
 });
