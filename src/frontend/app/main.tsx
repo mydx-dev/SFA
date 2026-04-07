@@ -10,6 +10,12 @@ import { LeadListPage } from "../page/LeadListPage";
 import { LeadDetailPage } from "../page/LeadDetailPage";
 import { DealListPage } from "../page/DealListPage";
 import { DealDetailPage } from "../page/DealDetailPage";
+import { DashboardPage } from "../page/DashboardPage";
+import { ActivityHistoryPage } from "../page/ActivityHistoryPage";
+import { CustomerManagementPage } from "../page/CustomerManagementPage";
+import { PhaseManagementPage } from "../page/PhaseManagementPage";
+import { DealKanbanPage } from "../page/DealKanbanPage";
+import { MobileDealListPage } from "../page/MobileDealListPage";
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
@@ -24,11 +30,17 @@ createRoot(document.getElementById("root")!).render(
                     <HashRouter>
                         <AppLayout>
                             <Routes>
-                                <Route path="/" element={<Navigate to="/leads" replace />} />
+                                <Route path="/" element={<Navigate to="/dashboard" replace />} />
                                 <Route path="/leads" element={<LeadListPage />} />
                                 <Route path="/leads/:id" element={<LeadDetailPage />} />
                                 <Route path="/deals" element={<DealListPage />} />
                                 <Route path="/deals/:id" element={<DealDetailPage />} />
+                                <Route path="/deals/kanban" element={<DealKanbanPage />} />
+                                <Route path="/deals/mobile" element={<MobileDealListPage />} />
+                                <Route path="/dashboard" element={<DashboardPage />} />
+                                <Route path="/activities" element={<ActivityHistoryPage />} />
+                                <Route path="/customers" element={<CustomerManagementPage />} />
+                                <Route path="/phases" element={<PhaseManagementPage />} />
                             </Routes>
                         </AppLayout>
                     </HashRouter>
