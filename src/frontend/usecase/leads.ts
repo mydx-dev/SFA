@@ -11,17 +11,17 @@ export async function fetchLeads(assigneeId?: string): Promise<Lead[]> {
         throw new Error("Failed to fetch leads");
     }
     
-    await dexie["リード"].bulkPut(leads as never);
+    await dexie.leads.bulkPut(leads as never);
     return leads;
 }
 
 export async function getLeadById(id: string): Promise<Lead | undefined> {
-    const lead = await dexie["リード"].get(id);
+    const lead = await dexie.leads.get(id);
     return lead as Lead | undefined;
 }
 
 export async function getLeadsFromLocal(): Promise<Lead[]> {
-    const leads = await dexie["リード"].toArray();
+    const leads = await dexie.leads.toArray();
     return leads as Lead[];
 }
 
@@ -37,7 +37,7 @@ export async function createLead(
         updatedAt: new Date(),
         pkValue: tempId
     };
-    await dexie["リード"].add(tempLead as never);
+    await dexie.leads.add(tempLead as never);
     
     try {
         // Call API
@@ -49,13 +49,13 @@ export async function createLead(
         }
         
         // Replace temp with real data
-        await dexie["リード"].delete(tempId);
-        await dexie["リード"].put(createdLead as never);
+        await dexie.leads.delete(tempId);
+        await dexie.leads.put(createdLead as never);
         
         return createdLead;
     } catch (error) {
         // Rollback on failure
-        await dexie["リード"].delete(tempId);
+        await dexie.leads.delete(tempId);
         throw error;
     }
 }
@@ -65,13 +65,13 @@ export async function updateLead(
     updates: Partial<Omit<Lead, "id" | "createdAt" | "updatedAt" | "pkValue">>
 ): Promise<Lead> {
     // Get original for rollback
-    const original = await dexie["リード"].get(id);
+    const original = await dexie.leads.get(id);
     if (!original) {
-        throw new Error("Lead not found");
+        throw new Error("Failed to update lead");
     }
     
     // Optimistic update
-    await dexie["リード"].update(id, updates as never);
+    await dexie.leads.update(id, updates as never);
     
     try {
         // Call API
@@ -83,12 +83,12 @@ export async function updateLead(
         }
         
         // Update with server data
-        await dexie["リード"].put(updatedLead as never);
+        await dexie.leads.put(updatedLead as never);
         
         return updatedLead;
     } catch (error) {
         // Rollback on failure
-        await dexie["リード"].put(original);
+        await dexie.leads.put(original);
         throw error;
     }
 }

@@ -11,17 +11,17 @@ export async function fetchDeals(leadId?: string): Promise<Deal[]> {
         throw new Error("Failed to fetch deals");
     }
     
-    await dexie["案件"].bulkPut(deals as never);
+    await dexie.deals.bulkPut(deals as never);
     return deals;
 }
 
 export async function getDealById(id: string): Promise<Deal | undefined> {
-    const deal = await dexie["案件"].get(id);
+    const deal = await dexie.deals.get(id);
     return deal as Deal | undefined;
 }
 
 export async function getDealsFromLocal(leadId?: string): Promise<Deal[]> {
-    let deals = await dexie["案件"].toArray() as Deal[];
+    let deals = await dexie.deals.toArray() as Deal[];
     if (leadId) {
         deals = deals.filter(deal => deal.leadId === leadId);
     }
@@ -40,7 +40,7 @@ export async function createDeal(
         updatedAt: new Date(),
         pkValue: tempId
     };
-    await dexie["案件"].add(tempDeal as never);
+    await dexie.deals.add(tempDeal as never);
     
     try {
         // Call API
@@ -52,13 +52,13 @@ export async function createDeal(
         }
         
         // Replace temp with real data
-        await dexie["案件"].delete(tempId);
-        await dexie["案件"].put(createdDeal as never);
+        await dexie.deals.delete(tempId);
+        await dexie.deals.put(createdDeal as never);
         
         return createdDeal;
     } catch (error) {
         // Rollback on failure
-        await dexie["案件"].delete(tempId);
+        await dexie.deals.delete(tempId);
         throw error;
     }
 }
@@ -68,13 +68,13 @@ export async function updateDeal(
     updates: Partial<Omit<Deal, "id" | "createdAt" | "updatedAt" | "pkValue">>
 ): Promise<Deal> {
     // Get original for rollback
-    const original = await dexie["案件"].get(id);
+    const original = await dexie.deals.get(id);
     if (!original) {
         throw new Error("Deal not found");
     }
     
     // Optimistic update
-    await dexie["案件"].update(id, updates as never);
+    await dexie.deals.update(id, updates as never);
     
     try {
         // Call API
@@ -86,12 +86,12 @@ export async function updateDeal(
         }
         
         // Update with server data
-        await dexie["案件"].put(updatedDeal as never);
+        await dexie.deals.put(updatedDeal as never);
         
         return updatedDeal;
     } catch (error) {
         // Rollback on failure
-        await dexie["案件"].put(original);
+        await dexie.deals.put(original);
         throw error;
     }
 }

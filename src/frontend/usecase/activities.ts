@@ -11,12 +11,12 @@ export async function fetchActivities(dealId?: string): Promise<Activity[]> {
         throw new Error("Failed to fetch activities");
     }
     
-    await dexie["営業活動"].bulkPut(activities as never);
+    await dexie.activities.bulkPut(activities as never);
     return activities;
 }
 
 export async function getActivitiesFromLocal(dealId?: string): Promise<Activity[]> {
-    let activities = await dexie["営業活動"].toArray() as Activity[];
+    let activities = await dexie.activities.toArray() as Activity[];
     if (dealId) {
         activities = activities.filter(activity => activity.dealId === dealId);
     }
@@ -35,7 +35,7 @@ export async function createActivity(
         updatedAt: new Date(),
         pkValue: tempId
     };
-    await dexie["営業活動"].add(tempActivity as never);
+    await dexie.activities.add(tempActivity as never);
     
     try {
         // Call API
@@ -47,13 +47,13 @@ export async function createActivity(
         }
         
         // Replace temp with real data
-        await dexie["営業活動"].delete(tempId);
-        await dexie["営業活動"].put(createdActivity as never);
+        await dexie.activities.delete(tempId);
+        await dexie.activities.put(createdActivity as never);
         
         return createdActivity;
     } catch (error) {
         // Rollback on failure
-        await dexie["営業活動"].delete(tempId);
+        await dexie.activities.delete(tempId);
         throw error;
     }
 }
