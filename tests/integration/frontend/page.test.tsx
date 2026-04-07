@@ -1676,13 +1676,58 @@ describe("DashboardPage", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("サイドナビゲーションは画面左側に固定配置される (fixed left-0)");
+            test.todo("サイドナビゲーションの幅は256px (w-64) である");
+            test.todo("ヘッダーは画面上部に固定配置される (sticky top-0)");
+            test.todo("ヘッダーはサイドナビゲーションの右側に配置される (ml-64)");
+            test.todo("メインコンテンツはサイドナビゲーションの右側に配置される (ml-64)");
+            test.todo("メインコンテンツの最小高さは画面全体 (min-h-screen) である");
+            test.todo("ナビゲーションリンクは縦方向に並ぶ (flex-col)");
+            test.todo("ヘッダー内の要素は水平方向に並び、両端揃え (flex justify-between) である");
+        });
+        describe("サイズ", () => {
+            test.todo("サイドナビゲーションの高さは画面全体 (h-full) である");
+            test.todo("サイドナビゲーションの幅は256px (w-64) である");
+            test.todo("ヘッダーの幅はサイドナビゲーションを除いた幅 (w-[calc(100%-16rem)]) である");
+            test.todo("メインコンテンツの最小高さは画面全体 (min-h-screen) である");
+        });
+        describe("色", () => {
+            test.todo("サイドナビゲーションの背景色はダークグレー (bg-slate-900) である");
+            test.todo("ヘッダーの背景色は半透明の明るいグレー (bg-slate-50/80) である");
+            test.todo("アクティブなナビゲーションリンクは緑色の背景 (bg-emerald-500/10) と文字色 (text-emerald-400) である");
+            test.todo("非アクティブなナビゲーションリンクは灰色の文字色 (text-slate-400) である");
+            test.todo("メインコンテンツの背景色は明るいグレー (bg-surface) である");
+            test.todo("プライマリテキストは深い青色 (text-primary #002045) である");
+            test.todo("KPIカードの数値は深い青色 (text-primary #002045) である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("サイドナビゲーションのタイトルはManropeフォント、太字 (font-bold)、テキストサイズはxl (text-xl) である");
+            test.todo("サイドナビゲーションのリンクはManropeフォント、セミボールド (font-semibold)、スモールサイズ (text-sm) である");
+            test.todo("ヘッダーのテキストはManropeフォント、ミディアムウェイト (font-medium)、スモールサイズ (text-sm) である");
+            test.todo("KPIカードの数値はHeadlineフォント、特大サイズ (text-5xl)、極太 (font-extrabold) である");
+            test.todo("KPIカードのラベルはLabelフォント、極小サイズ (text-xs) である");
+            test.todo("メインコンテンツはBodyフォント (font-body) をデフォルトとする");
+        });
+        describe("形状", () => {
+            test.todo("サイドナビゲーションの右ボーダーは非表示 (border-r-0) である");
+            test.todo("KPIカードの角は丸い (rounded-lg または rounded-xl) である");
+            test.todo("ボタンの角は中程度に丸い (rounded-lg) である");
+            test.todo("アバターは完全な円形 (rounded-full) である");
+        });
+        describe("装飾", () => {
+            test.todo("アクティブなナビゲーションリンクは右側に緑色のボーダー (border-r-4 border-emerald-500) がある");
+            test.todo("ヘッダーは半透明の背景 (bg-slate-50/80) を持つ");
+            test.todo("KPIカードは白い背景 (bg-white) を持つ");
+            test.todo("増減インジケーターは緑色の背景 (bg-tertiary-fixed) と文字色 (text-on-tertiary-container) である");
+            test.todo("グラデーションボタンはプライマリカラーのグラデーション (bg-gradient-to-br from-primary to-primary/90) である");
+        });
+        describe("インタラクション", () => {
+            test.todo("ナビゲーションリンクはホバー時に背景色が変わる (hover:bg-slate-800/50)");
+            test.todo("ナビゲーションリンクはホバー時に文字色が白に変わる (hover:text-white)");
+            test.todo("入力フィールドはフォーカス時にアウトラインが表示される");
+            test.todo("ボタンはホバー時にスケールが変化する (hover:scale-1.02)");
+        });
     });
 });
 
@@ -1813,13 +1858,42 @@ describe("ActivityHistoryPage", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("サイドナビゲーションは画面左側に固定配置される (fixed left-0)");
+            test.todo("サイドナビゲーションの幅は256px (w-64) である");
+            test.todo("ヘッダーは画面上部に固定配置される (sticky top-0)");
+            test.todo("メインコンテンツはサイドナビゲーションの右側に配置される (ml-64)");
+            test.todo("メインコンテンツの最小高さは画面全体 (min-h-screen) である");
+        });
+        describe("サイズ", () => {
+            test.todo("サイドナビゲーションの高さは画面全体 (h-screen) である");
+            test.todo("サイドナビゲーションの幅は256px (w-64) である");
+            test.todo("ヘッダーの幅はサイドナビゲーションを除いた幅 (w-[calc(100%-16rem)]) である");
+        });
+        describe("色", () => {
+            test.todo("サイドナビゲーションの背景色はダークグレー (bg-slate-900) である");
+            test.todo("ヘッダーの背景色は半透明の明るいグレー (bg-slate-50/80) である");
+            test.todo("非アクティブなナビゲーションリンクは灰色の文字色 (text-slate-400) である");
+            test.todo("テーブルのヘッダーは明るいグレーの背景 (bg-surface-container-low) である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("サイドナビゲーションのタイトルはManropeフォント、太字 (font-bold)、テキストサイズはxl (text-xl) である");
+            test.todo("ヘッダーのテキストはManropeフォント、ミディアムウェイト (font-medium)、スモールサイズ (text-sm) である");
+            test.todo("テーブルのヘッダーはLabelフォント、セミボールド (font-semibold) である");
+        });
+        describe("形状", () => {
+            test.todo("サイドナビゲーションの右ボーダーは非表示 (border-r-0) である");
+            test.todo("フィルターボタンの角は丸い (rounded-lg) である");
+        });
+        describe("装飾", () => {
+            test.todo("テーブル行はホバー時に背景色が変わる");
+            test.todo("検索フィールドは背景色 (bg-surface-container-high) を持つ");
+        });
+        describe("インタラクション", () => {
+            test.todo("ナビゲーションリンクはホバー時に背景色が変わる (hover:bg-slate-800/50)");
+            test.todo("テーブル行はホバー時に背景色が変わる");
+            test.todo("ソート可能な列のヘッダーはクリック可能である");
+        });
     });
 });
 
@@ -1955,13 +2029,41 @@ describe("CustomerManagementPage", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("サイドナビゲーションは画面左側に固定配置される (fixed left-0)");
+            test.todo("サイドナビゲーションの幅は256px (w-64) である");
+            test.todo("メインコンテンツは2カラムレイアウトである");
+            test.todo("左カラムは階層ツリー、右カラムは詳細情報を表示する");
+            test.todo("ヘッダーは画面上部に固定配置される (sticky top-0)");
+        });
+        describe("サイズ", () => {
+            test.todo("サイドナビゲーションの高さは画面全体 (h-screen) である");
+            test.todo("サイドナビゲーションの幅は256px (w-64) である");
+            test.todo("ヘッダーの高さは64px (h-16) である");
+        });
+        describe("色", () => {
+            test.todo("サイドナビゲーションの背景色は深い青 (bg-[#1a365d]) である");
+            test.todo("ヘッダーの背景色は半透明の白 (bg-white/80) である");
+            test.todo("メインコンテンツの背景色は明るいグレー (bg-surface) である");
+            test.todo("アクティブなナビゲーションリンクはグラデーション背景 (bg-gradient-to-r) と緑色の文字 (text-[#9ff5c1]) である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("サイドナビゲーションのタイトルはInterフォント、極太 (font-black)、ラージサイズ (text-lg) である");
+            test.todo("ヘッダーのタイトルはHeadlineフォント、極太 (font-extrabold)、エクストララージサイズ (text-xl) である");
+            test.todo("ナビゲーションリンクはManropeフォント、スモールサイズ (text-sm) である");
+        });
+        describe("形状", () => {
+            test.todo("カードの角は丸い (rounded-lg) である");
+            test.todo("ボタンの角は丸い (rounded-lg) である");
+        });
+        describe("装飾", () => {
+            test.todo("ヘッダーは下部に薄いボーダー (border-b border-outline-variant/15) がある");
+            test.todo("アクティブなタブは下部に太いボーダー (border-b-2) がある");
+        });
+        describe("インタラクション", () => {
+            test.todo("ツリーのノードはクリックで展開/折りたたみができる");
+            test.todo("ナビゲーションリンクはホバー時に色が変わる");
+        });
     });
 });
 
@@ -2122,13 +2224,40 @@ describe("DealKanbanPage", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("サイドナビゲーションは画面左側に固定配置される (fixed left-0)");
+            test.todo("サイドナビゲーションの幅は256px (w-64) である");
+            test.todo("カンバンボードは水平方向にスクロール可能である");
+            test.todo("各フェーズは縦並びのカードを含む");
+        });
+        describe("サイズ", () => {
+            test.todo("サイドナビゲーションの高さは画面全体 (h-full) である");
+            test.todo("サイドナビゲーションの幅は256px (w-64) である");
+            test.todo("カンバンカードの幅は固定である");
+        });
+        describe("色", () => {
+            test.todo("サイドナビゲーションの背景色はダークグレー (bg-slate-900) である");
+            test.todo("ヘッダーの背景色は半透明の明るいグレー (bg-slate-50/80) である");
+            test.todo("アクティブなナビゲーションリンクは緑色の背景 (bg-emerald-500/10) と文字色 (text-emerald-400) である");
+            test.todo("メインコンテンツの背景色は明るいグレー (bg-surface) である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("サイドナビゲーションのタイトルはManropeフォント、太字 (font-bold)、テキストサイズはxl (text-xl) である");
+            test.todo("ヘッダーのテキストはManropeフォント、ミディアムウェイト (font-medium)、スモールサイズ (text-sm) である");
+            test.todo("カンバンカードのタイトルはBodyフォント、セミボールド (font-semibold) である");
+        });
+        describe("形状", () => {
+            test.todo("サイドナビゲーションの右ボーダーは非表示 (border-r-0) である");
+            test.todo("カンバンカードの角は丸い (rounded-lg) である");
+        });
+        describe("装飾", () => {
+            test.todo("カンバンカードは白い背景と薄いシャドウを持つ");
+            test.todo("ヘッダーは下部に薄いボーダー (border-b border-slate-200/50) がある");
+        });
+        describe("インタラクション", () => {
+            test.todo("カンバンカードはドラッグ＆ドロップ可能である");
+            test.todo("カンバンカードはホバー時にシャドウが強調される");
+        });
     });
 });
 
@@ -2294,13 +2423,42 @@ describe("MobileDealListPage", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("ヘッダーは画面上部に固定配置される (fixed top-0)");
+            test.todo("ヘッダーの高さは64px (h-16) である");
+            test.todo("メインコンテンツはヘッダーとフッターの間に配置される (pt-16 pb-24)");
+            test.todo("フッターは画面下部に固定配置される (fixed bottom-0)");
+        });
+        describe("サイズ", () => {
+            test.todo("ヘッダーの高さは64px (h-16) である");
+            test.todo("ヘッダーの幅は画面全体 (w-full) である");
+            test.todo("フッターの幅は画面全体 (w-full) である");
+            test.todo("メインコンテンツの最小高さは画面全体 (min-h-screen) である");
+        });
+        describe("色", () => {
+            test.todo("ヘッダーの背景色は明るいグレー (bg-[#f7fafc]) である");
+            test.todo("フッターの背景色は深い青 (bg-[#1a365d]) である");
+            test.todo("アクティブなナビゲーションリンクは緑色の背景 (bg-[#9ff5c1]) と深い青の文字 (text-[#002045]) である");
+            test.todo("非アクティブなナビゲーションリンクは半透明の白文字 (text-white/70) である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("ヘッダーのタイトルはManropeフォント、太字 (font-bold)、ラージサイズ (text-lg) である");
+            test.todo("フッターのラベルはInterフォント、セミボールド (font-semibold)、極小サイズ (text-[11px]) である");
+            test.todo("カードのタイトルはBodyフォント、セミボールド (font-semibold) である");
+        });
+        describe("形状", () => {
+            test.todo("カードの角は丸い (rounded-lg) である");
+            test.todo("ボタンの角は丸い (rounded-lg) である");
+            test.todo("アバターは完全な円形 (rounded-full) である");
+        });
+        describe("装飾", () => {
+            test.todo("フッターは上部に薄い白のボーダー (border-t border-white/10) がある");
+            test.todo("カードは白い背景と薄いシャドウを持つ");
+        });
+        describe("インタラクション", () => {
+            test.todo("カードはスワイプ可能である");
+            test.todo("フィルタードロワーはボトムシートとして表示される");
+        });
     });
 });
 
@@ -2468,12 +2626,39 @@ describe("PhaseManagementPage", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("サイドナビゲーションは画面左側に固定配置される (fixed left-0)");
+            test.todo("サイドナビゲーションの幅は256px (w-64) である");
+            test.todo("ヘッダーは画面上部に固定配置される (sticky top-0)");
+            test.todo("メインコンテンツは中央寄せで最大幅は1280px (max-w-5xl) である");
+        });
+        describe("サイズ", () => {
+            test.todo("サイドナビゲーションの高さは画面全体 (h-screen) である");
+            test.todo("サイドナビゲーションの幅は256px (w-64) である");
+            test.todo("ヘッダーの高さは64px (h-16) である");
+            test.todo("メインコンテンツの最大幅は1280px (max-w-5xl) である");
+        });
+        describe("色", () => {
+            test.todo("サイドナビゲーションの背景色は深い青 (bg-primary-container) と白文字 (text-white) である");
+            test.todo("ヘッダーの背景色は半透明の白 (bg-white/80) である");
+            test.todo("非アクティブなナビゲーションリンクは明るいグレーの文字色 (text-slate-300) である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("サイドナビゲーションのタイトルはHeadlineフォント、極太 (font-black)、ラージサイズ (text-lg) である");
+            test.todo("ヘッダーのタイトルはHeadlineフォント、太字 (font-bold)、エクストララージサイズ (text-xl) である");
+            test.todo("ナビゲーションリンクはInterフォント、スモールサイズ (text-sm) である");
+        });
+        describe("形状", () => {
+            test.todo("テーブルの角は丸い (rounded-lg) である");
+            test.todo("ボタンの角は丸い (rounded-lg) である");
+        });
+        describe("装飾", () => {
+            test.todo("アクティブなタブは下部に太いボーダー (border-b-2) がある");
+            test.todo("テーブル行はドラッグハンドルアイコンを持つ");
+        });
+        describe("インタラクション", () => {
+            test.todo("テーブル行はドラッグ＆ドロップで並び替え可能である");
+            test.todo("編集ボタンはホバー時に色が変わる");
+        });
     });
 });

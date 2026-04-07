@@ -528,13 +528,36 @@ describe("AppLayout", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("サイドナビゲーションは画面左側に固定配置される");
+            test.todo("メインコンテンツエリアはサイドナビゲーションの右側に配置される");
+            test.todo("ヘッダーはメインコンテンツエリアの上部に配置される");
+            test.todo("childrenはメインコンテンツエリアに描画される");
+        });
+        describe("サイズ", () => {
+            test.todo("サイドナビゲーションの幅は256px (w-64) である");
+            test.todo("メインコンテンツエリアはサイドナビゲーションを除いた幅である");
+            test.todo("全体の高さは画面全体 (min-h-screen) である");
+        });
+        describe("色", () => {
+            test.todo("サイドナビゲーションの背景色はダークグレーまたは深い青である");
+            test.todo("メインコンテンツエリアの背景色は明るいグレー (bg-surface) である");
+            test.todo("ヘッダーの背景色は半透明である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("ナビゲーションリンクはManropeフォント、スモールサイズである");
+            test.todo("アプリケーションタイトルはManropeフォント、エクストララージサイズ、太字である");
+        });
+        describe("形状", () => {
+            test.todo("カードやボタンの角は丸い (rounded-lg) である");
+        });
+        describe("装飾", () => {
+            test.todo("アクティブなナビゲーションリンクは特別なスタイルを持つ");
+            test.todo("ヘッダーは半透明の背景を持つ");
+        });
+        describe("インタラクション", () => {
+            test.todo("ナビゲーションリンクはホバー時にスタイルが変わる");
+        });
     });
 });
 
@@ -630,13 +653,34 @@ describe("DashboardLayout", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("メインコンテンツはサイドナビゲーションの右側に配置される");
+            test.todo("KPIカードは上部に横並びで配置される");
+            test.todo("チャートエリアは中央に配置される");
+            test.todo("アクティビティエリアは下部に配置される");
+        });
+        describe("サイズ", () => {
+            test.todo("KPIカードは等幅のグリッドレイアウトである");
+            test.todo("チャートエリアは残りの幅を占める");
+        });
+        describe("色", () => {
+            test.todo("KPIカードは白い背景を持つ");
+            test.todo("チャートエリアは白い背景を持つ");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("KPIの数値はHeadlineフォント、特大サイズである");
+            test.todo("KPIのラベルはLabelフォント、極小サイズである");
+        });
+        describe("形状", () => {
+            test.todo("KPIカードの角は丸い (rounded-lg または rounded-xl) である");
+            test.todo("チャートエリアの角は丸い (rounded-lg) である");
+        });
+        describe("装飾", () => {
+            test.todo("KPIカードは薄いシャドウまたはボーダーを持つ");
+        });
+        describe("インタラクション", () => {
+            test.todo("KPIカードはホバー時にスタイルが変わる");
+        });
     });
 });
 
@@ -815,12 +859,32 @@ describe("TwoColumnLayout", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("左カラムと右カラムが横並びで配置される");
+            test.todo("左カラムは階層ツリーまたはリストを表示する");
+            test.todo("右カラムは詳細情報を表示する");
+        });
+        describe("サイズ", () => {
+            test.todo("左カラムと右カラムの幅比は40:60である");
+            test.todo("左カラムの最小幅が確保される");
+        });
+        describe("色", () => {
+            test.todo("左カラムの背景色は明るいグレーである");
+            test.todo("右カラムの背景色は白である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("左カラムのテキストはBodyフォントである");
+            test.todo("右カラムのタイトルはHeadlineフォントである");
+        });
+        describe("形状", () => {
+            test.todo("左カラムと右カラムの間に区切り線またはボーダーがある");
+        });
+        describe("装飾", () => {
+            test.todo("左カラムの選択された項目は特別なスタイルを持つ");
+        });
+        describe("インタラクション", () => {
+            test.todo("左カラムの項目はクリック可能である");
+            test.todo("左カラムの項目クリックで右カラムが更新される");
+        });
     });
 });

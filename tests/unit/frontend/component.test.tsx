@@ -896,13 +896,38 @@ describe("KPICardComponent", () => {
         test.todo("ホバー時にカードが持ち上がるアニメーションが発生する");
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("ラベルは上部に配置される");
+            test.todo("数値は中央に大きく配置される");
+            test.todo("増減インジケーターは数値の右側に配置される");
+        });
+        describe("サイズ", () => {
+            test.todo("カードのパディングは24px (p-6) である");
+            test.todo("カードは固定幅または親コンテナに合わせる");
+        });
+        describe("色", () => {
+            test.todo("カードの背景色は白 (bg-white) である");
+            test.todo("ラベルの文字色はセカンダリカラー (text-secondary) である");
+            test.todo("数値の文字色はプライマリカラー (text-primary #002045) である");
+            test.todo("増加インジケーターは緑色の背景 (bg-tertiary-fixed) と文字 (text-on-tertiary-container) である");
+            test.todo("減少インジケーターは赤色の背景と文字である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("ラベルはLabelフォント、極小サイズ (text-xs) である");
+            test.todo("数値はHeadlineフォント、特大サイズ (text-5xl)、極太 (font-extrabold) である");
+            test.todo("増減インジケーターはLabelフォント、極小サイズ (text-xs)、太字 (font-bold) である");
+        });
+        describe("形状", () => {
+            test.todo("カードの角は丸い (rounded-lg または rounded-xl) である");
+            test.todo("増減インジケーターの角は丸い (rounded) である");
+        });
+        describe("装飾", () => {
+            test.todo("カードは薄いボーダー (border border-outline-variant/15) またはシャドウを持つ");
+            test.todo("ホバー時にカードのシャドウが強調される");
+        });
+        describe("インタラクション", () => {
+            test.todo("カードはクリック可能な場合、ホバー時にスタイルが変わる");
+        });
     });
 });
 
@@ -1169,13 +1194,41 @@ describe("DealKanbanCardComponent", () => {
         test.todo("ドラッグ開始時にカードの透明度が変わる");
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("案件名は上部に配置される");
+            test.todo("金額は案件名の下に配置される");
+            test.todo("期限日は下部に配置される");
+            test.todo("ドラッグハンドルアイコンはカード上部に配置される");
+        });
+        describe("サイズ", () => {
+            test.todo("カードの幅は固定 (例: 280px) である");
+            test.todo("カードのパディングは16px (p-4) である");
+            test.todo("カード間のマージンは8px (mb-2) である");
+        });
+        describe("色", () => {
+            test.todo("カードの背景色は白 (bg-white) である");
+            test.todo("案件名の文字色はプライマリカラー (text-primary) である");
+            test.todo("金額の文字色はプライマリカラー (text-primary) である");
+            test.todo("期限日の文字色はセカンダリカラー (text-secondary) である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("案件名はBodyフォント、セミボールド (font-semibold) である");
+            test.todo("金額はBodyフォント、ミディアムサイズ (text-base) である");
+            test.todo("期限日はLabelフォント、スモールサイズ (text-sm) である");
+        });
+        describe("形状", () => {
+            test.todo("カードの角は丸い (rounded-lg) である");
+        });
+        describe("装飾", () => {
+            test.todo("カードは薄いシャドウ (shadow-sm) を持つ");
+            test.todo("ホバー時にカードのシャドウが強調される (hover:shadow-md)");
+            test.todo("ドラッグ中はカードのシャドウが強調される");
+        });
+        describe("インタラクション", () => {
+            test.todo("カードはドラッグ可能である");
+            test.todo("カードはクリック可能である");
+            test.todo("ホバー時にカーソルがポインターに変わる");
+        });
     });
 });
 
@@ -1252,13 +1305,36 @@ describe("MobileDealListComponent", () => {
         test.todo("スクロール位置が下部に達したら自動で追加読み込みする");
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("検索フィールドは左側に配置される");
+            test.todo("フィルターボタンは右側に配置される");
+            test.todo("フィルターオプションは横並びで配置される");
+        });
+        describe("サイズ", () => {
+            test.todo("検索フィールドは残りの幅を占める");
+            test.todo("パネル全体のパディングは16px (p-4) である");
+        });
+        describe("色", () => {
+            test.todo("検索フィールドの背景色は明るいグレー (bg-surface-container-high) である");
+            test.todo("フィルターボタンの背景色は明るいグレー (bg-surface-container-high) である");
+            test.todo("アクティブなフィルターは特別な背景色を持つ");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("検索フィールドのテキストはBodyフォント、スモールサイズ (text-sm) である");
+            test.todo("フィルターボタンのテキストはBodyフォント、スモールサイズ (text-sm) である");
+        });
+        describe("形状", () => {
+            test.todo("検索フィールドの角は中程度に丸い (rounded-md) である");
+            test.todo("フィルターボタンの角は中程度に丸い (rounded-md) である");
+        });
+        describe("装飾", () => {
+            test.todo("検索フィールドはボーダーなし (border-none) である");
+            test.todo("フィルターボタンはボーダーなし (border-none) である");
+        });
+        describe("インタラクション", () => {
+            test.todo("検索フィールドはフォーカス時にアウトラインが表示される");
+            test.todo("フィルターボタンはクリック可能である");
+        });
     });
 });
 
@@ -1284,13 +1360,35 @@ describe("MobileSearchBarComponent", () => {
         test.todo("クリアボタンタップで入力値がクリアされる");
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("検索アイコンは左側に配置される");
+            test.todo("検索入力フィールドは中央に配置される");
+            test.todo("フィルターボタンは右側に配置される");
+            test.todo("全体は水平方向に並ぶ (flex) である");
+        });
+        describe("サイズ", () => {
+            test.todo("検索入力フィールドは残りの幅を占める (flex-1) である");
+            test.todo("パディングは16px (px-4) である");
+        });
+        describe("色", () => {
+            test.todo("背景色は明るいグレー (bg-surface-container-high) である");
+            test.todo("検索アイコンの色はアウトラインカラー (text-outline) である");
+            test.todo("入力フィールドの背景色は透明である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("入力フィールドのテキストはBodyフォント、スモールサイズ (text-sm) である");
+            test.todo("プレースホルダーのテキストはBodyフォント、スモールサイズ (text-sm) である");
+        });
+        describe("形状", () => {
+            test.todo("全体の角は中程度に丸い (rounded-md) である");
+        });
+        describe("装飾", () => {
+            test.todo("全体はボーダーなし (border-none) である");
+        });
+        describe("インタラクション", () => {
+            test.todo("入力フィールドはフォーカス時にアウトラインが表示される");
+            test.todo("フィルターボタンはクリック可能である");
+        });
     });
 });
 
