@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Grid, Paper, Typography } from "@mui/material";
+import { Box, Card, CardContent, CircularProgress, Grid, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { CustomerHierarchyTree } from "../component/customer/CustomerHierarchyTree";
@@ -27,7 +27,7 @@ export const CustomerManagementPage = () => {
         enabled: !!selectedCustomerId,
     });
 
-    const isLoading = loadingHierarchy || loadingDetail || loadingDeals;
+    const isLoading = loadingHierarchy;
 
     if (isLoading) {
         return (
@@ -40,57 +40,84 @@ export const CustomerManagementPage = () => {
     if (hierarchyError) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
-                <Typography color="error">エラーが発生しました</Typography>
+                <Typography color="error" variant="h3">エラーが発生しました</Typography>
             </Box>
         );
     }
 
     return (
         <Box>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h1" gutterBottom sx={{ mb: 4 }}>
                 顧客管理
             </Typography>
 
             <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                    <Paper sx={{ p: 2, minHeight: "600px" }}>
-                        <Typography variant="h6" gutterBottom>
-                            顧客階層
-                        </Typography>
-                        <CustomerHierarchyTree
-                            customers={customerHierarchy || []}
-                            selectedId={selectedCustomerId}
-                            expandedNodes={expandedNodes}
-                            onSelect={setSelectedCustomerId}
-                            onToggle={(id) => {
-                                setExpandedNodes(prev =>
-                                    prev.includes(id)
-                                        ? prev.filter(n => n !== id)
-                                        : [...prev, id]
-                                );
-                            }}
-                        />
-                    </Paper>
+                {/* Left Column: Customer Hierarchy Tree - 40% */}
+                <Grid item xs={12} lg={5}>
+                    <Card sx={{ minHeight: 600 }}>
+                        <CardContent sx={{ p: 3 }}>
+                            <Typography variant="h2" gutterBottom sx={{ mb: 3, fontSize: "1.25rem" }}>
+                                顧客階層
+                            </Typography>
+                            <CustomerHierarchyTree
+                                customers={customerHierarchy || []}
+                                selectedId={selectedCustomerId}
+                                expandedNodes={expandedNodes}
+                                onSelect={setSelectedCustomerId}
+                                onToggle={(id) => {
+                                    setExpandedNodes(prev =>
+                                        prev.includes(id)
+                                            ? prev.filter(n => n !== id)
+                                            : [...prev, id]
+                                    );
+                                }}
+                            />
+                        </CardContent>
+                    </Card>
                 </Grid>
 
-                <Grid item xs={12} md={8}>
-                    <Paper sx={{ p: 2, minHeight: "600px" }}>
-                        {selectedCustomerId ? (
-                            <>
-                                <CustomerDetailPanel customer={customerDetail} />
-                                <Box mt={3}>
-                                    <Typography variant="h6" gutterBottom>
-                                        関連案件
+                {/* Right Column: Customer Detail - 60% */}
+                <Grid item xs={12} lg={7}>
+                    <Card sx={{ minHeight: 600 }}>
+                        <CardContent sx={{ p: 3 }}>
+                            {selectedCustomerId ? (
+                                <>
+                                    {loadingDetail ? (
+                                        <Box display="flex" justifyContent="center" py={4}>
+                                            <CircularProgress />
+                                        </Box>
+                                    ) : (
+                                        <>
+                                            <CustomerDetailPanel customer={customerDetail} />
+                                            <Box mt={4}>
+                                                <Typography variant="h2" gutterBottom sx={{ mb: 2, fontSize: "1.25rem" }}>
+                                                    関連案件
+                                                </Typography>
+                                                {loadingDeals ? (
+                                                    <Box display="flex" justifyContent="center" py={2}>
+                                                        <CircularProgress size={32} />
+                                                    </Box>
+                                                ) : (
+                                                    <DealList deals={relatedDeals || []} onDealClick={() => {}} />
+                                                )}
+                                            </Box>
+                                        </>
+                                    )}
+                                </>
+                            ) : (
+                                <Box 
+                                    display="flex" 
+                                    justifyContent="center" 
+                                    alignItems="center" 
+                                    minHeight={400}
+                                >
+                                    <Typography variant="body1" color="text.secondary">
+                                        左側の階層ツリーから顧客を選択してください
                                     </Typography>
-                                    <DealList deals={relatedDeals || []} onDealClick={() => {}} />
                                 </Box>
-                            </>
-                        ) : (
-                            <Typography variant="body2" color="text.secondary" align="center">
-                                顧客を選択してください
-                            </Typography>
-                        )}
-                    </Paper>
+                            )}
+                        </CardContent>
+                    </Card>
                 </Grid>
             </Grid>
         </Box>

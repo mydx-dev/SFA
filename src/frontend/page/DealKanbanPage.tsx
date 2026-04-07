@@ -1,4 +1,5 @@
-import { Box, CircularProgress, Paper, Typography } from "@mui/material";
+import { Box, CircularProgress, Paper, TextField, Typography, IconButton } from "@mui/material";
+import FilterListIcon from "@mui/icons-material/FilterList";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { DealKanbanBoard } from "../component/deal/DealKanbanBoard";
@@ -17,9 +18,8 @@ export const DealKanbanPage = () => {
 
     if (isLoading) {
         return (
-            <Box p={3}>
-                <Typography variant="body2">読み込み中...</Typography>
-                {/* Skeleton cards would go here */}
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+                <CircularProgress />
             </Box>
         );
     }
@@ -27,37 +27,35 @@ export const DealKanbanPage = () => {
     if (error) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
-                <Typography color="error">エラーが発生しました</Typography>
+                <Typography color="error" variant="h3">エラーが発生しました</Typography>
             </Box>
         );
     }
 
     return (
         <Box>
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-                <Typography variant="h4">案件カンバン</Typography>
-            </Box>
+            <Typography variant="h1" gutterBottom sx={{ mb: 4 }}>
+                案件カンバン
+            </Typography>
 
-            <Box mb={3}>
-                <input
-                    type="text"
-                    placeholder="検索..."
+            <Box display="flex" gap={2} mb={3} alignItems="center">
+                <TextField
+                    placeholder="案件名で検索..."
                     value={searchKeyword}
                     onChange={(e) => setSearchKeyword(e.target.value)}
-                    style={{
-                        width: "300px",
-                        padding: "8px",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px"
-                    }}
+                    size="small"
+                    sx={{ minWidth: 300 }}
                 />
-                <button onClick={() => setIsFilterPanelOpen(!isFilterPanelOpen)} style={{ marginLeft: "8px" }}>
-                    フィルター
-                </button>
+                <IconButton 
+                    onClick={() => setIsFilterPanelOpen(!isFilterPanelOpen)}
+                    color={isFilterPanelOpen ? "primary" : "default"}
+                >
+                    <FilterListIcon />
+                </IconButton>
             </Box>
 
             {isFilterPanelOpen && (
-                <Paper sx={{ p: 2, mb: 3 }}>
+                <Paper sx={{ p: 3, mb: 3 }}>
                     <SearchFilterPanel
                         onSearch={() => {}}
                         onFilterChange={setFilters}

@@ -1,4 +1,5 @@
 import { Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Typography } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -63,16 +64,24 @@ export const LeadListPage = () => {
     if (error) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
-                <Typography color="error">エラーが発生しました</Typography>
+                <Typography color="error" variant="h3">エラーが発生しました</Typography>
             </Box>
         );
     }
 
     return (
         <Box>
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                <Typography variant="h4">リード一覧</Typography>
-                <Button variant="contained" onClick={() => setIsFormOpen(true)}>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+                <Typography variant="h1">リード一覧</Typography>
+                <Button 
+                    variant="contained" 
+                    startIcon={<AddIcon />}
+                    onClick={() => setIsFormOpen(true)}
+                    sx={{
+                        px: 3,
+                        py: 1.5,
+                    }}
+                >
                     新規作成
                 </Button>
             </Box>
@@ -80,7 +89,11 @@ export const LeadListPage = () => {
             <LeadList leads={leads || []} onLeadClick={handleLeadClick} />
 
             <Dialog open={isFormOpen} onClose={() => setIsFormOpen(false)} maxWidth="sm" fullWidth>
-                <DialogTitle>リード作成</DialogTitle>
+                <DialogTitle>
+                    <Typography variant="h2" sx={{ fontSize: "1.25rem" }}>
+                        リード作成
+                    </Typography>
+                </DialogTitle>
                 <DialogContent>
                     <Box pt={1}>
                         <LeadForm
