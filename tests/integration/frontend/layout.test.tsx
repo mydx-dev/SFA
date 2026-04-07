@@ -528,13 +528,49 @@ describe("AppLayout", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("ヘッダーは画面最上部に固定表示される（sticky top）");
+            test.todo("サイドバーは画面左側に配置される（デスクトップ）");
+            test.todo("メインコンテンツエリアは画面中央に配置される");
+            test.todo("フッターは画面最下部に配置される");
+            test.todo("ヘッダーの高さは64pxである");
+            test.todo("サイドバーの幅は240pxである");
+            test.todo("コンテンツエリアの最大幅は1440pxである");
+        });
+        describe("サイズ", () => {
+            test.todo("ヘッダーの最小高さは64pxである");
+            test.todo("サイドバーの最小幅は240pxである");
+            test.todo("フッターの最小高さは80pxである");
+            test.todo("コンテンツエリアの左右paddingは24px（lg）である");
+            test.todo("コンテンツエリアの上下paddingは24px（lg）である");
+        });
+        describe("色", () => {
+            test.todo("ヘッダー背景色は#1a365d（primary_container）である");
+            test.todo("サイドバー背景色は#ebeef0（surface_container）である");
+            test.todo("コンテンツエリア背景色は#f7fafc（surface）である");
+            test.todo("フッター背景色は#e5e9eb（surface_container_high）である");
+            test.todo("ヘッダーテキスト色は#ffffff（on_primary）である");
+            test.todo("サイドバーテキスト色は#181c1e（on_background）である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("ヘッダーロゴはManropeフォント、24px、weight 700で表示される");
+            test.todo("ナビゲーションメニュー項目はInterフォント、14px、weight 500で表示される");
+            test.todo("フッターテキストはInterフォント、12px（caption）で表示される");
+        });
+        describe("形状", () => {
+            test.todo("ナビゲーションメニュー項目選択時のborder-radiusは6pxである");
+        });
+        describe("装飾", () => {
+            test.todo("ヘッダーには下方向に微妙な影（box-shadow）が適用される");
+            test.todo("サイドバーには右方向にゴーストボーダーが表示される");
+            test.todo("ナビゲーションメニュー項目の内側paddingは12px（md）である");
+            test.todo("選択中のナビゲーション項目背景色はrgba(0, 32, 69, 0.08)である");
+        });
+        describe("インタラクション", () => {
+            test.todo("ナビゲーションメニュー項目ホバー時に背景色がrgba(0, 32, 69, 0.04)に変化する");
+            test.todo("ハンバーガーメニューボタンホバー時にカーソルがpointerに変化する");
+            test.todo("モバイルドロワー開閉時にスムーズなアニメーション（transition: 300ms ease）が適用される");
+        });
     });
 });
 
@@ -630,13 +666,34 @@ describe("DashboardLayout", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("KPIセクションは最上部に1行で4カラム配置される");
+            test.todo("グラフセクションとリストセクションは2カラムレイアウト（8:4比率）で配置される");
+            test.todo("セクション間のギャップは32px（spacing-xl）である");
+            test.todo("全体のコンテンツ最大幅は1440pxである");
+        });
+        describe("サイズ", () => {
+            test.todo("KPIカードの高さは120pxである");
+            test.todo("グラフセクションの幅は66.67%（8/12カラム）である");
+            test.todo("リストセクションの幅は33.33%（4/12カラム）である");
+        });
+        describe("色", () => {
+            test.todo("全体背景色は#f7fafc（surface）である");
+            test.todo("各セクションカードの背景色は#ffffff（surface_container_lowest）である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("セクションタイトルはManropeフォント、20px、weight 600で表示される");
+        });
+        describe("形状", () => {
+            test.todo("各セクションのborder-radiusは12px（xl）である");
+        });
+        describe("装飾", () => {
+            test.todo("各セクションはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("各セクションの内側paddingは24px（lg）である");
+        });
+        describe("インタラクション", () => {
+            test.todo("レスポンシブ時のレイアウト変更はスムーズに遷移する");
+        });
     });
 });
 
@@ -815,12 +872,41 @@ describe("TwoColumnLayout", () => {
         });
     });
     describe("レイアウト", () => {
-        describe("配置", () => {});
-        describe("サイズ", () => {});
-        describe("色", () => {});
-        describe("タイポグラフィ", () => {});
-        describe("形状", () => {});
-        describe("装飾", () => {});
-        describe("インタラクション", () => {});
+        describe("配置", () => {
+            test.todo("左カラムは画面左側に配置される");
+            test.todo("右カラムは画面右側に配置される");
+            test.todo("リサイザーは2つのカラムの間に配置される");
+            test.todo("デフォルトの幅比率は左40%、右60%である");
+            test.todo("モバイル時はタブ切り替え形式で1カラムになる");
+        });
+        describe("サイズ", () => {
+            test.todo("左カラムの最小幅は280pxである");
+            test.todo("右カラムの最小幅は400pxである");
+            test.todo("リサイザーの幅は4pxである");
+            test.todo("リサイザードラッグ可能エリアの幅は12pxである");
+        });
+        describe("色", () => {
+            test.todo("左カラム背景色は#ebeef0（surface_container）である");
+            test.todo("右カラム背景色は#ffffff（surface_container_lowest）である");
+            test.todo("リサイザー背景色は#c4c6cf（outline_variant）である");
+            test.todo("リサイザーホバー時の背景色は#555f71（secondary）である");
+        });
+        describe("タイポグラフィ", () => {
+            test.todo("モバイルタブラベルはInterフォント、14px、weight 500で表示される");
+        });
+        describe("形状", () => {
+            test.todo("右カラムのborder-radiusは12px（xl）である");
+        });
+        describe("装飾", () => {
+            test.todo("右カラムはゴーストボーダー（1px solid rgba(85, 95, 113, 0.15)）を持つ");
+            test.todo("リサイザーホバー時に視覚的なハイライトが表示される");
+        });
+        describe("インタラクション", () => {
+            test.todo("リサイザードラッグ時にカーソルがcol-resizeに変化する");
+            test.todo("リサイザードラッグでカラム幅が変更される");
+            test.todo("カラム幅変更時にスムーズな遷移（transition: 150ms ease）が適用される");
+            test.todo("折りたたみボタンクリック時にアニメーション（transition: 300ms ease）が適用される");
+            test.todo("モバイルタブ切り替え時にスライドアニメーションが表示される");
+        });
     });
 });
