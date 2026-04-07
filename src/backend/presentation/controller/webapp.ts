@@ -13,5 +13,6 @@ export function doGet(): GoogleAppsScript.HTML.HtmlOutput {
     const template = HtmlService.createTemplateFromFile('index');
     template.scriptId = scriptId;
     const html = template.evaluate();
+    html.addMetaTag('viewport', 'width=device-width, initial-scale=1.0');
     return html.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
