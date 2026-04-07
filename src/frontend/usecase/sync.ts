@@ -3,6 +3,13 @@ import { parseAppsScriptResponse } from "../../shared/AppsScriptResponse";
 import { client } from "../lib/AppsScriptClient";
 import { dexie } from "../lib/LocalDB";
 
+const TABLE_NAME_MAP: Record<string, string> = {
+    "リード": "leads",
+    "案件": "deals",
+    "営業活動": "activities",
+    "システムユーザー": "systemUsers",
+};
+
 export async function sync() {
     // ① remote
     const response = await client.sync();
@@ -14,20 +21,20 @@ export async function sync() {
 
     for (const tableSync of remote) {
         const table = tableSync.table;
-        const localTable = dexie[table.name] as Dexie.Table<any, any>;
+        const localTableName = TABLE_NAME_MAP[table.name] ?? table.name;
+        // Try English alias first, then fall back to Japanese table name
+        const localTable = ((dexie as any)[localTableName] ?? (dexie as any)[table.name]) as Dexie.Table<any, any>;
 
-        // primary key 名を柔軟に解決する
+        // primary key 名を柔軟に解決する（大文字小文字の両方を試みる）
         const primaryKeyName =
             typeof table.primaryKey === "string" ? table.primaryKey : "id";
+        const getRecordId = (record: any) =>
+            record[primaryKeyName] ?? record[primaryKeyName.toLowerCase()];
 
         const localRecords = await localTable.toArray();
-        const localRecordIds = localRecords.map(
-            (record) => (record as any)[primaryKeyName],
-        );
+        const localRecordIds = localRecords.map(getRecordId);
 
-        const remoteRecordIds = tableSync.records.map(
-            (record) => (record as any)[primaryKeyName],
-        );
+        const remoteRecordIds = tableSync.records.map(getRecordId);
 
         const recordsToDelete = localRecordIds.filter(
             (id) => !remoteRecordIds.includes(id),
