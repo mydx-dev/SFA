@@ -122,6 +122,12 @@ describe("AppLayout", () => {
             
             expect(screen.getByRole("contentinfo")).toBeInTheDocument();
         });
+
+        test.todo("サイドバーに新規案件追加ボタンが表示される");
+        
+        test.todo("サイドバーの下部に設定ボタンが表示される");
+        
+        test.todo("設定ボタンにアイコンが表示される");
     });
 
     describe("ナビゲーション", () => {
@@ -556,6 +562,11 @@ describe("AppLayout", () => {
             test.todo("TopAppBarの幅がw-[calc(100%-16rem)]でSideNavBarを除いた全幅になる");
             test.todo("メインコンテンツエリアの左マージンがml-64（256px）でSideNavBarの幅分オフセットされる");
             test.todo("メインコンテンツエリアのパディングがp-8である");
+            
+            // サイドバーボタンの配置
+            test.todo("新規案件追加ボタンがサイドバーのナビゲーション要素の直後に配置される");
+            test.todo("設定ボタンがサイドバーの下部（mt-auto）に配置される");
+            test.todo("設定ボタンがボーダー（border-t border-slate-800）で区切られている");
         });
         describe("サイズ", () => {
             test("全体のレイアウトサイズが適切である", () => {
@@ -579,6 +590,10 @@ describe("AppLayout", () => {
             test.todo("SideNavBarの高さがh-full（画面全体）である");
             test.todo("TopAppBarのパディングがpx-8 py-4である");
             test.todo("メインコンテンツエリアの最小高さがmin-h-screenである");
+            
+            // サイドバーボタンのサイズ
+            test.todo("新規案件追加ボタンのパディングがpx-6 py-4である");
+            test.todo("設定ボタンのパディングがpy-2である");
         });
         describe("色", () => {
             test("主要な要素が適切に表示される", () => {
@@ -604,6 +619,13 @@ describe("AppLayout", () => {
             test.todo("メインコンテンツエリアの背景色がsurfaceである");
             test.todo("ページ全体の背景色がbg-surfaceである");
             test.todo("ページ全体のテキスト色がtext-on-surfaceである");
+            
+            // サイドバーボタンの色
+            test.todo("新規案件追加ボタンのテキスト色がtext-slate-400（非アクティブ時）である");
+            test.todo("新規案件追加ボタンのホバー時テキスト色がhover:text-whiteである");
+            test.todo("新規案件追加ボタンのホバー時背景色がhover:bg-slate-800/50である");
+            test.todo("設定ボタンのテキスト色がtext-slate-400である");
+            test.todo("設定ボタンのホバー時テキスト色がhover:text-whiteである");
         });
         describe("タイポグラフィ", () => {
             test("タイトルとナビゲーションテキストが表示される", () => {
@@ -628,6 +650,11 @@ describe("AppLayout", () => {
             test.todo("ページ全体のフォントファミリーがfont-body（Inter）である");
             test.todo("SideNavBarのフォントファミリーがfont-manrope（Manrope）である");
             test.todo("TopAppBarのフォントファミリーがfont-manrope（Manrope）である");
+            
+            // サイドバーボタンのタイポグラフィ
+            test.todo("新規案件追加ボタンのフォントサイズがtext-sm（14px）である");
+            test.todo("新規案件追加ボタンのフォントウェイトがfont-semibold（600）である");
+            test.todo("設定ボタンのフォントサイズがtext-sm（14px）である");
         });
         describe("形状", () => {
             test("基本的なレイアウト要素が表示される", () => {
@@ -648,6 +675,10 @@ describe("AppLayout", () => {
             });
             
             test.todo("SideNavBarの右側にボーダーがない（border-r-0）");
+            
+            // サイドバーボタンの形状
+            test.todo("新規案件追加ボタンのボーダー半径は適用されない");
+            test.todo("設定ボタンのボーダー半径は適用されない");
         });
         describe("装飾", () => {
             test("ナビゲーション要素が適切に表示される", () => {
@@ -670,6 +701,12 @@ describe("AppLayout", () => {
             
             test.todo("SideNavBarにshadow-2xl shadow-slate-950/20のシャドウが適用される");
             test.todo("TopAppBarにbackdrop-filter: blur-xlが適用される");
+            
+            // サイドバーボタンの装飾
+            test.todo("新規案件追加ボタンにアイコン（add）が表示される");
+            test.todo("新規案件追加ボタンのアイコンとテキストにspace-x-3のスペースがある");
+            test.todo("設定ボタンにアイコン（settings）が表示される");
+            test.todo("設定ボタンのアイコンとテキストにspace-x-3のスペースがある");
         });
         describe("インタラクション", () => {
             test("ナビゲーションリンクが機能する", async () => {
@@ -692,6 +729,15 @@ describe("AppLayout", () => {
             
             test.todo("SideNavBarとTopAppBarが連動してアクティブ項目を表示する");
             test.todo("TopAppBarのスクロール時にsticky配置が維持される");
+            
+            // サイドバーボタンのインタラクション
+            test.todo("新規案件追加ボタンクリックで新規案件作成画面に遷移する");
+            test.todo("新規案件追加ボタンホバー時に背景色が変化する（hover:bg-slate-800/50）");
+            test.todo("新規案件追加ボタンホバー時にテキスト色が変化する（hover:text-white）");
+            test.todo("新規案件追加ボタンにtransition-colorsアニメーションが適用される");
+            test.todo("設定ボタンクリックで設定画面に遷移する");
+            test.todo("設定ボタンホバー時にテキスト色が変化する（hover:text-white）");
+            test.todo("設定ボタンにtransition-colorsアニメーションが適用される");
         });
     });
 });
