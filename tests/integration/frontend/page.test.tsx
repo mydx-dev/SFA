@@ -2057,10 +2057,6 @@ describe("ActivityHistoryPage", () => {
         );
 
         describe("配置", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
             test("サイドナビゲーションは画面左側に固定配置される (fixed left-0 top-0)", () => {
                 renderWithAppLayout();
                 const aside = screen.getByRole("complementary");
@@ -2139,10 +2135,6 @@ describe("ActivityHistoryPage", () => {
             });
         });
         describe("サイズ", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
             test("サイドナビゲーションの高さは画面全体 (h-full) である", () => {
                 renderWithAppLayout();
                 const aside = screen.getByRole("complementary");
@@ -2168,32 +2160,12 @@ describe("ActivityHistoryPage", () => {
                 const header = document.querySelector("header");
                 expect(header?.classList.contains("py-4")).toBe(true);
             });
-            test("検索フィールドの幅は256px (w-64) である", () => {
-                // Search field width is defined via CSS class
-                expect(true).toBe(true);
-            });
-            test("活動カードのアイコンは48px×48px (w-12 h-12) の円形である", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const icon = document.querySelector(".w-12.h-12.rounded-full");
-                    expect(icon).toBeInTheDocument();
-                });
-            });
-            test("プロフィール画像は40px×40px (w-10 h-10) の円形である", () => {
-                // Profile image styling verified
-                expect(true).toBe(true);
-            });
+            test.todo("検索フィールドの幅は256px (w-64) である");
+            test.todo("活動カードのアイコンは48px×48px (w-12 h-12) の円形である");
+            test.todo("プロフィール画像は40px×40px (w-10 h-10) の円形 (rounded-full) である");
         });
         describe("色", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
-            test("bodyの背景色は#f7fafc (bg-surface) である", () => {
-                // bg-surface color is defined in design system
-                expect(true).toBe(true);
-            });
+            test.todo("bodyの背景色は#f7fafc (bg-surface) である");
             test("サイドナビゲーションの背景色は#0f172a (bg-slate-900) である", () => {
                 renderWithAppLayout();
                 const aside = screen.getByRole("complementary");
@@ -2237,49 +2209,19 @@ describe("ActivityHistoryPage", () => {
                 const header = document.querySelector("header");
                 expect(header?.classList.contains("backdrop-blur-xl")).toBe(true);
             });
-            test("検索フィールドの背景色は#e5e9eb (bg-surface-container-high) である", () => {
-                // Search field color is defined in design system
-                expect(true).toBe(true);
-            });
+            test.todo("検索フィールドの背景色は#e5e9eb (bg-surface-container-high) である");
             test("ページタイトルは#002045 (text-primary) である", async () => {
                 renderPage();
                 await waitForPage();
                 const title = document.querySelector(".text-primary.text-4xl");
                 expect(title).toBeInTheDocument();
             });
-            test("活動カードの背景色は#ffffff (bg-surface-container-lowest) である", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const card = document.querySelector(".bg-surface-container-lowest");
-                    expect(card).toBeInTheDocument();
-                });
-            });
-            test("活動カードのホバー時はシャドウが強調される (hover:shadow-xl)", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const card = document.querySelector(".hover\\:shadow-xl");
-                    expect(card).toBeInTheDocument();
-                });
-            });
-            test("日付区切り線は#c4c6cf30 (bg-outline-variant/30) である", () => {
-                renderPage();
-                waitFor(() => {
-                    const divider = document.querySelector(".bg-outline-variant\\/30");
-                    expect(divider).toBeInTheDocument();
-                });
-            });
-            test("通知ドットは#ba1a1a (bg-error) である", () => {
-                // Notification dot color is defined in design system
-                expect(true).toBe(true);
-            });
+            test.todo("活動カードの背景色は#ffffff (bg-surface-container-lowest) である");
+            test.todo("活動カードのホバー時はxlシャドウ (hover:shadow-xl hover:shadow-primary/5) が強調される");
+            test.todo("日付区切り線の背景色は#c4c6cf30 (bg-outline-variant/30) である");
+            test.todo("通知ドットの色は#ba1a1a (bg-error) である");
         });
         describe("タイポグラフィ", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
             test("サイドナビゲーションのタイトルはManropeフォント、太字 (font-bold)、テキストサイズはxl (text-xl) である", () => {
                 renderWithAppLayout();
                 const title = screen.getByText("SFA");
@@ -2318,167 +2260,42 @@ describe("ActivityHistoryPage", () => {
                 const title = document.querySelector(".text-4xl.font-extrabold.font-headline");
                 expect(title).toBeInTheDocument();
             });
-            test("活動カードのタイトルはManropeフォント、太字 (font-bold) である", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const cardTitle = document.querySelector(".font-headline.font-bold");
-                    expect(cardTitle).toBeInTheDocument();
-                });
-            });
-            test("活動カードのサブテキストはsmサイズ (text-sm) である", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト内容" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const italic = document.querySelector(".text-sm.italic");
-                    expect(italic).toBeInTheDocument();
-                });
-            });
-            test("活動カードの時刻はxsサイズ、ミディアムウェイト (text-xs font-medium) である", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const time = document.querySelector("span.text-xs.font-medium");
-                    expect(time).toBeInTheDocument();
-                });
-            });
-            test("バッジテキストは10pxサイズ (text-[10px])、太字 (font-bold)、大文字 (uppercase)、letter-spacing広め (tracking-wider) である", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const badge = document.querySelector(".text-\\[10px\\].font-bold.uppercase.tracking-wider");
-                    expect(badge).toBeInTheDocument();
-                });
-            });
+            test.todo("活動カードのタイトルはManropeフォント (font-headline)、太字 (font-bold)、on-surfaceカラー (text-on-surface) である");
+            test.todo("活動カードのサブテキスト（会社名・案件名）はsmサイズ (text-sm)、on-surface-variantカラー (text-on-surface-variant) である");
+            test.todo("活動カードの時刻はxsサイズ、ミディアムウェイト (text-xs font-medium)、outlineカラー (text-outline) である");
+            test.todo("バッジテキストは10pxサイズ (text-[10px])、太字 (font-bold)、大文字 (uppercase)、letter-spacing広め (tracking-wider) である");
         });
         describe("形状", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
             test("サイドナビゲーションの右ボーダーは非表示 (border-r-0) である", () => {
                 renderWithAppLayout();
                 const aside = screen.getByRole("complementary");
                 expect(aside.classList.contains("border-r-0")).toBe(true);
             });
-            test("検索フィールドは完全な丸角 (rounded-full) である", () => {
-                // Search field rounded corners defined in design
-                expect(true).toBe(true);
-            });
-            test("ヘッダーナビゲーションリンクのホバー時は丸角 (rounded-lg) である", () => {
-                // Header nav link hover state defined in design
-                expect(true).toBe(true);
-            });
-            test("活動カードは完全な丸角 (rounded-full) である", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const card = document.querySelector(".bg-surface-container-lowest.rounded-full");
-                    expect(card).toBeInTheDocument();
-                });
-            });
-            test("活動カード内のメモエリアは12px角丸 (rounded-xl) で、左に4px幅のボーダーを持つ", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テストメモ" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const memo = document.querySelector(".rounded-xl.border-l-4");
-                    expect(memo).toBeInTheDocument();
-                });
-            });
-            test("バッジは完全な丸角 (rounded-full) である", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const badge = document.querySelector(".rounded-full.text-\\[10px\\]");
-                    expect(badge).toBeInTheDocument();
-                });
-            });
-            test("日付区切り線は1px高さ (h-[1px]) である", () => {
-                renderPage();
-                waitFor(() => {
-                    const divider = document.querySelector(".h-\\[1px\\]");
-                    expect(divider).toBeInTheDocument();
-                });
-            });
-            test("通知ドットは2px×2px (w-2 h-2) の円形 (rounded-full) である", () => {
-                // Notification dot shape defined in design
-                expect(true).toBe(true);
-            });
-            test("新規案件登録ボタンは12px角丸 (rounded-xl) である", () => {
-                renderWithAppLayout();
-                const btn = screen.getByText("新規案件追加").closest("a");
-                expect(btn).toBeInTheDocument();
-            });
-            test("クイック記録フォームのカードは完全な丸角 (rounded-full) である", () => {
-                renderPage();
-                waitFor(() => {
-                    const form = screen.getByLabelText("クイック記録フォーム");
-                    expect(form.classList.contains("rounded-full")).toBe(true);
-                });
-            });
-            test("統計カードは完全な丸角 (rounded-full) である", () => {
-                renderPage();
-                waitFor(() => {
-                    const stats = screen.getByLabelText("統計カード");
-                    expect(stats.classList.contains("rounded-full")).toBe(true);
-                });
-            });
+            test.todo("検索フィールドは完全な丸角 (rounded-full) である");
+            test.todo("ヘッダーナビゲーションリンクのホバー時は8px角丸 (rounded-lg) である");
+            test.todo("活動カードは完全な丸角 (rounded-full) である");
+            test.todo("活動カード内のメモエリアは12px角丸 (rounded-xl) で、左に4px幅のボーダー (border-l-4) を持つ");
+            test.todo("バッジは完全な丸角 (rounded-full) である");
+            test.todo("日付区切り線は1px高さ (h-[1px]) である");
+            test.todo("通知ドットは2px×2px (w-2 h-2) の円形 (rounded-full) である");
+            test.todo("新規案件登録ボタンは12px角丸 (rounded-xl) である");
+            test.todo("クイック記録フォームのカードは完全な丸角 (rounded-full) である");
+            test.todo("統計カードは完全な丸角 (rounded-full) である");
         });
         describe("装飾", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
             test("サイドナビゲーションは2xlサイズのシャドウ (shadow-2xl shadow-slate-950/20) を持つ", () => {
                 renderWithAppLayout();
                 const aside = screen.getByRole("complementary");
                 expect(aside.classList.contains("shadow-2xl")).toBe(true);
                 expect(aside.classList.contains("shadow-slate-950/20")).toBe(true);
             });
-            test("新規案件登録ボタンはグラデーション背景 (silk-gradient) を持つ", () => {
-                renderWithAppLayout();
-                const btn = screen.getByText("新規案件追加").closest("a");
-                expect(btn).toBeInTheDocument();
-            });
-            test("新規案件登録ボタンはlgサイズのシャドウ (shadow-lg shadow-primary/20) を持つ", () => {
-                renderWithAppLayout();
-                const btn = screen.getByText("新規案件追加").closest("a");
-                expect(btn).toBeInTheDocument();
-            });
-            test("新規案件登録ボタンはホバー時に透明度が変わる (hover:opacity-90)", () => {
-                renderWithAppLayout();
-                const btn = screen.getByText("新規案件追加").closest("a");
-                expect(btn).toBeInTheDocument();
-            });
-            test("新規案件登録ボタンはアクティブ時にスケールが変わる (active:scale-95)", () => {
-                renderWithAppLayout();
-                const btn = screen.getByText("新規案件追加").closest("a");
-                expect(btn).toBeInTheDocument();
-            });
-            test("活動カードはsmサイズのシャドウ (shadow-sm) を持つ", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const card = document.querySelector(".shadow-sm.rounded-full");
-                    expect(card).toBeInTheDocument();
-                });
-            });
-            test("活動カードのホバー時はxlサイズのシャドウ (hover:shadow-xl hover:shadow-primary/5) になる", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const card = document.querySelector(".hover\\:shadow-xl");
-                    expect(card).toBeInTheDocument();
-                });
-            });
-            test("活動カードのホバー時はボーダーが表示される (hover:border-outline-variant/10)", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const card = document.querySelector(".hover\\:border-outline-variant\\/10");
-                    expect(card).toBeInTheDocument();
-                });
-            });
+            test.todo("新規案件登録ボタンはグラデーション背景 (silk-gradient: linear-gradient(135deg, #002045, #1a365d)) を持つ");
+            test.todo("新規案件登録ボタンはlgサイズのシャドウ (shadow-lg shadow-primary/20) を持つ");
+            test.todo("新規案件登録ボタンはホバー時に透明度が変わる (hover:opacity-90)");
+            test.todo("新規案件登録ボタンはアクティブ時にスケールが縮小する (active:scale-95)");
+            test.todo("活動カードはsmサイズのシャドウ (shadow-sm) を持つ");
+            test.todo("活動カードのホバー時はxlサイズのシャドウ (hover:shadow-xl hover:shadow-primary/5) になる");
+            test.todo("活動カードのホバー時はゴーストボーダーが表示される (hover:border-outline-variant/10)");
             test("ナビゲーションリンクはホバー時に背景色が変わる (hover:bg-slate-800/50)", () => {
                 renderWithAppLayout();
                 const navLinks = screen.getByRole("navigation").querySelectorAll(".hover\\:bg-slate-800\\/50");
@@ -2489,20 +2306,10 @@ describe("ActivityHistoryPage", () => {
                 const navLinks = screen.getByRole("navigation").querySelectorAll(".hover\\:text-white");
                 expect(navLinks.length).toBeGreaterThan(0);
             });
-            test("ヘッダーナビゲーションリンクのホバー時はトランジション300ms (transition-all duration-300) である", () => {
-                // Header nav link transition defined in design
-                expect(true).toBe(true);
-            });
-            test("検索フィールドのフォーカス時は2pxのリング (focus:ring-2 focus:ring-surface-tint) が表示される", () => {
-                // Search field focus ring defined in design
-                expect(true).toBe(true);
-            });
+            test.todo("ヘッダーナビゲーションリンクのホバー時はトランジション300ms (transition-all duration-300) である");
+            test.todo("検索フィールドのフォーカス時は2pxのサーフェスリング (focus:ring-2 focus:ring-surface-tint) が表示される");
         });
         describe("インタラクション", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
             test("ナビゲーションリンクはホバー時に背景色が変わる (hover:bg-slate-800/50)", () => {
                 renderWithAppLayout();
                 const navLinks = screen.getByRole("navigation").querySelectorAll(".hover\\:bg-slate-800\\/50");
@@ -2513,36 +2320,13 @@ describe("ActivityHistoryPage", () => {
                 const navLinks = screen.getByRole("navigation").querySelectorAll(".transition-colors");
                 expect(navLinks.length).toBeGreaterThan(0);
             });
-            test("活動カードはホバー時にシャドウとボーダーが変化する", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const card = document.querySelector(".transition-all.duration-300");
-                    expect(card).toBeInTheDocument();
-                });
-            });
-            test("ヘッダーのアイコンボタンはホバー時に背景色が変わる (hover:bg-slate-200/50)", () => {
-                // Header icon button hover defined in design
-                expect(true).toBe(true);
-            });
-            test("リードを追加ボタンはホバー時に明度が変わる (hover:brightness-95)", () => {
-                // Lead add button hover defined in design
-                expect(true).toBe(true);
-            });
-            test("リードを追加ボタンはアクティブ時にスケールが変わる (active:scale-95)", () => {
-                // Lead add button active state defined in design
-                expect(true).toBe(true);
-            });
-            test("活動カード内のリンクはホバー時にアンダーラインが表示される (hover:underline)", () => {
-                // Activity card link hover defined in design
-                expect(true).toBe(true);
-            });
+            test.todo("活動カードはホバー時にシャドウ (hover:shadow-xl) とボーダー (hover:border-outline-variant/10) が変化する (transition-all duration-300)");
+            test.todo("ヘッダーのアイコンボタンはホバー時に背景色が変わる (hover:bg-slate-200/50 rounded-lg)");
+            test.todo("リードを追加ボタンはホバー時に明度が変わる (hover:brightness-95)");
+            test.todo("リードを追加ボタンはアクティブ時にスケールが縮小する (active:scale-95)");
+            test.todo("活動カード内のリンクはホバー時にアンダーラインが表示される (hover:underline)");
         });
         describe("ページ構造", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
             test("ページはサイドナビゲーション、ヘッダー、メインコンテンツの3つの主要セクションで構成される", async () => {
                 renderWithAppLayout();
                 expect(screen.getByRole("complementary")).toBeInTheDocument();
@@ -2603,119 +2387,22 @@ describe("ActivityHistoryPage", () => {
             });
         });
         describe("活動カード", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
-            test("活動カードは6項目のパディング (p-6) を持つ", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const card = document.querySelector(".bg-surface-container-lowest.p-6");
-                    expect(card).toBeInTheDocument();
-                });
-            });
-            test("活動カードはアイコン、タイトル、サブテキスト、時刻、メモ、バッジを含む", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テストメモ" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    expect(document.querySelector(".w-12.h-12.rounded-full")).toBeInTheDocument();
-                    expect(document.querySelector(".font-headline.font-bold")).toBeInTheDocument();
-                    expect(document.querySelector(".text-xs.font-medium")).toBeInTheDocument();
-                    expect(document.querySelector(".text-sm.italic")).toBeInTheDocument();
-                    expect(document.querySelector(".rounded-full.text-\\[10px\\]")).toBeInTheDocument();
-                });
-            });
-            test("活動タイプアイコンは48px円形で、活動タイプに応じた背景色を持つ", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const icon = document.querySelector(".w-12.h-12.rounded-full.bg-secondary-fixed");
-                    expect(icon).toBeInTheDocument();
-                });
-            });
-            test("通話アイコンの背景色は#d6e0f6 (bg-secondary-fixed) である", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const icon = document.querySelector(".bg-secondary-fixed");
-                    expect(icon).toBeInTheDocument();
-                });
-            });
-            test("メールアイコンの背景色は#d6e3ff (bg-primary-fixed) である", () => {
-                const mockActivity = createMockActivity({ activityType: "メール", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const icon = document.querySelector(".bg-primary-fixed");
-                    expect(icon).toBeInTheDocument();
-                });
-            });
-            test("会議アイコンの背景色は#9ff5c1 (bg-tertiary-fixed) である", () => {
-                const mockActivity = createMockActivity({ activityType: "面談", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const icon = document.querySelector(".bg-tertiary-fixed");
-                    expect(icon).toBeInTheDocument();
-                });
-            });
-            test("メモエリアは4項目のパディング (p-4)、12px角丸 (rounded-xl)、左に4pxボーダーを持つ", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テストメモ内容" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const memo = document.querySelector(".p-4.rounded-xl.border-l-4");
-                    expect(memo).toBeInTheDocument();
-                });
-            });
-            test("メモテキストはイタリック体 (italic) である", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テストメモ" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const text = document.querySelector("p.italic");
-                    expect(text).toBeInTheDocument();
-                });
-            });
-            test("バッジは3pxの水平パディング、1pxの垂直パディング (px-3 py-1) を持つ", () => {
-                const mockActivity = createMockActivity({ activityType: "電話", content: "テスト" });
-                renderPage([mockActivity]);
-                waitFor(() => {
-                    const badge = document.querySelector(".px-3.py-1.rounded-full");
-                    expect(badge).toBeInTheDocument();
-                });
-            });
+            test.todo("活動カードは6項目のパディング (p-6) を持つ");
+            test.todo("活動カードはアイコン、タイトル、サブテキスト（会社名・案件名）、時刻、メモ、バッジを含む");
+            test.todo("活動タイプアイコンは48px×48px (w-12 h-12) の円形 (rounded-full) で、活動タイプに応じた背景色を持つ");
+            test.todo("通話アイコンの背景色は#d6e0f6 (bg-secondary-fixed) である");
+            test.todo("メールアイコンの背景色は#d6e3ff (bg-primary-fixed) である");
+            test.todo("会議アイコンの背景色は#9ff5c1 (bg-tertiary-fixed) である");
+            test.todo("メモエリアは4項目のパディング (p-4)、12px角丸 (rounded-xl)、左に4px幅のボーダー (border-l-4) を持つ");
+            test.todo("メモテキストはsmサイズ、リラックスline-height (text-sm leading-relaxed)、イタリック体 (italic) である");
+            test.todo("バッジは3pxの水平パディング、1pxの垂直パディング (px-3 py-1)、完全な丸角 (rounded-full) を持つ");
         });
         describe("クイック記録フォーム", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
-            test("クイック記録フォームは8項目のパディング (p-8) を持つ", () => {
-                renderPage();
-                waitFor(() => {
-                    const form = screen.getByLabelText("クイック記録フォーム");
-                    expect(form.classList.contains("p-8")).toBe(true);
-                });
-            });
-            test("クイック記録フォームは完全な丸角 (rounded-full) である", () => {
-                renderPage();
-                waitFor(() => {
-                    const form = screen.getByLabelText("クイック記録フォーム");
-                    expect(form.classList.contains("rounded-full")).toBe(true);
-                });
-            });
-            test("クイック記録フォームはボーダー (border border-outline-variant/20) を持つ", () => {
-                renderPage();
-                waitFor(() => {
-                    const form = screen.getByLabelText("クイック記録フォーム");
-                    expect(form.classList.contains("border")).toBe(true);
-                });
-            });
-            test("クイック記録フォームはlgサイズのシャドウ (shadow-lg shadow-primary/5) を持つ", () => {
-                renderPage();
-                waitFor(() => {
-                    const form = screen.getByLabelText("クイック記録フォーム");
-                    expect(form.classList.contains("shadow-lg")).toBe(true);
-                });
-            });
+            test.todo("クイック記録フォームの背景色は#e0e3e5 (bg-surface-container-highest) である");
+            test.todo("クイック記録フォームは8項目のパディング (p-8) を持つ");
+            test.todo("クイック記録フォームは完全な丸角 (rounded-full) である");
+            test.todo("クイック記録フォームはゴーストボーダー (border border-outline-variant/20) を持つ");
+            test.todo("クイック記録フォームはlgサイズのシャドウ (shadow-lg shadow-primary/5) を持つ");
             test("活動タイプ選択は3列グリッド (grid-cols-3) である", async () => {
                 renderPage();
                 await waitForPage();
@@ -2760,80 +2447,19 @@ describe("ActivityHistoryPage", () => {
             });
         });
         describe("統計カード", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
-            test("統計カードは#002045 (bg-primary) の背景色を持つ", () => {
-                renderPage();
-                waitFor(() => {
-                    const stats = screen.getByLabelText("統計カード");
-                    expect(stats.classList.contains("bg-primary")).toBe(true);
-                });
-            });
-            test("統計カードは8項目のパディング (p-8) を持つ", () => {
-                renderPage();
-                waitFor(() => {
-                    const stats = screen.getByLabelText("統計カード");
-                    expect(stats.classList.contains("p-8")).toBe(true);
-                });
-            });
-            test("統計カードは完全な丸角 (rounded-full) である", () => {
-                renderPage();
-                waitFor(() => {
-                    const stats = screen.getByLabelText("統計カード");
-                    expect(stats.classList.contains("rounded-full")).toBe(true);
-                });
-            });
-            test("統計カードは装飾的な円形要素を含む", () => {
-                renderPage();
-                waitFor(() => {
-                    const stats = screen.getByLabelText("統計カード");
-                    expect(stats).toBeInTheDocument();
-                });
-            });
-            test("統計値は3xlサイズ、極太 (font-extrabold)、Manropeフォント (font-headline) である", () => {
-                renderPage();
-                waitFor(() => {
-                    const value = document.querySelector(".text-3xl.font-extrabold.font-headline");
-                    expect(value).toBeInTheDocument();
-                });
-            });
-            test("プログレスバーは2px高さ (h-2)、完全な丸角 (rounded-full) を持つ", () => {
-                renderPage();
-                waitFor(() => {
-                    const bar = document.querySelector(".h-2.w-full.rounded-full");
-                    expect(bar).toBeInTheDocument();
-                });
-            });
+            test.todo("統計カードの背景色は#002045 (bg-primary) でテキストは白 (text-white) である");
+            test.todo("統計カードは8項目のパディング (p-8) を持つ");
+            test.todo("統計カードは完全な丸角 (rounded-full) でオーバーフロー非表示 (overflow-hidden) である");
+            test.todo("統計カードは右上に装飾的な大円形 (w-32 h-32 bg-primary-container rounded-full opacity-50) を持つ");
+            test.todo("統計カードは右下に装飾的な小円形 (w-16 h-16 bg-tertiary-container rounded-full opacity-30) を持つ");
+            test.todo("統計値は3xlサイズ、極太 (text-3xl font-extrabold)、Manropeフォント (font-headline) である");
+            test.todo("プログレスバーは2px高さ (h-2)、完全な丸角 (rounded-full)、tertiary-fixedカラー (bg-tertiary-fixed) を持つ");
         });
         describe("フィルターセクション", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
-            test("フィルターセクションは6項目のパディング (p-6) を持つ", () => {
-                renderPage();
-                waitFor(() => {
-                    const filter = screen.getByLabelText("フィルターセクション");
-                    expect(filter.classList.contains("p-6")).toBe(true);
-                });
-            });
-            test("フィルターセクションは完全な丸角 (rounded-full) である", () => {
-                renderPage();
-                waitFor(() => {
-                    const filter = screen.getByLabelText("フィルターセクション");
-                    expect(filter.classList.contains("rounded-full")).toBe(true);
-                });
-            });
-            test("フィルターボタンは8pxのギャップ (gap-2) で配置される", () => {
-                renderPage();
-                waitFor(() => {
-                    const filter = screen.getByLabelText("フィルターセクション");
-                    const container = filter.querySelector(".gap-2");
-                    expect(container).toBeInTheDocument();
-                });
-            });
+            test.todo("フィルターセクションの背景色は#f1f4f6 (bg-surface-container-low) である");
+            test.todo("フィルターセクションは6項目のパディング (p-6) を持つ");
+            test.todo("フィルターセクションは完全な丸角 (rounded-full) である");
+            test.todo("フィルターボタンは8pxのギャップ (gap-2) で折り返しフレックス配置 (flex flex-wrap) される");
             test("フィルターボタンは4項目の水平パディング、2項目の垂直パディング (px-4 py-2) を持つ", async () => {
                 renderPage();
                 await waitForPage();
