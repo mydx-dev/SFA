@@ -16,9 +16,9 @@ jobs:
                   echo "triggering actor: ${{ github.triggering_actor }}"
                   echo "author association: ${{ github.event.pull_request.author_association }}"
                   echo "user: ${{ github.event.pull_request.user }}"
-                  echo "pull_request: ${{ fromJson(github.event.pull_request) }}"
+                  echo "pull_request: ${{ toJson(github.event.pull_request) }}"
     ci:
         if: >-
-            contains(fromJson('["OWNER","MEMBER","COLLABORATOR","BOT"]'), github.event.pull_request.author_association)
+            github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
         uses: mydx-dev/common-workflow/.github/workflows/ci.yml@v1
         secrets: inherit
