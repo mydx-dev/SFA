@@ -18,7 +18,7 @@ export const ActivityHistoryPage = () => {
     if (isLoading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
-                <CircularProgress />
+                <CircularProgress sx={{ color: "#002045" }} />
             </Box>
         );
     }
@@ -36,7 +36,15 @@ export const ActivityHistoryPage = () => {
             <Typography 
                 variant="h1" 
                 gutterBottom 
-                sx={{ mb: 4 }}
+                sx={{ 
+                    mb: 4,
+                    color: "#002045",
+                    fontFamily: "'Manrope', sans-serif",
+                    fontWeight: 600,
+                    fontSize: "32px",
+                    lineHeight: 1.3,
+                    letterSpacing: "-0.02em"
+                }}
             >
                 活動履歴
             </Typography>
@@ -49,7 +57,7 @@ export const ActivityHistoryPage = () => {
                 />
             </Box>
 
-            <Card>
+            <Card sx={{ borderRadius: "0.75rem", boxShadow: "none", border: "1px solid rgba(85, 95, 113, 0.15)" }}>
                 <CardContent sx={{ p: 0 }}>
                     <ActivityHistory activities={activities || []} />
                 </CardContent>

@@ -1932,9 +1932,34 @@ describe("ActivityHistoryPage", () => {
             render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
             expect(screen.getByRole("progressbar")).toBeInTheDocument();
         });
-        test.todo("初期表示時に検索ボックスにフォーカスが当たる");
-        test.todo("初期表示時はソート順が活動日時の降順（新しい順）である");
-        test.todo("初期表示時はページ番号が1である");
+        test("初期表示時に検索ボックスにフォーカスが当たる", async () => {
+            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
+            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+            await waitFor(() => {
+                const searchInput = screen.getByPlaceholderText("活動を検索...");
+                expect(searchInput).toHaveFocus();
+            });
+        });
+        test("初期表示時はソート順が活動日時の降順（新しい順）である", async () => {
+            const mockActivities = [
+                { id: "1", activityType: "面談" as const, content: "古い活動", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date("2025-01-01"), updatedAt: new Date("2025-01-01") },
+                { id: "2", activityType: "電話" as const, content: "新しい活動", activityDate: "2025-01-10", dealId: "D2", assigneeId: "A2", createdAt: new Date("2025-01-10"), updatedAt: new Date("2025-01-10") },
+            ];
+            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+            await waitFor(() => {
+                const rows = screen.getAllByRole("row");
+                // Skip header row (index 0), first data row should be "新しい活動"
+                expect(rows[1]).toHaveTextContent("新しい活動");
+            });
+        });
+        test("初期表示時はページ番号が1である", async () => {
+            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
+            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+            await waitFor(() => {
+                expect(screen.getByText(/ページ 1/)).toBeInTheDocument();
+            });
+        });
     });
 
     describe("データ取得", () => {
@@ -1957,7 +1982,13 @@ describe("ActivityHistoryPage", () => {
             await waitFor(() => { expect(screen.getByText(/エラーが発生しました/)).toBeInTheDocument(); });
         });
         test.todo("データ取得中は既存のテーブルデータが表示されたままローディング表示が追加される");
-        test.todo("空のデータ取得時は「活動履歴がありません」メッセージが表示される");
+        test("空のデータ取得時は「活動履歴がありません」メッセージが表示される", async () => {
+            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
+            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+            await waitFor(() => {
+                expect(screen.getByText("活動履歴がありません")).toBeInTheDocument();
+            });
+        });
     });
 
     describe("データフロー", () => {
@@ -1978,12 +2009,167 @@ describe("ActivityHistoryPage", () => {
 
     describe("ユーザー操作", () => {
         describe("フィルター操作", () => {
-            test.todo("活動種別フィルターで「面談」を選択すると面談のみが表示される");
-            test.todo("活動種別フィルターで「電話」を選択すると電話のみが表示される");
-            test.todo("活動種別フィルターで「メール」を選択するとメールのみが表示される");
-            test.todo("活動種別フィルターで「その他」を選択するとその他のみが表示される");
-            test.todo("活動種別フィルターで複数選択すると該当する活動種別がOR条件で表示される");
-            test.todo("活動種別フィルター選択解除で全活動種別が表示される");
+            test("活動種別フィルターで「面談」を選択すると面談のみが表示される", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "面談1", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "2", activityType: "電話" as const, content: "電話1", activityDate: "2025-01-02", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                const { container } = render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("面談1")).toBeInTheDocument();
+                    expect(screen.getByText("電話1")).toBeInTheDocument();
+                });
+                
+                // Find the Select component by its ID
+                const selectElement = container.querySelector('div[role="combobox"]') as HTMLElement;
+                expect(selectElement).toBeTruthy();
+                await userEvent.click(selectElement);
+                
+                // Select "面談"
+                const meetingOption = await screen.findByRole("option", { name: /面談/ });
+                await userEvent.click(meetingOption);
+                
+                // Close the dropdown by clicking outside or pressing Escape
+                await userEvent.keyboard("{Escape}");
+                
+                // Only "面談1" should be displayed, "電話1" should not
+                await waitFor(() => {
+                    expect(screen.getByText("面談1")).toBeInTheDocument();
+                    expect(screen.queryByText("電話1")).not.toBeInTheDocument();
+                });
+            });
+            test("活動種別フィルターで「電話」を選択すると電話のみが表示される", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "面談1", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "2", activityType: "電話" as const, content: "電話1", activityDate: "2025-01-02", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                const { container } = render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("面談1")).toBeInTheDocument();
+                });
+                
+                const selectElement = container.querySelector('div[role="combobox"]') as HTMLElement;
+                await userEvent.click(selectElement);
+                const phoneOption = await screen.findByRole("option", { name: /電話/ });
+                await userEvent.click(phoneOption);
+                await userEvent.keyboard("{Escape}");
+                
+                await waitFor(() => {
+                    expect(screen.queryByText("面談1")).not.toBeInTheDocument();
+                    expect(screen.getByText("電話1")).toBeInTheDocument();
+                });
+            });
+            test("活動種別フィルターで「メール」を選択するとメールのみが表示される", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "面談1", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "3", activityType: "メール" as const, content: "メール1", activityDate: "2025-01-03", dealId: "D3", assigneeId: "A3", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                const { container } = render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("面談1")).toBeInTheDocument();
+                });
+                
+                const selectElement = container.querySelector('div[role="combobox"]') as HTMLElement;
+                await userEvent.click(selectElement);
+                const emailOption = await screen.findByRole("option", { name: /メール/ });
+                await userEvent.click(emailOption);
+                await userEvent.keyboard("{Escape}");
+                
+                await waitFor(() => {
+                    expect(screen.queryByText("面談1")).not.toBeInTheDocument();
+                    expect(screen.getByText("メール1")).toBeInTheDocument();
+                });
+            });
+            test("活動種別フィルターで「その他」を選択するとその他のみが表示される", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "面談1", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "4", activityType: "その他" as const, content: "その他1", activityDate: "2025-01-04", dealId: "D4", assigneeId: "A4", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                const { container } = render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("面談1")).toBeInTheDocument();
+                });
+                
+                const selectElement = container.querySelector('div[role="combobox"]') as HTMLElement;
+                await userEvent.click(selectElement);
+                const otherOption = await screen.findByRole("option", { name: /その他/ });
+                await userEvent.click(otherOption);
+                await userEvent.keyboard("{Escape}");
+                
+                await waitFor(() => {
+                    expect(screen.queryByText("面談1")).not.toBeInTheDocument();
+                    expect(screen.getByText("その他1")).toBeInTheDocument();
+                });
+            });
+            test("活動種別フィルターで複数選択すると該当する活動種別がOR条件で表示される", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "面談1", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "2", activityType: "電話" as const, content: "電話1", activityDate: "2025-01-02", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "3", activityType: "メール" as const, content: "メール1", activityDate: "2025-01-03", dealId: "D3", assigneeId: "A3", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                const { container } = render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("面談1")).toBeInTheDocument();
+                });
+                
+                const selectElement = container.querySelector('div[role="combobox"]') as HTMLElement;
+                await userEvent.click(selectElement);
+                const meetingOption = await screen.findByRole("option", { name: /面談/ });
+                await userEvent.click(meetingOption);
+                const phoneOption = await screen.findByRole("option", { name: /電話/ });
+                await userEvent.click(phoneOption);
+                await userEvent.keyboard("{Escape}");
+                
+                await waitFor(() => {
+                    expect(screen.getByText("面談1")).toBeInTheDocument();
+                    expect(screen.getByText("電話1")).toBeInTheDocument();
+                    expect(screen.queryByText("メール1")).not.toBeInTheDocument();
+                });
+            });
+            test("活動種別フィルター選択解除で全活動種別が表示される", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "面談1", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "2", activityType: "電話" as const, content: "電話1", activityDate: "2025-01-02", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                const { container } = render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("面談1")).toBeInTheDocument();
+                });
+                
+                // Select a filter
+                const selectElement = container.querySelector('div[role="combobox"]') as HTMLElement;
+                await userEvent.click(selectElement);
+                const meetingOption = await screen.findByRole("option", { name: /面談/ });
+                await userEvent.click(meetingOption);
+                await userEvent.keyboard("{Escape}");
+                
+                await waitFor(() => {
+                    expect(screen.queryByText("電話1")).not.toBeInTheDocument();
+                });
+                
+                // Deselect the filter
+                await userEvent.click(selectElement);
+                const meetingOptionAgain = await screen.findByRole("option", { name: /面談/ });
+                await userEvent.click(meetingOptionAgain);
+                await userEvent.keyboard("{Escape}");
+                
+                await waitFor(() => {
+                    expect(screen.getByText("面談1")).toBeInTheDocument();
+                    expect(screen.getByText("電話1")).toBeInTheDocument();
+                });
+            });
             test.todo("期間フィルターで開始日を選択すると開始日以降の活動のみが表示される");
             test.todo("期間フィルターで終了日を選択すると終了日以前の活動のみが表示される");
             test.todo("期間フィルターで開始日と終了日を選択すると期間内の活動のみが表示される");
@@ -1991,20 +2177,210 @@ describe("ActivityHistoryPage", () => {
         });
 
         describe("検索操作", () => {
-            test.todo("検索ボックスにキーワードを入力すると内容にキーワードを含む活動のみが表示される");
-            test.todo("検索ボックスにキーワードを入力すると活動種別にキーワードを含む活動のみが表示される");
-            test.todo("検索ボックスを空にすると全活動が表示される");
+            test("検索ボックスにキーワードを入力すると内容にキーワードを含む活動のみが表示される", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "新規顧客との面談", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "2", activityType: "電話" as const, content: "フォローアップ電話", activityDate: "2025-01-02", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("新規顧客との面談")).toBeInTheDocument();
+                });
+                
+                const searchInput = screen.getByPlaceholderText("活動を検索...");
+                await userEvent.type(searchInput, "新規");
+                
+                await waitFor(() => {
+                    expect(screen.getByText("新規顧客との面談")).toBeInTheDocument();
+                    expect(screen.queryByText("フォローアップ電話")).not.toBeInTheDocument();
+                });
+            });
+            test("検索ボックスにキーワードを入力すると活動種別にキーワードを含む活動のみが表示される", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "定例会議", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "2", activityType: "電話" as const, content: "確認連絡", activityDate: "2025-01-02", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("定例会議")).toBeInTheDocument();
+                });
+                
+                const searchInput = screen.getByPlaceholderText("活動を検索...");
+                await userEvent.type(searchInput, "面談");
+                
+                await waitFor(() => {
+                    expect(screen.getByText("定例会議")).toBeInTheDocument();
+                    expect(screen.queryByText("確認連絡")).not.toBeInTheDocument();
+                });
+            });
+            test("検索ボックスを空にすると全活動が表示される", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "新規顧客との面談", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "2", activityType: "電話" as const, content: "フォローアップ電話", activityDate: "2025-01-02", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("新規顧客との面談")).toBeInTheDocument();
+                });
+                
+                const searchInput = screen.getByPlaceholderText("活動を検索...");
+                await userEvent.type(searchInput, "新規");
+                
+                await waitFor(() => {
+                    expect(screen.queryByText("フォローアップ電話")).not.toBeInTheDocument();
+                });
+                
+                await userEvent.clear(searchInput);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("新規顧客との面談")).toBeInTheDocument();
+                    expect(screen.getByText("フォローアップ電話")).toBeInTheDocument();
+                });
+            });
             test.todo("検索ボックスのクリアアイコンクリックで検索キーワードがクリアされる");
             test.todo("検索ボックスでEnterキー押下で検索が実行される");
         });
 
         describe("ソート操作", () => {
-            test.todo("活動日時カラムヘッダークリックで活動日時の昇順にソートされる");
-            test.todo("活動日時カラムヘッダー再クリックで活動日時の降順にソートされる");
-            test.todo("活動種別カラムヘッダークリックで活動種別のアルファベット順にソートされる");
-            test.todo("活動種別カラムヘッダー再クリックで活動種別の逆アルファベット順にソートされる");
-            test.todo("内容カラムヘッダークリックで内容のアルファベット順にソートされる");
-            test.todo("内容カラムヘッダー再クリックで内容の逆アルファベット順にソートされる");
+            test("活動日時カラムヘッダークリックで活動日時の昇順にソートされる", async () => {
+                const mockActivities = [
+                    { id: "2", activityType: "電話" as const, content: "新しい", activityDate: "2025-01-10", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "1", activityType: "面談" as const, content: "古い", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("新しい")).toBeInTheDocument();
+                });
+                
+                // Initially sorted by date descending (newest first)
+                let rows = screen.getAllByRole("row");
+                expect(rows[1]).toHaveTextContent("新しい");
+                
+                // Click to sort ascending (oldest first)
+                const dateHeader = screen.getByText("活動日時");
+                await userEvent.click(dateHeader);
+                
+                await waitFor(() => {
+                    rows = screen.getAllByRole("row");
+                    expect(rows[1]).toHaveTextContent("古い");
+                });
+            });
+            test("活動日時カラムヘッダー再クリックで活動日時の降順にソートされる", async () => {
+                const mockActivities = [
+                    { id: "2", activityType: "電話" as const, content: "新しい", activityDate: "2025-01-10", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "1", activityType: "面談" as const, content: "古い", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("新しい")).toBeInTheDocument();
+                });
+                
+                const dateHeader = screen.getByText("活動日時");
+                await userEvent.click(dateHeader); // ascending
+                await userEvent.click(dateHeader); // descending
+                
+                await waitFor(() => {
+                    const rows = screen.getAllByRole("row");
+                    expect(rows[1]).toHaveTextContent("新しい");
+                });
+            });
+            test("活動種別カラムヘッダークリックで活動種別のアルファベット順にソートされる", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "内容1", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "2", activityType: "電話" as const, content: "内容2", activityDate: "2025-01-02", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                const { container } = render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("内容1")).toBeInTheDocument();
+                });
+                
+                // Find the table header with "活動種別" text
+                const typeHeader = container.querySelector('th:has(.MuiTableSortLabel-root):nth-child(2) .MuiTableSortLabel-root') as HTMLElement;
+                expect(typeHeader).toBeTruthy();
+                await userEvent.click(typeHeader);
+                
+                await waitFor(() => {
+                    const chips = screen.getAllByText(/面談|電話/);
+                    // 電話 comes before 面談 in Japanese alphabetical order
+                    expect(chips[0]).toHaveTextContent("電話");
+                });
+            });
+            test("活動種別カラムヘッダー再クリックで活動種別の逆アルファベット順にソートされる", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "内容1", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "2", activityType: "電話" as const, content: "内容2", activityDate: "2025-01-02", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                const { container } = render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("内容1")).toBeInTheDocument();
+                });
+                
+                const typeHeader = container.querySelector('th:has(.MuiTableSortLabel-root):nth-child(2) .MuiTableSortLabel-root') as HTMLElement;
+                expect(typeHeader).toBeTruthy();
+                await userEvent.click(typeHeader); // ascending
+                await userEvent.click(typeHeader); // descending
+                
+                await waitFor(() => {
+                    const chips = screen.getAllByText(/面談|電話/);
+                    // 面談 comes before 電話 in reverse order
+                    expect(chips[0]).toHaveTextContent("面談");
+                });
+            });
+            test("内容カラムヘッダークリックで内容のアルファベット順にソートされる", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "Z内容", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "2", activityType: "電話" as const, content: "A内容", activityDate: "2025-01-02", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("Z内容")).toBeInTheDocument();
+                });
+                
+                const contentHeader = screen.getByText("内容");
+                await userEvent.click(contentHeader);
+                
+                await waitFor(() => {
+                    const rows = screen.getAllByRole("row");
+                    expect(rows[1]).toHaveTextContent("A内容");
+                });
+            });
+            test("内容カラムヘッダー再クリックで内容の逆アルファベット順にソートされる", async () => {
+                const mockActivities = [
+                    { id: "1", activityType: "面談" as const, content: "Z内容", activityDate: "2025-01-01", dealId: "D1", assigneeId: "A1", createdAt: new Date(), updatedAt: new Date() },
+                    { id: "2", activityType: "電話" as const, content: "A内容", activityDate: "2025-01-02", dealId: "D2", assigneeId: "A2", createdAt: new Date(), updatedAt: new Date() },
+                ];
+                vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue(mockActivities);
+                render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+                
+                await waitFor(() => {
+                    expect(screen.getByText("Z内容")).toBeInTheDocument();
+                });
+                
+                const contentHeader = screen.getByText("内容");
+                await userEvent.click(contentHeader); // ascending
+                await userEvent.click(contentHeader); // descending
+                
+                await waitFor(() => {
+                    const rows = screen.getAllByRole("row");
+                    expect(rows[1]).toHaveTextContent("Z内容");
+                });
+            });
             test.todo("ソート中のカラムヘッダーにはソートインジケーター（▲▼）が表示される");
         });
 

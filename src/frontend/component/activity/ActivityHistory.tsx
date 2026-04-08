@@ -127,7 +127,7 @@ export const ActivityHistory = ({
                 sx={{
                     p: 2,
                     mb: 2,
-                    backgroundColor: "white",
+                    backgroundColor: "#ffffff",
                     borderRadius: "0.75rem",
                     display: "flex",
                     gap: 2,
@@ -140,6 +140,7 @@ export const ActivityHistory = ({
                     placeholder="活動を検索..."
                     value={keyword}
                     onChange={(e) => handleKeywordChange(e.target.value)}
+                    autoFocus
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -147,9 +148,38 @@ export const ActivityHistory = ({
                             </InputAdornment>
                         ),
                     }}
-                    sx={{ minWidth: 200 }}
+                    sx={{ 
+                        minWidth: 200,
+                        '& .MuiOutlinedInput-root': {
+                            backgroundColor: "#ffffff",
+                            borderRadius: "6px",
+                            fontFamily: "'Inter', sans-serif",
+                            fontSize: "14px",
+                            '& fieldset': {
+                                borderColor: "rgba(85, 95, 113, 0.2)",
+                            },
+                            '&:hover fieldset': {
+                                borderColor: "rgba(85, 95, 113, 0.4)",
+                            },
+                            '&.Mui-focused fieldset': {
+                                borderColor: "#002045",
+                            },
+                        }
+                    }}
                 />
-                <FormControl size="small" sx={{ minWidth: 160 }}>
+                <FormControl 
+                    size="small" 
+                    sx={{ 
+                        minWidth: 160,
+                        '& .MuiOutlinedInput-root': {
+                            backgroundColor: "#ffffff",
+                            borderRadius: "6px",
+                            '& fieldset': {
+                                borderColor: "rgba(85, 95, 113, 0.2)",
+                            },
+                        }
+                    }}
+                >
                     <InputLabel>活動種別</InputLabel>
                     <Select
                         multiple
@@ -174,11 +204,23 @@ export const ActivityHistory = ({
             </Box>
 
             {/* Table */}
-            <TableContainer component={Paper} elevation={0} sx={{ borderRadius: "0.75rem" }}>
+            <TableContainer 
+                component={Paper} 
+                elevation={0} 
+                sx={{ 
+                    borderRadius: "0.75rem",
+                    border: "1px solid rgba(85, 95, 113, 0.15)",
+                }}
+            >
                 <Table>
                     <TableHead>
                         <TableRow sx={{ backgroundColor: "#f1f4f6" }}>
-                            <TableCell>
+                            <TableCell sx={{ 
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: "14px",
+                                fontWeight: 600,
+                                padding: "16px",
+                            }}>
                                 <TableSortLabel
                                     active={sortField === "activityDate"}
                                     direction={sortField === "activityDate" ? sortOrder : "asc"}
@@ -187,7 +229,12 @@ export const ActivityHistory = ({
                                     活動日時
                                 </TableSortLabel>
                             </TableCell>
-                            <TableCell>
+                            <TableCell sx={{ 
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: "14px",
+                                fontWeight: 600,
+                                padding: "16px",
+                            }}>
                                 <TableSortLabel
                                     active={sortField === "activityType"}
                                     direction={sortField === "activityType" ? sortOrder : "asc"}
@@ -196,8 +243,18 @@ export const ActivityHistory = ({
                                     活動種別
                                 </TableSortLabel>
                             </TableCell>
-                            <TableCell>案件</TableCell>
-                            <TableCell>
+                            <TableCell sx={{ 
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: "14px",
+                                fontWeight: 600,
+                                padding: "16px",
+                            }}>案件</TableCell>
+                            <TableCell sx={{ 
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: "14px",
+                                fontWeight: 600,
+                                padding: "16px",
+                            }}>
                                 <TableSortLabel
                                     active={sortField === "content"}
                                     direction={sortField === "content" ? sortOrder : "asc"}
@@ -206,7 +263,12 @@ export const ActivityHistory = ({
                                     内容
                                 </TableSortLabel>
                             </TableCell>
-                            <TableCell>担当者</TableCell>
+                            <TableCell sx={{ 
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: "14px",
+                                fontWeight: 600,
+                                padding: "16px",
+                            }}>担当者</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -224,16 +286,25 @@ export const ActivityHistory = ({
                                     key={activity.id}
                                     hover
                                     onClick={() => onActivityClick?.(activity.id)}
-                                    sx={{ cursor: onActivityClick ? "pointer" : "default" }}
+                                    sx={{ 
+                                        cursor: onActivityClick ? "pointer" : "default",
+                                        '&:hover': {
+                                            backgroundColor: "rgba(0, 32, 69, 0.04)",
+                                        },
+                                        borderBottom: "1px solid rgba(85, 95, 113, 0.15)",
+                                    }}
                                 >
-                                    <TableCell>
-                                        <Typography variant="body2">
+                                    <TableCell sx={{ padding: "16px" }}>
+                                        <Typography variant="body2" sx={{ 
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontSize: "14px",
+                                        }}>
                                             {new Date(activity.activityDate).toLocaleDateString(
-                                                "ja-JP"
-                                            )}
+                                                "ja-JP", { year: 'numeric', month: 'long', day: 'numeric' }
+                                            ).replace(/\//g, '年').replace(/(\d+)$/, '$1日')}
                                         </Typography>
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell sx={{ padding: "16px" }}>
                                         <Chip
                                             icon={
                                                 activityTypeIcons[activity.activityType] as React.ReactElement
@@ -246,16 +317,26 @@ export const ActivityHistory = ({
                                             }}
                                         />
                                     </TableCell>
-                                    <TableCell>
-                                        <Typography variant="body2">{activity.dealId}</Typography>
+                                    <TableCell sx={{ padding: "16px" }}>
+                                        <Typography variant="body2" sx={{ 
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontSize: "14px",
+                                        }}>{activity.dealId}</Typography>
                                     </TableCell>
-                                    <TableCell>
-                                        <Typography variant="body2" noWrap sx={{ maxWidth: 300 }}>
+                                    <TableCell sx={{ padding: "16px" }}>
+                                        <Typography variant="body2" noWrap sx={{ 
+                                            maxWidth: 300,
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontSize: "14px",
+                                        }}>
                                             {activity.content}
                                         </Typography>
                                     </TableCell>
-                                    <TableCell>
-                                        <Typography variant="body2">
+                                    <TableCell sx={{ padding: "16px" }}>
+                                        <Typography variant="body2" sx={{ 
+                                            fontFamily: "'Inter', sans-serif",
+                                            fontSize: "14px",
+                                        }}>
                                             {activity.assigneeId}
                                         </Typography>
                                     </TableCell>
@@ -274,6 +355,22 @@ export const ActivityHistory = ({
                         page={pageInfo.page}
                         onChange={(_, page) => onPageChange?.(page)}
                         color="primary"
+                        sx={{
+                            '& .MuiPaginationItem-root': {
+                                height: '32px',
+                                fontFamily: "'Inter', sans-serif",
+                                '&.Mui-selected': {
+                                    backgroundColor: '#002045',
+                                    color: '#ffffff',
+                                },
+                                '&:not(.Mui-selected)': {
+                                    color: '#555f71',
+                                },
+                                '&:hover': {
+                                    backgroundColor: 'rgba(0, 32, 69, 0.08)',
+                                },
+                            },
+                        }}
                     />
                 </Box>
             )}
