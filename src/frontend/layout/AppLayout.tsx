@@ -109,6 +109,24 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                     })}
                 </List>
             </Box>
+            <a
+                className="flex items-center space-x-3 text-slate-400 px-6 py-4 hover:bg-slate-800/50 hover:text-white transition-colors text-sm font-semibold"
+                href="/deals/new"
+            >
+                <span className="material-symbols-outlined" data-icon="add">add</span>
+                <span>新規案件追加</span>
+            </a>
+            <div className="mt-auto px-6 py-8 border-t border-slate-800">
+                <div className="space-y-1">
+                    <a
+                        className="flex items-center space-x-3 text-slate-400 py-2 hover:text-white transition-colors text-sm"
+                        href="/settings"
+                    >
+                        <span className="material-symbols-outlined" data-icon="settings">settings</span>
+                        <span>設定</span>
+                    </a>
+                </div>
+            </div>
         </Box>
     );
 
