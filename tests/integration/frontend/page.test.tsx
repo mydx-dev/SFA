@@ -1907,26 +1907,34 @@ describe("ActivityHistoryPage", () => {
     });
 
     describe("初期表示", () => {
+        test("初期表示時にページタイトル「活動履歴」が表示される", async () => {
+            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
+            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
+            await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
+        });
         test("初期表示時に活動履歴一覧がテーブル形式で表示される", async () => {
             vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
             render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
             await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
         });
-        test("初期表示時にフィルターパネルが表示される", async () => {
+        test("初期表示時にフィルターパネルが上部に表示される", async () => {
             vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
             render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
             await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
         });
-        test("初期表示時にページネーションが表示される", async () => {
+        test("初期表示時にページネーションがテーブル下部に表示される", async () => {
             vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
             render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
             await waitFor(() => { expect(screen.getByText(/ページ/)).toBeInTheDocument(); });
         });
-        test("ローディング中はスピナーが表示される", () => {
+        test("ローディング中は中央にCircularProgressスピナーが表示される", () => {
             vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockImplementation(() => new Promise(() => {}));
             render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
             expect(screen.getByRole("progressbar")).toBeInTheDocument();
         });
+        test.todo("初期表示時に検索ボックスにフォーカスが当たる");
+        test.todo("初期表示時はソート順が活動日時の降順（新しい順）である");
+        test.todo("初期表示時はページ番号が1である");
     });
 
     describe("データ取得", () => {
@@ -1935,26 +1943,21 @@ describe("ActivityHistoryPage", () => {
             render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
             await waitFor(() => { expect(activitiesUseCase.getActivitiesFromLocal).toHaveBeenCalledTimes(1); });
         });
-        test("フィルター変更時に活動履歴APIが再度呼ばれる", async () => {
-            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
-            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
-            await waitFor(() => { expect(activitiesUseCase.getActivitiesFromLocal).toHaveBeenCalled(); });
-        });
-        test("ページ変更時に活動履歴APIが呼ばれる", async () => {
-            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
-            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
-            await waitFor(() => { expect(activitiesUseCase.getActivitiesFromLocal).toHaveBeenCalled(); });
-        });
+        test.todo("フィルター変更時に活動履歴APIが再度呼ばれる");
+        test.todo("ページ変更時に活動履歴APIが呼ばれる");
+        test.todo("ソート順変更時に活動履歴APIが呼ばれる");
         test("取得成功時に活動履歴一覧が表示される", async () => {
             vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
             render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
             await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
         });
-        test("取得失敗時にエラーメッセージが表示される", async () => {
+        test("取得失敗時にエラーメッセージ「エラーが発生しました」が表示される", async () => {
             vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockRejectedValue(new Error("Failed"));
             render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
             await waitFor(() => { expect(screen.getByText(/エラーが発生しました/)).toBeInTheDocument(); });
         });
+        test.todo("データ取得中は既存のテーブルデータが表示されたままローディング表示が追加される");
+        test.todo("空のデータ取得時は「活動履歴がありません」メッセージが表示される");
     });
 
     describe("データフロー", () => {
@@ -1968,127 +1971,321 @@ describe("ActivityHistoryPage", () => {
             render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
             await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
         });
+        test.todo("フィルター条件の変更がSearchFilterPanelからActivityHistoryPageに伝わる");
+        test.todo("ページ番号の変更がPaginationコンポーネントからActivityHistoryPageに伝わる");
+        test.todo("ソート条件の変更がActivityHistoryコンポーネントからActivityHistoryPageに伝わる");
     });
 
     describe("ユーザー操作", () => {
-        test("活動種別フィルター選択で活動履歴が絞り込まれる", async () => {
-            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
-            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
-            await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
+        describe("フィルター操作", () => {
+            test.todo("活動種別フィルターで「面談」を選択すると面談のみが表示される");
+            test.todo("活動種別フィルターで「電話」を選択すると電話のみが表示される");
+            test.todo("活動種別フィルターで「メール」を選択するとメールのみが表示される");
+            test.todo("活動種別フィルターで「その他」を選択するとその他のみが表示される");
+            test.todo("活動種別フィルターで複数選択すると該当する活動種別がOR条件で表示される");
+            test.todo("活動種別フィルター選択解除で全活動種別が表示される");
+            test.todo("期間フィルターで開始日を選択すると開始日以降の活動のみが表示される");
+            test.todo("期間フィルターで終了日を選択すると終了日以前の活動のみが表示される");
+            test.todo("期間フィルターで開始日と終了日を選択すると期間内の活動のみが表示される");
+            test.todo("期間フィルター選択解除で全期間の活動が表示される");
         });
-        test("期間フィルター選択で活動履歴が絞り込まれる", async () => {
-            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
-            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
-            await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
+
+        describe("検索操作", () => {
+            test.todo("検索ボックスにキーワードを入力すると内容にキーワードを含む活動のみが表示される");
+            test.todo("検索ボックスにキーワードを入力すると活動種別にキーワードを含む活動のみが表示される");
+            test.todo("検索ボックスを空にすると全活動が表示される");
+            test.todo("検索ボックスのクリアアイコンクリックで検索キーワードがクリアされる");
+            test.todo("検索ボックスでEnterキー押下で検索が実行される");
         });
-        test("検索ボックス入力で活動履歴が検索される", async () => {
-            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
-            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
-            await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
+
+        describe("ソート操作", () => {
+            test.todo("活動日時カラムヘッダークリックで活動日時の昇順にソートされる");
+            test.todo("活動日時カラムヘッダー再クリックで活動日時の降順にソートされる");
+            test.todo("活動種別カラムヘッダークリックで活動種別のアルファベット順にソートされる");
+            test.todo("活動種別カラムヘッダー再クリックで活動種別の逆アルファベット順にソートされる");
+            test.todo("内容カラムヘッダークリックで内容のアルファベット順にソートされる");
+            test.todo("内容カラムヘッダー再クリックで内容の逆アルファベット順にソートされる");
+            test.todo("ソート中のカラムヘッダーにはソートインジケーター（▲▼）が表示される");
         });
-        test("テーブルヘッダークリックでソート順が変更される", async () => {
-            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
-            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
-            await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
+
+        describe("行操作", () => {
+            test.todo("活動行クリックでonActivityClickハンドラが呼ばれる");
+            test.todo("活動行ホバーで背景色がrgba(0, 32, 69, 0.04)に変わる");
+            test.todo("活動行クリックでカーソルがpointerスタイルになる（onActivityClickが設定されている場合）");
+            test.todo("onActivityClickが未設定の場合は活動行クリックでイベントが発火しない");
+            test.todo("onActivityClickが未設定の場合は活動行のカーソルがdefaultスタイルである");
         });
-        test("活動行クリックで活動詳細モーダルが開く", async () => {
-            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
-            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
-            await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
+
+        describe("ページネーション操作", () => {
+            test.todo("ページネーションの次ページボタンクリックでページが2に切り替わる");
+            test.todo("ページネーションの前ページボタンクリックでページが1に戻る");
+            test.todo("ページネーションの特定ページ番号クリックで該当ページに切り替わる");
+            test.todo("最終ページでは次ページボタンが非活性になる");
+            test.todo("最初のページでは前ページボタンが非活性になる");
+            test.todo("ページ切り替え時にスクロール位置がページトップに戻る");
+            test.todo("総ページ数が1の場合はページネーションが表示されない");
         });
-        test("ページネーションクリックでページが切り替わる", async () => {
-            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
-            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
-            await waitFor(() => { expect(screen.getByText(/ページ 1/)).toBeInTheDocument(); });
-        });
-        test("フィルタークリアボタンクリックで全フィルターがリセットされる", async () => {
-            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
-            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
-            await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
+
+        describe("フィルタークリア操作", () => {
+            test.todo("フィルタークリアボタンクリックで活動種別フィルターがリセットされる");
+            test.todo("フィルタークリアボタンクリックで期間フィルターがリセットされる");
+            test.todo("フィルタークリアボタンクリックで検索キーワードがクリアされる");
+            test.todo("フィルター未選択時はフィルタークリアボタンが非活性になる");
         });
     });
 
     describe("状態管理", () => {
-        test("フィルター条件が管理される", async () => {
-            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
-            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
-            await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
-        });
-        test("ソート条件が管理される", async () => {
-            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
-            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
-            await waitFor(() => { expect(screen.getByText("活動履歴")).toBeInTheDocument(); });
-        });
-        test("現在のページ番号が管理される", async () => {
-            vi.mocked(activitiesUseCase.getActivitiesFromLocal).mockResolvedValue([]);
-            render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
-            await waitFor(() => { expect(screen.getByText(/ページ 1/)).toBeInTheDocument(); });
-        });
+        test.todo("フィルター条件（活動種別、期間、キーワード）が状態として管理される");
+        test.todo("ソート条件（フィールド、順序）が状態として管理される");
+        test.todo("現在のページ番号が状態として管理される");
+        test.todo("フィルター変更時にページ番号が1にリセットされる");
+        test.todo("ソート順変更時にページ番号が1にリセットされる");
+        test.todo("状態変更時にURLクエリパラメータが更新される");
+        test.todo("URLクエリパラメータから状態が復元される（ページリロード時）");
     });
+
     describe("レイアウト", () => {
-        describe("配置", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
-            });
-            test.todo("サイドナビゲーションは画面左側に固定配置される (fixed left-0)");
-            test.todo("サイドナビゲーションの幅は256px (w-64) である");
-            test.todo("ヘッダーは画面上部に固定配置される (sticky top-0)");
-            test.todo("メインコンテンツはサイドナビゲーションの右側に配置される (ml-64)");
-            test.todo("メインコンテンツの最小高さは画面全体 (min-h-screen) である");
+        describe("ページ全体構造", () => {
+            test.todo("ページ全体がBoxコンテナで囲まれている");
+            test.todo("ページタイトルがページ最上部に配置される");
+            test.todo("フィルターパネルがタイトルの下、テーブルの上に配置される");
+            test.todo("活動履歴テーブルがフィルターパネルの下に配置される");
+            test.todo("ページネーションがテーブルの下に配置される");
         });
-        describe("サイズ", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
+
+        describe("ページタイトル", () => {
+            describe("配置", () => {
+                test.todo("ページタイトルはページ最上部に配置される");
+                test.todo("ページタイトルの下マージンは32px (mb-4) である");
             });
-            test.todo("サイドナビゲーションの高さは画面全体 (h-screen) である");
-            test.todo("サイドナビゲーションの幅は256px (w-64) である");
-            test.todo("ヘッダーの幅はサイドナビゲーションを除いた幅 (w-[calc(100%-16rem)]) である");
+            describe("サイズ", () => {
+                test.todo("ページタイトルのフォントサイズは32px (variant='h1') である");
+            });
+            describe("色", () => {
+                test.todo("ページタイトルのテキスト色は#002045 (primary) である");
+            });
+            describe("タイポグラフィ", () => {
+                test.todo("ページタイトルのフォントはManropeである");
+                test.todo("ページタイトルのフォントウェイトは600 (semibold) である");
+                test.todo("ページタイトルの行間は1.3である");
+                test.todo("ページタイトルのレタースペーシングは-0.02emである");
+            });
         });
-        describe("色", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
+
+        describe("フィルターパネル", () => {
+            describe("配置", () => {
+                test.todo("フィルターパネルはページタイトルとテーブルの間に配置される");
+                test.todo("フィルターパネルの下マージンは16px (mb: 2) である");
+                test.todo("フィルターパネル内の要素はflexboxで横並び配置される");
+                test.todo("フィルターパネル内の要素間のギャップは16px (gap: 2) である");
             });
-            test.todo("サイドナビゲーションの背景色はダークグレー (bg-slate-900) である");
-            test.todo("ヘッダーの背景色は半透明の明るいグレー (bg-slate-50/80) である");
-            test.todo("非アクティブなナビゲーションリンクは灰色の文字色 (text-slate-400) である");
-            test.todo("テーブルのヘッダーは明るいグレーの背景 (bg-surface-container-low) である");
+            describe("サイズ", () => {
+                test.todo("フィルターパネルのパディングは16px (p: 2) である");
+                test.todo("検索ボックスの最小幅は200pxである");
+                test.todo("活動種別フィルターの最小幅は160pxである");
+            });
+            describe("色", () => {
+                test.todo("フィルターパネルの背景色は#ffffff (white) である");
+            });
+            describe("形状", () => {
+                test.todo("フィルターパネルの角丸は12px (borderRadius: '0.75rem') である");
+            });
         });
-        describe("タイポグラフィ", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
+
+        describe("検索ボックス", () => {
+            describe("配置", () => {
+                test.todo("検索ボックスはフィルターパネルの左側に配置される");
+                test.todo("検索ボックスの開始位置に検索アイコンが配置される");
             });
-            test.todo("サイドナビゲーションのタイトルはManropeフォント、太字 (font-bold)、テキストサイズはxl (text-xl) である");
-            test.todo("ヘッダーのテキストはManropeフォント、ミディアムウェイト (font-medium)、スモールサイズ (text-sm) である");
-            test.todo("テーブルのヘッダーはLabelフォント、セミボールド (font-semibold) である");
+            describe("サイズ", () => {
+                test.todo("検索ボックスのサイズはsmall (height: 40px) である");
+                test.todo("検索ボックスの最小幅は200pxである");
+            });
+            describe("色", () => {
+                test.todo("検索ボックスの背景色は#ffffff (white) である");
+                test.todo("検索ボックスのボーダー色はrgba(85, 95, 113, 0.2)である");
+                test.todo("検索ボックスのフォーカス時ボーダー色は#002045 (primary) である");
+            });
+            describe("タイポグラフィ", () => {
+                test.todo("検索ボックスのフォントはInterである");
+                test.todo("検索ボックスのフォントサイズは14pxである");
+                test.todo("検索ボックスのプレースホルダーテキストは「活動を検索...」である");
+            });
+            describe("形状", () => {
+                test.todo("検索ボックスの角丸は6px (borderRadius: '6px') である");
+            });
+            describe("インタラクション", () => {
+                test.todo("検索ボックスフォーカス時にボーダー色が#002045に変わる");
+                test.todo("検索ボックスホバー時にボーダー色が濃くなる");
+            });
         });
-        describe("形状", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
+
+        describe("活動種別フィルター", () => {
+            describe("配置", () => {
+                test.todo("活動種別フィルターは検索ボックスの右側に配置される");
             });
-            test.todo("サイドナビゲーションの右ボーダーは非表示 (border-r-0) である");
-            test.todo("フィルターボタンの角は丸い (rounded-lg) である");
+            describe("サイズ", () => {
+                test.todo("活動種別フィルターのサイズはsmall (height: 40px) である");
+                test.todo("活動種別フィルターの最小幅は160pxである");
+            });
+            describe("色", () => {
+                test.todo("活動種別フィルターの背景色は#ffffff (white) である");
+                test.todo("活動種別フィルターのボーダー色はrgba(85, 95, 113, 0.2)である");
+            });
+            describe("形状", () => {
+                test.todo("活動種別フィルターの角丸は6px (borderRadius: '6px') である");
+            });
+            describe("インタラクション", () => {
+                test.todo("活動種別フィルタークリックでドロップダウンメニューが開く");
+                test.todo("ドロップダウンメニューには面談、電話、メール、その他のオプションが表示される");
+                test.todo("各オプションにはアイコンが表示される");
+                test.todo("複数選択可能である");
+                test.todo("選択された値はChipとして表示される");
+            });
         });
-        describe("装飾", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
+
+        describe("活動履歴テーブル", () => {
+            describe("配置", () => {
+                test.todo("テーブルはフィルターパネルの下に配置される");
+                test.todo("テーブルはCardコンポーネント内に配置される");
             });
-            test.todo("テーブル行はホバー時に背景色が変わる");
-            test.todo("検索フィールドは背景色 (bg-surface-container-high) を持つ");
+            describe("サイズ", () => {
+                test.todo("テーブルのセルパディングは16pxである");
+                test.todo("テーブルの幅は親要素の100%である");
+            });
+            describe("色", () => {
+                test.todo("テーブルヘッダーの背景色は#f1f4f6である");
+                test.todo("テーブル行ホバー時の背景色はrgba(0, 32, 69, 0.04)である");
+                test.todo("テーブル行の境界線は透明度15%のゴーストボーダー (rgba(85, 95, 113, 0.15)) である");
+            });
+            describe("タイポグラフィ", () => {
+                test.todo("テーブルヘッダーのフォントはInterである");
+                test.todo("テーブルヘッダーのフォントサイズは14pxである");
+                test.todo("テーブルヘッダーのフォントウェイトは600 (semibold) である");
+                test.todo("テーブルセルのフォントはInterである");
+                test.todo("テーブルセルのフォントサイズは14px (variant='body2') である");
+            });
+            describe("形状", () => {
+                test.todo("テーブルコンテナの角丸は12px (borderRadius: '0.75rem') である");
+                test.todo("テーブルコンテナのエレベーションは0 (elevation={0}) である");
+            });
         });
-        describe("インタラクション", () => {
-            test("レイアウトが正しく表示される", () => {
-                // Layout test placeholder
-                expect(true).toBe(true);
+
+        describe("テーブルカラム", () => {
+            describe("活動日時カラム", () => {
+                test.todo("活動日時カラムは左端に配置される");
+                test.todo("活動日時カラムヘッダーにはソート用TableSortLabelが表示される");
+                test.todo("活動日時は日本語フォーマット (YYYY年MM月DD日) で表示される");
             });
-            test.todo("ナビゲーションリンクはホバー時に背景色が変わる (hover:bg-slate-800/50)");
-            test.todo("テーブル行はホバー時に背景色が変わる");
-            test.todo("ソート可能な列のヘッダーはクリック可能である");
+            describe("活動種別カラム", () => {
+                test.todo("活動種別カラムは活動日時カラムの右側に配置される");
+                test.todo("活動種別カラムヘッダーにはソート用TableSortLabelが表示される");
+                test.todo("活動種別はChipコンポーネントで表示される");
+                test.todo("面談のChip背景色は#d6e3ffである");
+                test.todo("電話のChip背景色は#d6e0f6である");
+                test.todo("メールのChip背景色は#9ff5c1である");
+                test.todo("その他のChip背景色は#e0e3e5である");
+                test.todo("面談のアイコンはGroupsIconで色は#002045である");
+                test.todo("電話のアイコンはCallIconで色は#555f71である");
+                test.todo("メールのアイコンはEmailIconで色は#003f25である");
+                test.todo("その他のアイコンはMoreHorizIconで色は#74777fである");
+                test.todo("Chipのサイズはsmallである");
+            });
+            describe("案件カラム", () => {
+                test.todo("案件カラムは活動種別カラムの右側に配置される");
+                test.todo("案件カラムヘッダーにはソートアイコンが表示されない");
+                test.todo("案件IDまたは案件名が表示される");
+            });
+            describe("内容カラム", () => {
+                test.todo("内容カラムは案件カラムの右側に配置される");
+                test.todo("内容カラムヘッダーにはソート用TableSortLabelが表示される");
+                test.todo("内容は最大300pxで折り返され、超過分は省略記号(...)で表示される (noWrap, maxWidth: 300)");
+            });
+            describe("担当者カラム", () => {
+                test.todo("担当者カラムは右端に配置される");
+                test.todo("担当者カラムヘッダーにはソートアイコンが表示されない");
+                test.todo("担当者IDまたは担当者名が表示される");
+            });
+        });
+
+        describe("空状態表示", () => {
+            describe("配置", () => {
+                test.todo("活動履歴がない場合、テーブル中央にメッセージが表示される");
+            });
+            describe("サイズ", () => {
+                test.todo("空状態メッセージのセルはcolSpan=5で全カラムを結合する");
+                test.todo("空状態メッセージの上下パディングは16px (py: 2) である");
+            });
+            describe("色", () => {
+                test.todo("空状態メッセージのテキスト色はtext.secondaryである");
+            });
+            describe("タイポグラフィ", () => {
+                test.todo("空状態メッセージのテキストは「活動履歴がありません」である");
+            });
+        });
+
+        describe("ページネーション", () => {
+            describe("配置", () => {
+                test.todo("ページネーションはテーブルの下、中央に配置される (display: flex, justifyContent: center)");
+                test.todo("ページネーションの上マージンは24px (mt: 3) である");
+            });
+            describe("サイズ", () => {
+                test.todo("ページネーションボタンの高さは32pxである");
+            });
+            describe("色", () => {
+                test.todo("選択中のページ番号の背景色は#002045 (primary) である");
+                test.todo("選択中のページ番号のテキスト色は#ffffffである");
+                test.todo("未選択のページ番号のテキスト色は#555f71である");
+            });
+            describe("インタラクション", () => {
+                test.todo("ページ番号ボタンホバー時に背景色がrgba(0, 32, 69, 0.08)に変わる");
+                test.todo("ページ番号ボタンクリックでページが切り替わる");
+                test.todo("前へボタンクリックでページが1つ戻る");
+                test.todo("次へボタンクリックでページが1つ進む");
+            });
+        });
+
+        describe("ローディング状態", () => {
+            describe("配置", () => {
+                test.todo("ローディング中はページ中央にCircularProgressが表示される (display: flex, justifyContent: center, alignItems: center)");
+                test.todo("ローディングエリアの最小高さは400px (minHeight: '400px') である");
+            });
+            describe("色", () => {
+                test.todo("CircularProgressの色は#002045 (primary) である");
+            });
+        });
+
+        describe("エラー状態", () => {
+            describe("配置", () => {
+                test.todo("エラー時はページ中央にエラーメッセージが表示される (display: flex, justifyContent: center, alignItems: center)");
+                test.todo("エラーエリアの最小高さは400px (minHeight: '400px') である");
+            });
+            describe("色", () => {
+                test.todo("エラーメッセージのテキスト色はerrorカラーである");
+            });
+            describe("タイポグラフィ", () => {
+                test.todo("エラーメッセージのフォントサイズは24px (variant='h3') である");
+                test.todo("エラーメッセージのテキストは「エラーが発生しました」である");
+            });
+        });
+
+        describe("レスポンシブデザイン", () => {
+            test.todo("画面幅768px未満ではフィルターパネル内の要素が縦並びになる (flexWrap: 'wrap')");
+            test.todo("画面幅768px未満では検索ボックスの幅が100%になる");
+            test.todo("画面幅768px未満では活動種別フィルターの幅が100%になる");
+            test.todo("画面幅768px未満ではテーブルが横スクロール可能になる");
+            test.todo("画面幅480px未満では内容カラムの最大幅が200pxに縮小される");
+        });
+
+        describe("アクセシビリティ", () => {
+            test.todo("テーブルヘッダーには適切なaria-labelが設定されている");
+            test.todo("ソート可能なカラムヘッダーにはaria-sort属性が設定されている");
+            test.todo("ページネーションにはaria-labelが設定されている");
+            test.todo("検索ボックスにはaria-labelが設定されている");
+            test.todo("活動種別フィルターにはaria-labelが設定されている");
+            test.todo("活動行クリック時にフォーカスリングが表示される");
+            test.todo("キーボード操作でテーブル内を移動できる (Tab キー)");
+            test.todo("キーボード操作でソートを変更できる (Enter または Space キー)");
         });
     });
 });
