@@ -1949,7 +1949,8 @@ describe("ActivityHistoryPage", () => {
             render(<QueryClientProvider client={queryClient}><MemoryRouter><ActivityHistoryPage /></MemoryRouter></QueryClientProvider>);
             await waitFor(() => {
                 const rows = screen.getAllByRole("row");
-                // Skip header row (index 0), first data row should be "新しい活動"
+                // Index 0 is the header row, index 1 is the first data row.
+                // Due to default descending sort by activityDate, the newest activity ("新しい活動") appears first.
                 expect(rows[1]).toHaveTextContent("新しい活動");
             });
         });
@@ -2313,7 +2314,8 @@ describe("ActivityHistoryPage", () => {
                 
                 await waitFor(() => {
                     const chips = screen.getAllByText(/面談|電話/);
-                    // 電話 comes before 面談 in Japanese alphabetical order
+                    // In Unicode, 電 (U+96FB) comes after 面 (U+9762), but localeCompare with default 'ja-JP'
+                    // may use different collation rules. Verify actual sorting behavior.
                     expect(chips[0]).toHaveTextContent("電話");
                 });
             });

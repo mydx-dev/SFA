@@ -301,7 +301,7 @@ export const ActivityHistory = ({
                                         }}>
                                             {new Date(activity.activityDate).toLocaleDateString(
                                                 "ja-JP", { year: 'numeric', month: 'long', day: 'numeric' }
-                                            ).replace(/\//g, '年').replace(/(\d+)$/, '$1日')}
+                                            )}
                                         </Typography>
                                     </TableCell>
                                     <TableCell sx={{ padding: "16px" }}>
