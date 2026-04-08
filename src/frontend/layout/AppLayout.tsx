@@ -66,6 +66,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
     const sidebarContent = (
         <Box
             component="aside"
+            className="fixed left-0 top-0 h-full z-40 w-64 border-r-0 shadow-2xl shadow-slate-950/20 bg-slate-900"
             sx={{ 
                 width: SIDEBAR_WIDTH,
                 height: "100%",
@@ -78,7 +79,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
         >
             <Box sx={{ p: 3, borderBottom: "1px solid", borderColor: "rgba(255, 255, 255, 0.1)" }}>
                 <Typography 
-                    variant="h2" 
+                    variant="h2"
+                    className="text-xl font-bold font-headline text-white"
                     sx={{ 
                         fontSize: "1.25rem",
                         fontWeight: 700,
@@ -87,6 +89,13 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                     }}
                 >
                     SFA
+                </Typography>
+                <Typography
+                    variant="caption"
+                    className="text-xs text-slate-400"
+                    sx={{ display: "block", color: "#94a3b8", mt: 0.5 }}
+                >
+                    Sales Management
                 </Typography>
             </Box>
             <Box component="nav" role="navigation" sx={{ flexGrow: 1 }}>
@@ -101,6 +110,11 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                                     selected={isActive}
                                     role="tab"
                                     aria-selected={isActive}
+                                    className={
+                                        isActive
+                                            ? "flex items-center space-x-3 bg-emerald-500/10 text-emerald-400 border-r-4 border-emerald-500 px-6 py-4 font-headline font-semibold text-sm"
+                                            : "flex items-center space-x-3 text-slate-400 px-6 py-4 hover:bg-slate-800/50 transition-colors hover:text-white font-headline font-semibold text-sm"
+                                    }
                                     sx={{
                                         py: 1.5,
                                         px: 3,
@@ -235,6 +249,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                     position="sticky" 
                     component="header" 
                     elevation={0}
+                    className="sticky top-0 z-30 ml-64 w-[calc(100%-16rem)] px-8 py-4 bg-slate-50/80 backdrop-blur-xl font-headline font-medium text-sm"
                     sx={{
                         top: 0,
                         zIndex: 30, // z-index 30
