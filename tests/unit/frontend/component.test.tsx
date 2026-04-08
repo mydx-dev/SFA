@@ -1428,10 +1428,6 @@ describe("ActivityHistoryComponent", () => {
     });
 
     describe("インタラクション", () => {
-        test("レイアウトが正しく表示される", () => {
-            // Layout test placeholder
-            expect(true).toBe(true);
-        });
         test.todo("活動種別フィルター選択で該当活動のみ表示される");
         test.todo("期間フィルター選択で期間内の活動のみ表示される");
         test.todo("検索ボックスに入力して活動を検索できる");
@@ -1445,29 +1441,17 @@ describe("ActivityHistoryComponent", () => {
     });
     describe("レイアウト", () => {
         describe("配置", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("活動カードは垂直方向にスタック配置される (space-y-6)");
                 test.todo("活動カード内でアイコンとコンテンツは水平に配置される (flex items-start space-x-6)");
                 test.todo("タイトルと時刻は両端揃え (justify-between) で配置される");
                 test.todo("バッジは水平方向に4項目のギャップ (space-x-4) で配置される");
             });
         describe("サイズ", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("活動カードのパディングは24px (p-6) である");
                 test.todo("活動タイプアイコンは48px×48px (w-12 h-12) の円形である");
                 test.todo("メモエリアのパディングは16px (p-4) である");
             });
         describe("色", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("活動カードの背景色は#ffffff (bg-surface-container-lowest) である");
                 test.todo("通話アイコンの背景色は#d6e0f6 (bg-secondary-fixed) である");
                 test.todo("メールアイコンの背景色は#d6e3ff (bg-primary-fixed) である");
@@ -1477,10 +1461,6 @@ describe("ActivityHistoryComponent", () => {
                 test.todo("メモエリアの左ボーダー色は活動タイプに応じて変わる");
             });
         describe("タイポグラフィ", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("活動タイトルはManropeフォント、太字 (font-bold) である");
                 test.todo("サブテキスト（会社名・案件名）はsmサイズ (text-sm) である");
                 test.todo("時刻表示はxsサイズ、ミディアムウェイト (text-xs font-medium) である");
@@ -1488,10 +1468,6 @@ describe("ActivityHistoryComponent", () => {
                 test.todo("バッジテキストは10pxサイズ (text-[10px])、太字 (font-bold)、大文字 (uppercase) である");
             });
         describe("形状", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("活動カードは完全な丸角 (rounded-full) である");
                 test.todo("活動タイプアイコンは円形 (rounded-full) である");
                 test.todo("メモエリアは12px角丸 (rounded-xl) である");
@@ -1499,28 +1475,16 @@ describe("ActivityHistoryComponent", () => {
                 test.todo("バッジは完全な丸角 (rounded-full) である");
             });
         describe("装飾", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("活動カードはsmシャドウ (shadow-sm) を持つ");
                 test.todo("活動カードのホバー時はxlシャドウ (hover:shadow-xl) になる");
                 test.todo("活動カードのホバー時はボーダーが表示される (hover:border-outline-variant/10)");
                 test.todo("トランジションは300ms (transition-all duration-300) である");
             });
         describe("インタラクション", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("活動カードはホバー時にシャドウとボーダーが変化する");
                 test.todo("活動カード内のリンクはホバー時にアンダーラインが表示される");
             });
         describe("日付グループヘッダー", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("日付グループヘッダーは左右に区切り線を持つ");
                 test.todo("区切り線は1px高さ (h-[1px])、#c4c6cf30 (bg-outline-variant/30) である");
                 test.todo("日付テキストはxsサイズ、太字 (font-bold)、大文字 (uppercase) である");
@@ -1885,10 +1849,6 @@ describe("SearchFilterPanelComponent", () => {
     });
 
     describe("インタラクション", () => {
-        test("レイアウトが正しく表示される", () => {
-            // Layout test placeholder
-            expect(true).toBe(true);
-        });
         test.todo("検索ボックス入力でonFilterChangeが呼ばれる");
         test.todo("ステータスチェックボックス変更でonFilterChangeが呼ばれる");
         test.todo("担当者選択でonFilterChangeが呼ばれる");
@@ -1898,19 +1858,11 @@ describe("SearchFilterPanelComponent", () => {
     });
     describe("レイアウト", () => {
         describe("配置", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("検索フィールドは検索アイコンと水平に配置される");
                 test.todo("検索アイコンは検索フィールドの左側、内部に配置される (absolute inset-y-0 left-3)");
                 test.todo("フィルターボタンは8pxのギャップ (gap-2) で配置される");
             });
         describe("サイズ", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("検索フィールドの幅は256px (w-64) である");
                 test.todo("検索フィールドの左パディングは40px (pl-10) である");
                 test.todo("検索フィールドの右パディングは16px (pr-4) である");
@@ -1919,10 +1871,6 @@ describe("SearchFilterPanelComponent", () => {
                 test.todo("フィルターボタンの垂直パディングは8px (py-2) である");
             });
         describe("色", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("検索フィールドの背景色は#e5e9eb (bg-surface-container-high) である");
                 test.todo("検索フィールドのボーダーはなし (border-none) である");
                 test.todo("検索フィールドのフォーカス時は2pxのリング (focus:ring-2 focus:ring-surface-tint) が表示される");
@@ -1933,36 +1881,20 @@ describe("SearchFilterPanelComponent", () => {
                 test.todo("非アクティブなフィルターボタンの文字色は#43474e (text-on-surface-variant) である");
             });
         describe("タイポグラフィ", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("検索フィールドのテキストはsmサイズ (text-sm) である");
                 test.todo("フィルターボタンのテキストはxsサイズ、太字 (text-xs font-bold) である");
             });
         describe("形状", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("検索フィールドは完全な丸角 (rounded-full) である");
                 test.todo("フィルターボタンは8px角丸 (rounded-lg) である");
             });
         describe("装飾", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("検索フィールドのトランジションはtransition-allである");
                 test.todo("フィルターボタンのトランジションはtransition-allである");
                 test.todo("アクティブなフィルターボタンのホバー時は背景がprimaryに変わる (hover:bg-primary)");
                 test.todo("アクティブなフィルターボタンのホバー時は文字色が白に変わる (hover:text-white)");
             });
         describe("インタラクション", () => {
-                test("レイアウトが正しく表示される", () => {
-                    // Layout test placeholder
-                    expect(true).toBe(true);
-                });
                 test.todo("フィルターボタンのホバー時はボーダーが表示される (hover:border-outline-variant)");
                 test.todo("検索フィールドのフォーカス時はリングが表示される");
             });
