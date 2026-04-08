@@ -15,6 +15,8 @@ jobs:
               run: |
                   echo "event: ${{ github.event_name }}"
                   echo "conclusion: ${{ github.event.workflow_run.conclusion }}"
+                  echo "actor: ${{ github.actor }}"
+                  echo "triggering actor: ${{ github.triggering_actor }}"
                   echo "actor.login: ${{ github.event.workflow_run.actor.login }}"
                   echo "actor.type: ${{ github.event.workflow_run.actor.type }}"
                   echo "event type: ${{ github.event.workflow_run.event }}"
