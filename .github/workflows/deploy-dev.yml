@@ -7,6 +7,15 @@ on:
     workflow_dispatch:
 
 jobs:
+    debug:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Debug workflow_run actor
+              run: |
+                  echo "event: ${{ github.event_name }}"
+                  echo "actor.login: ${{ github.event.workflow_run.actor.login }}"
+                  echo "actor.type: ${{ github.event.workflow_run.actor.type }}"
+
     deploy:
         if: >-
             (github.event_name == 'workflow_dispatch' &&
