@@ -1,4 +1,4 @@
-import { AppBar, Box, Container, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { AppBar, Box, Container, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar, Typography, useMediaQuery, useTheme, type SxProps, type Theme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useQuery } from "@tanstack/react-query";
 import { ReactNode, useEffect, useState } from "react";
@@ -16,13 +16,15 @@ interface SidebarNavItemProps {
     icon: string;
     label: string;
     className: string;
+    sx?: SxProps<Theme>;
 }
 
-const SidebarNavItem = ({ to, icon, label, className }: SidebarNavItemProps) => (
-    <Link to={to} className={className}>
+const SidebarNavItem = ({ to, icon, label, className, sx: sxProp }: SidebarNavItemProps) => (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    <Box component={Link as any} to={to} className={className} sx={{ display: "flex", alignItems: "center", textDecoration: "none", ...sxProp }}>
         <span className="material-symbols-outlined" data-icon={icon}>{icon}</span>
         <span>{label}</span>
-    </Link>
+    </Box>
 );
 
 const SIDEBAR_WIDTH = 256; // 256px = w-64 in Tailwind
@@ -128,14 +130,47 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                 icon="add"
                 label="新規案件追加"
                 className="flex items-center space-x-3 text-slate-400 px-6 py-4 hover:bg-slate-800/50 hover:text-white transition-colors text-sm font-semibold"
+                sx={{
+                    gap: 1.5,
+                    color: "#94a3b8",
+                    px: 3,
+                    py: 2,
+                    fontSize: "0.875rem",
+                    fontWeight: 600,
+                    fontFamily: "Manrope, sans-serif",
+                    "&:hover": {
+                        bgcolor: "rgba(30, 41, 59, 0.5)",
+                        color: "#ffffff",
+                    },
+                    transition: "color 0.15s ease, background-color 0.15s ease",
+                }}
             />
-            <Box className="mt-auto px-6 py-8 border-t border-slate-800">
-                <Box className="space-y-1">
+            <Box
+                className="mt-auto px-6 py-8 border-t border-slate-800"
+                sx={{
+                    mt: "auto",
+                    px: 3,
+                    py: 4,
+                    borderTop: "1px solid #1e293b",
+                }}
+            >
+                <Box className="space-y-1" sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
                     <SidebarNavItem
                         to="/settings"
                         icon="settings"
                         label="設定"
                         className="flex items-center space-x-3 text-slate-400 py-2 hover:text-white transition-colors text-sm"
+                        sx={{
+                            gap: 1.5,
+                            color: "#94a3b8",
+                            py: 1,
+                            fontSize: "0.875rem",
+                            fontFamily: "Manrope, sans-serif",
+                            "&:hover": {
+                                color: "#ffffff",
+                            },
+                            transition: "color 0.15s ease",
+                        }}
                     />
                 </Box>
             </Box>
