@@ -7,6 +7,18 @@ on:
     workflow_dispatch:
 
 jobs:
+    debug-workflow-run:
+        if: github.event_name == 'workflow_run'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Debug workflow_run
+              run: |
+                  echo "event: ${{ github.event_name }}"
+                  echo "conclusion: ${{ github.event.workflow_run.conclusion }}"
+                  echo "actor.login: ${{ github.event.workflow_run.actor.login }}"
+                  echo "actor.type: ${{ github.event.workflow_run.actor.type }}"
+                  echo "event type: ${{ github.event.workflow_run.event }}"
+                  echo "head repo: ${{ github.event.workflow_run.head_repository.full_name }}"
     debug:
         runs-on: ubuntu-latest
         steps:
