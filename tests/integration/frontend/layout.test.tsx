@@ -123,11 +123,57 @@ describe("AppLayout", () => {
             expect(screen.getByRole("contentinfo")).toBeInTheDocument();
         });
 
-        test.todo("サイドバーに新規案件追加ボタンが表示される");
-        
-        test.todo("サイドバーの下部に設定ボタンが表示される");
-        
-        test.todo("設定ボタンにアイコンが表示される");
+        test("サイドバーに新規案件追加ボタンが表示される", () => {
+            vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+            render(
+                <QueryClientProvider client={queryClient}>
+                    <MemoryRouter>
+                        <AppLayout>
+                            <div>テストコンテンツ</div>
+                        </AppLayout>
+                    </MemoryRouter>
+                </QueryClientProvider>
+            );
+
+            expect(screen.getByText("新規案件追加")).toBeInTheDocument();
+        });
+
+        test("サイドバーの下部に設定ボタンが表示される", () => {
+            vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+            render(
+                <QueryClientProvider client={queryClient}>
+                    <MemoryRouter>
+                        <AppLayout>
+                            <div>テストコンテンツ</div>
+                        </AppLayout>
+                    </MemoryRouter>
+                </QueryClientProvider>
+            );
+
+            const settingsLink = screen.getByText("設定").closest("a");
+            expect(settingsLink).toBeInTheDocument();
+            expect(settingsLink?.closest(".mt-auto")).toBeInTheDocument();
+        });
+
+        test("設定ボタンにアイコンが表示される", () => {
+            vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+            render(
+                <QueryClientProvider client={queryClient}>
+                    <MemoryRouter>
+                        <AppLayout>
+                            <div>テストコンテンツ</div>
+                        </AppLayout>
+                    </MemoryRouter>
+                </QueryClientProvider>
+            );
+
+            const icon = screen.getByText("settings");
+            expect(icon).toBeInTheDocument();
+            expect(icon.classList.contains("material-symbols-outlined")).toBe(true);
+        });
     });
 
     describe("ナビゲーション", () => {
@@ -564,9 +610,57 @@ describe("AppLayout", () => {
             test.todo("メインコンテンツエリアのパディングがp-8である");
             
             // サイドバーボタンの配置
-            test.todo("新規案件追加ボタンがサイドバーのナビゲーション要素の直後に配置される");
-            test.todo("設定ボタンがサイドバーの下部（mt-auto）に配置される");
-            test.todo("設定ボタンがボーダー（border-t border-slate-800）で区切られている");
+            test("新規案件追加ボタンがサイドバーのナビゲーション要素の直後に配置される", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const nav = screen.getByRole("navigation");
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(nav.nextElementSibling).toBe(addLink);
+            });
+            test("設定ボタンがサイドバーの下部（mt-auto）に配置される", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const settingsLink = screen.getByText("設定").closest("a");
+                expect(settingsLink?.closest(".mt-auto")).toBeInTheDocument();
+            });
+            test("設定ボタンがボーダー（border-t border-slate-800）で区切られている", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const settingsLink = screen.getByText("設定").closest("a");
+                const borderSection = settingsLink?.closest(".border-t");
+                expect(borderSection).toBeInTheDocument();
+                expect(borderSection?.classList.contains("border-slate-800")).toBe(true);
+            });
         });
         describe("サイズ", () => {
             test("全体のレイアウトサイズが適切である", () => {
@@ -592,8 +686,39 @@ describe("AppLayout", () => {
             test.todo("メインコンテンツエリアの最小高さがmin-h-screenである");
             
             // サイドバーボタンのサイズ
-            test.todo("新規案件追加ボタンのパディングがpx-6 py-4である");
-            test.todo("設定ボタンのパディングがpy-2である");
+            test("新規案件追加ボタンのパディングがpx-6 py-4である", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(addLink?.classList.contains("px-6")).toBe(true);
+                expect(addLink?.classList.contains("py-4")).toBe(true);
+            });
+            test("設定ボタンのパディングがpy-2である", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const settingsLink = screen.getByText("設定").closest("a");
+                expect(settingsLink?.classList.contains("py-2")).toBe(true);
+            });
         });
         describe("色", () => {
             test("主要な要素が適切に表示される", () => {
@@ -621,11 +746,86 @@ describe("AppLayout", () => {
             test.todo("ページ全体のテキスト色がtext-on-surfaceである");
             
             // サイドバーボタンの色
-            test.todo("新規案件追加ボタンのテキスト色がtext-slate-400（非アクティブ時）である");
-            test.todo("新規案件追加ボタンのホバー時テキスト色がhover:text-whiteである");
-            test.todo("新規案件追加ボタンのホバー時背景色がhover:bg-slate-800/50である");
-            test.todo("設定ボタンのテキスト色がtext-slate-400である");
-            test.todo("設定ボタンのホバー時テキスト色がhover:text-whiteである");
+            test("新規案件追加ボタンのテキスト色がtext-slate-400（非アクティブ時）である", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(addLink?.classList.contains("text-slate-400")).toBe(true);
+            });
+            test("新規案件追加ボタンのホバー時テキスト色がhover:text-whiteである", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(addLink?.classList.contains("hover:text-white")).toBe(true);
+            });
+            test("新規案件追加ボタンのホバー時背景色がhover:bg-slate-800/50である", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(addLink?.classList.contains("hover:bg-slate-800/50")).toBe(true);
+            });
+            test("設定ボタンのテキスト色がtext-slate-400である", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const settingsLink = screen.getByText("設定").closest("a");
+                expect(settingsLink?.classList.contains("text-slate-400")).toBe(true);
+            });
+            test("設定ボタンのホバー時テキスト色がhover:text-whiteである", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const settingsLink = screen.getByText("設定").closest("a");
+                expect(settingsLink?.classList.contains("hover:text-white")).toBe(true);
+            });
         });
         describe("タイポグラフィ", () => {
             test("タイトルとナビゲーションテキストが表示される", () => {
@@ -652,9 +852,54 @@ describe("AppLayout", () => {
             test.todo("TopAppBarのフォントファミリーがfont-manrope（Manrope）である");
             
             // サイドバーボタンのタイポグラフィ
-            test.todo("新規案件追加ボタンのフォントサイズがtext-sm（14px）である");
-            test.todo("新規案件追加ボタンのフォントウェイトがfont-semibold（600）である");
-            test.todo("設定ボタンのフォントサイズがtext-sm（14px）である");
+            test("新規案件追加ボタンのフォントサイズがtext-sm（14px）である", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(addLink?.classList.contains("text-sm")).toBe(true);
+            });
+            test("新規案件追加ボタンのフォントウェイトがfont-semibold（600）である", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(addLink?.classList.contains("font-semibold")).toBe(true);
+            });
+            test("設定ボタンのフォントサイズがtext-sm（14px）である", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const settingsLink = screen.getByText("設定").closest("a");
+                expect(settingsLink?.classList.contains("text-sm")).toBe(true);
+            });
         });
         describe("形状", () => {
             test("基本的なレイアウト要素が表示される", () => {
@@ -677,8 +922,42 @@ describe("AppLayout", () => {
             test.todo("SideNavBarの右側にボーダーがない（border-r-0）");
             
             // サイドバーボタンの形状
-            test.todo("新規案件追加ボタンのボーダー半径は適用されない");
-            test.todo("設定ボタンのボーダー半径は適用されない");
+            test("新規案件追加ボタンのボーダー半径は適用されない", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(addLink?.classList.contains("rounded")).toBe(false);
+                expect(addLink?.classList.contains("rounded-full")).toBe(false);
+                expect(addLink?.classList.contains("rounded-lg")).toBe(false);
+            });
+            test("設定ボタンのボーダー半径は適用されない", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const settingsLink = screen.getByText("設定").closest("a");
+                expect(settingsLink?.classList.contains("rounded")).toBe(false);
+                expect(settingsLink?.classList.contains("rounded-full")).toBe(false);
+                expect(settingsLink?.classList.contains("rounded-lg")).toBe(false);
+            });
         });
         describe("装飾", () => {
             test("ナビゲーション要素が適切に表示される", () => {
@@ -703,10 +982,72 @@ describe("AppLayout", () => {
             test.todo("TopAppBarにbackdrop-filter: blur-xlが適用される");
             
             // サイドバーボタンの装飾
-            test.todo("新規案件追加ボタンにアイコン（add）が表示される");
-            test.todo("新規案件追加ボタンのアイコンとテキストにspace-x-3のスペースがある");
-            test.todo("設定ボタンにアイコン（settings）が表示される");
-            test.todo("設定ボタンのアイコンとテキストにspace-x-3のスペースがある");
+            test("新規案件追加ボタンにアイコン（add）が表示される", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addIcon = screen.getByText("add");
+                expect(addIcon).toBeInTheDocument();
+                expect(addIcon.classList.contains("material-symbols-outlined")).toBe(true);
+            });
+            test("新規案件追加ボタンのアイコンとテキストにspace-x-3のスペースがある", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(addLink?.classList.contains("space-x-3")).toBe(true);
+            });
+            test("設定ボタンにアイコン（settings）が表示される", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const settingsIcon = screen.getByText("settings");
+                expect(settingsIcon).toBeInTheDocument();
+                expect(settingsIcon.classList.contains("material-symbols-outlined")).toBe(true);
+            });
+            test("設定ボタンのアイコンとテキストにspace-x-3のスペースがある", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const settingsLink = screen.getByText("設定").closest("a");
+                expect(settingsLink?.classList.contains("space-x-3")).toBe(true);
+            });
         });
         describe("インタラクション", () => {
             test("ナビゲーションリンクが機能する", async () => {
@@ -731,13 +1072,118 @@ describe("AppLayout", () => {
             test.todo("TopAppBarのスクロール時にsticky配置が維持される");
             
             // サイドバーボタンのインタラクション
-            test.todo("新規案件追加ボタンクリックで新規案件作成画面に遷移する");
-            test.todo("新規案件追加ボタンホバー時に背景色が変化する（hover:bg-slate-800/50）");
-            test.todo("新規案件追加ボタンホバー時にテキスト色が変化する（hover:text-white）");
-            test.todo("新規案件追加ボタンにtransition-colorsアニメーションが適用される");
-            test.todo("設定ボタンクリックで設定画面に遷移する");
-            test.todo("設定ボタンホバー時にテキスト色が変化する（hover:text-white）");
-            test.todo("設定ボタンにtransition-colorsアニメーションが適用される");
+            test("新規案件追加ボタンクリックで新規案件作成画面に遷移する", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(addLink).toHaveAttribute("href", "/deals/new");
+            });
+            test("新規案件追加ボタンホバー時に背景色が変化する（hover:bg-slate-800/50）", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(addLink?.classList.contains("hover:bg-slate-800/50")).toBe(true);
+            });
+            test("新規案件追加ボタンホバー時にテキスト色が変化する（hover:text-white）", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(addLink?.classList.contains("hover:text-white")).toBe(true);
+            });
+            test("新規案件追加ボタンにtransition-colorsアニメーションが適用される", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const addLink = screen.getByText("新規案件追加").closest("a");
+                expect(addLink?.classList.contains("transition-colors")).toBe(true);
+            });
+            test("設定ボタンクリックで設定画面に遷移する", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const settingsLink = screen.getByText("設定").closest("a");
+                expect(settingsLink).toHaveAttribute("href", "/settings");
+            });
+            test("設定ボタンホバー時にテキスト色が変化する（hover:text-white）", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const settingsLink = screen.getByText("設定").closest("a");
+                expect(settingsLink?.classList.contains("hover:text-white")).toBe(true);
+            });
+            test("設定ボタンにtransition-colorsアニメーションが適用される", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const settingsLink = screen.getByText("設定").closest("a");
+                expect(settingsLink?.classList.contains("transition-colors")).toBe(true);
+            });
         });
     });
 });

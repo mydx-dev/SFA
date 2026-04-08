@@ -11,6 +11,20 @@ interface AppLayoutProps {
     children: ReactNode;
 }
 
+interface SidebarNavItemProps {
+    to: string;
+    icon: string;
+    label: string;
+    className: string;
+}
+
+const SidebarNavItem = ({ to, icon, label, className }: SidebarNavItemProps) => (
+    <Link to={to} className={className}>
+        <span className="material-symbols-outlined" data-icon={icon}>{icon}</span>
+        <span>{label}</span>
+    </Link>
+);
+
 const SIDEBAR_WIDTH = 256; // 256px = w-64 in Tailwind
 
 export const AppLayout = ({ children }: AppLayoutProps) => {
@@ -108,6 +122,22 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                         );
                     })}
                 </List>
+            </Box>
+            <SidebarNavItem
+                to="/deals/new"
+                icon="add"
+                label="新規案件追加"
+                className="flex items-center space-x-3 text-slate-400 px-6 py-4 hover:bg-slate-800/50 hover:text-white transition-colors text-sm font-semibold"
+            />
+            <Box className="mt-auto px-6 py-8 border-t border-slate-800">
+                <Box className="space-y-1">
+                    <SidebarNavItem
+                        to="/settings"
+                        icon="settings"
+                        label="設定"
+                        className="flex items-center space-x-3 text-slate-400 py-2 hover:text-white transition-colors text-sm"
+                    />
+                </Box>
             </Box>
         </Box>
     );
