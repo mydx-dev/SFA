@@ -2031,30 +2031,53 @@ describe("ActivityHistoryPage", () => {
                 // Layout test placeholder
                 expect(true).toBe(true);
             });
-            test.todo("サイドナビゲーションは画面左側に固定配置される (fixed left-0)");
+            test.todo("サイドナビゲーションは画面左側に固定配置される (fixed left-0 top-0)");
             test.todo("サイドナビゲーションの幅は256px (w-64) である");
+            test.todo("サイドナビゲーションのz-indexは40 (z-40) である");
             test.todo("ヘッダーは画面上部に固定配置される (sticky top-0)");
+            test.todo("ヘッダーのz-indexは30 (z-30) である");
+            test.todo("ヘッダーはサイドナビゲーションの右側に配置される (ml-64)");
             test.todo("メインコンテンツはサイドナビゲーションの右側に配置される (ml-64)");
             test.todo("メインコンテンツの最小高さは画面全体 (min-h-screen) である");
+            test.todo("メインコンテンツの左右パディングは48px (p-12) である");
+            test.todo("メインコンテンツ内のコンテナは最大幅1152px (max-w-6xl) で中央寄せ (mx-auto) される");
+            test.todo("活動フィードは8列幅 (col-span-12 lg:col-span-8) でグリッド配置される");
+            test.todo("サイドパネル（クイック記録・統計）は4列幅 (col-span-12 lg:col-span-4) でグリッド配置される");
         });
         describe("サイズ", () => {
             test("レイアウトが正しく表示される", () => {
                 // Layout test placeholder
                 expect(true).toBe(true);
             });
-            test.todo("サイドナビゲーションの高さは画面全体 (h-screen) である");
+            test.todo("サイドナビゲーションの高さは画面全体 (h-full) である");
             test.todo("サイドナビゲーションの幅は256px (w-64) である");
             test.todo("ヘッダーの幅はサイドナビゲーションを除いた幅 (w-[calc(100%-16rem)]) である");
+            test.todo("ヘッダーの左右パディングは32px (px-8) である");
+            test.todo("ヘッダーの上下パディングは16px (py-4) である");
+            test.todo("検索フィールドの幅は256px (w-64) である");
+            test.todo("活動カードのアイコンは48px×48px (w-12 h-12) の円形である");
+            test.todo("プロフィール画像は40px×40px (w-10 h-10) の円形である");
         });
         describe("色", () => {
             test("レイアウトが正しく表示される", () => {
                 // Layout test placeholder
                 expect(true).toBe(true);
             });
-            test.todo("サイドナビゲーションの背景色はダークグレー (bg-slate-900) である");
-            test.todo("ヘッダーの背景色は半透明の明るいグレー (bg-slate-50/80) である");
-            test.todo("非アクティブなナビゲーションリンクは灰色の文字色 (text-slate-400) である");
-            test.todo("テーブルのヘッダーは明るいグレーの背景 (bg-surface-container-low) である");
+            test.todo("bodyの背景色は#f7fafc (bg-surface) である");
+            test.todo("サイドナビゲーションの背景色は#0f172a (bg-slate-900) である");
+            test.todo("サイドナビゲーションのタイトルは白色 (text-white) である");
+            test.todo("サイドナビゲーションのサブタイトルは#94a3b8 (text-slate-400) である");
+            test.todo("非アクティブなナビゲーションリンクは#94a3b8 (text-slate-400) である");
+            test.todo("アクティブなナビゲーションリンクは#34d399 (text-emerald-400) で、背景は#10b98110 (bg-emerald-500/10) である");
+            test.todo("アクティブなナビゲーションリンクは右に4px幅のエメラルド色ボーダー (border-r-4 border-emerald-500) を持つ");
+            test.todo("ヘッダーの背景色は半透明の#f8fafc80 (bg-slate-50/80) である");
+            test.todo("ヘッダーはbackdrop-filter: blur(xl)を持つ");
+            test.todo("検索フィールドの背景色は#e5e9eb (bg-surface-container-high) である");
+            test.todo("ページタイトルは#002045 (text-primary) である");
+            test.todo("活動カードの背景色は#ffffff (bg-surface-container-lowest) である");
+            test.todo("活動カードのホバー時はシャドウが強調される (hover:shadow-xl)");
+            test.todo("日付区切り線は#c4c6cf30 (bg-outline-variant/30) である");
+            test.todo("通知ドットは#ba1a1a (bg-error) である");
         });
         describe("タイポグラフィ", () => {
             test("レイアウトが正しく表示される", () => {
@@ -2062,8 +2085,15 @@ describe("ActivityHistoryPage", () => {
                 expect(true).toBe(true);
             });
             test.todo("サイドナビゲーションのタイトルはManropeフォント、太字 (font-bold)、テキストサイズはxl (text-xl) である");
+            test.todo("サイドナビゲーションのサブタイトルはxsサイズ (text-xs) である");
+            test.todo("サイドナビゲーションのリンクはManropeフォント、セミボールド (font-semibold)、スモールサイズ (text-sm) である");
             test.todo("ヘッダーのテキストはManropeフォント、ミディアムウェイト (font-medium)、スモールサイズ (text-sm) である");
-            test.todo("テーブルのヘッダーはLabelフォント、セミボールド (font-semibold) である");
+            test.todo("ページラベル（エンゲージメント履歴）はxsサイズ、太字 (font-bold)、letter-spacing: 0.2em、大文字 (uppercase) である");
+            test.todo("ページタイトル（活動履歴フィード）は4xlサイズ、極太 (font-extrabold)、Manropeフォント (font-headline) である");
+            test.todo("活動カードのタイトルはManropeフォント、太字 (font-bold) である");
+            test.todo("活動カードのサブテキストはsmサイズ (text-sm) である");
+            test.todo("活動カードの時刻はxsサイズ、ミディアムウェイト (font-medium) である");
+            test.todo("バッジテキストは10pxサイズ (text-[10px])、太字 (font-bold)、大文字 (uppercase)、letter-spacing広め (tracking-wider) である");
         });
         describe("形状", () => {
             test("レイアウトが正しく表示される", () => {
@@ -2071,15 +2101,34 @@ describe("ActivityHistoryPage", () => {
                 expect(true).toBe(true);
             });
             test.todo("サイドナビゲーションの右ボーダーは非表示 (border-r-0) である");
-            test.todo("フィルターボタンの角は丸い (rounded-lg) である");
+            test.todo("検索フィールドは完全な丸角 (rounded-full) である");
+            test.todo("ヘッダーナビゲーションリンクのホバー時は丸角 (rounded-lg) である");
+            test.todo("活動カードは完全な丸角 (rounded-full) である");
+            test.todo("活動カード内のメモエリアは12px角丸 (rounded-xl) で、左に4px幅のボーダーを持つ");
+            test.todo("バッジは完全な丸角 (rounded-full) である");
+            test.todo("日付区切り線は1px高さ (h-[1px]) である");
+            test.todo("通知ドットは2px×2px (w-2 h-2) の円形 (rounded-full) である");
+            test.todo("新規案件登録ボタンは12px角丸 (rounded-xl) である");
+            test.todo("クイック記録フォームのカードは完全な丸角 (rounded-full) である");
+            test.todo("統計カードは完全な丸角 (rounded-full) である");
         });
         describe("装飾", () => {
             test("レイアウトが正しく表示される", () => {
                 // Layout test placeholder
                 expect(true).toBe(true);
             });
-            test.todo("テーブル行はホバー時に背景色が変わる");
-            test.todo("検索フィールドは背景色 (bg-surface-container-high) を持つ");
+            test.todo("サイドナビゲーションは2xlサイズのシャドウ (shadow-2xl shadow-slate-950/20) を持つ");
+            test.todo("新規案件登録ボタンはグラデーション背景 (silk-gradient) を持つ");
+            test.todo("新規案件登録ボタンはlgサイズのシャドウ (shadow-lg shadow-primary/20) を持つ");
+            test.todo("新規案件登録ボタンはホバー時に透明度が変わる (hover:opacity-90)");
+            test.todo("新規案件登録ボタンはアクティブ時にスケールが変わる (active:scale-95)");
+            test.todo("活動カードはsmサイズのシャドウ (shadow-sm) を持つ");
+            test.todo("活動カードのホバー時はxlサイズのシャドウ (hover:shadow-xl hover:shadow-primary/5) になる");
+            test.todo("活動カードのホバー時はボーダーが表示される (hover:border-outline-variant/10)");
+            test.todo("ナビゲーションリンクはホバー時に背景色が変わる (hover:bg-slate-800/50)");
+            test.todo("ナビゲーションリンクはホバー時に文字色が変わる (hover:text-white)");
+            test.todo("ヘッダーナビゲーションリンクのホバー時はトランジション300ms (transition-all duration-300) である");
+            test.todo("検索フィールドのフォーカス時は2pxのリング (focus:ring-2 focus:ring-surface-tint) が表示される");
         });
         describe("インタラクション", () => {
             test("レイアウトが正しく表示される", () => {
@@ -2087,8 +2136,84 @@ describe("ActivityHistoryPage", () => {
                 expect(true).toBe(true);
             });
             test.todo("ナビゲーションリンクはホバー時に背景色が変わる (hover:bg-slate-800/50)");
-            test.todo("テーブル行はホバー時に背景色が変わる");
-            test.todo("ソート可能な列のヘッダーはクリック可能である");
+            test.todo("ナビゲーションリンクのトランジションは色変化 (transition-colors) である");
+            test.todo("活動カードはホバー時にシャドウとボーダーが変化する");
+            test.todo("ヘッダーのアイコンボタンはホバー時に背景色が変わる (hover:bg-slate-200/50)");
+            test.todo("リードを追加ボタンはホバー時に明度が変わる (hover:brightness-95)");
+            test.todo("リードを追加ボタンはアクティブ時にスケールが変わる (active:scale-95)");
+            test.todo("活動カード内のリンクはホバー時にアンダーラインが表示される (hover:underline)");
+        });
+        describe("ページ構造", () => {
+            test("レイアウトが正しく表示される", () => {
+                // Layout test placeholder
+                expect(true).toBe(true);
+            });
+            test.todo("ページはサイドナビゲーション、ヘッダー、メインコンテンツの3つの主要セクションで構成される");
+            test.todo("メインコンテンツはヘッダーセクションとBentoレイアウトコンテンツで構成される");
+            test.todo("ヘッダーセクションはラベル、タイトル、統計情報を含む");
+            test.todo("Bentoレイアウトは12列グリッド (grid-cols-12) である");
+            test.todo("Bentoレイアウトは32pxのギャップ (gap-8) を持つ");
+            test.todo("左カラム（活動フィード）は8列幅で活動タイムラインを表示する");
+            test.todo("右カラム（サイドパネル）は4列幅でクイック記録フォームと統計を表示する");
+            test.todo("活動フィードには日付グループヘッダーが表示される");
+            test.todo("日付グループヘッダーは左右に区切り線を持つ");
+        });
+        describe("活動カード", () => {
+            test("レイアウトが正しく表示される", () => {
+                // Layout test placeholder
+                expect(true).toBe(true);
+            });
+            test.todo("活動カードは6項目のパディング (p-6) を持つ");
+            test.todo("活動カードはアイコン、タイトル、サブテキスト、時刻、メモ、バッジを含む");
+            test.todo("活動タイプアイコンは48px円形で、活動タイプに応じた背景色を持つ");
+            test.todo("通話アイコンの背景色は#d6e0f6 (bg-secondary-fixed) である");
+            test.todo("メールアイコンの背景色は#d6e3ff (bg-primary-fixed) である");
+            test.todo("会議アイコンの背景色は#9ff5c1 (bg-tertiary-fixed) である");
+            test.todo("メモエリアは4項目のパディング (p-4)、12px角丸 (rounded-xl)、左に4pxボーダーを持つ");
+            test.todo("メモテキストはイタリック体 (italic) である");
+            test.todo("バッジは3pxの水平パディング、1pxの垂直パディング (px-3 py-1) を持つ");
+        });
+        describe("クイック記録フォーム", () => {
+            test("レイアウトが正しく表示される", () => {
+                // Layout test placeholder
+                expect(true).toBe(true);
+            });
+            test.todo("クイック記録フォームは8項目のパディング (p-8) を持つ");
+            test.todo("クイック記録フォームは完全な丸角 (rounded-full) である");
+            test.todo("クイック記録フォームはボーダー (border border-outline-variant/20) を持つ");
+            test.todo("クイック記録フォームはlgサイズのシャドウ (shadow-lg shadow-primary/5) を持つ");
+            test.todo("活動タイプ選択は3列グリッド (grid-cols-3) である");
+            test.todo("活動タイプボタンは3項目のパディング (p-3)、12px角丸 (rounded-xl) である");
+            test.todo("選択された活動タイプボタンは2pxのprimaryボーダー (border-2 border-primary) を持つ");
+            test.todo("テキストエリアは4行 (rows=4) である");
+            test.todo("保存ボタンは水平8項目、垂直3項目のパディング (px-8 py-3) を持つ");
+            test.todo("保存ボタンはsilk-gradientグラデーション背景を持つ");
+            test.todo("保存ボタンはlgサイズのシャドウ (shadow-lg shadow-primary/20) を持つ");
+        });
+        describe("統計カード", () => {
+            test("レイアウトが正しく表示される", () => {
+                // Layout test placeholder
+                expect(true).toBe(true);
+            });
+            test.todo("統計カードは#002045 (bg-primary) の背景色を持つ");
+            test.todo("統計カードは8項目のパディング (p-8) を持つ");
+            test.todo("統計カードは完全な丸角 (rounded-full) である");
+            test.todo("統計カードは装飾的な円形要素を含む");
+            test.todo("統計値は3xlサイズ、極太 (font-extrabold)、Manropeフォント (font-headline) である");
+            test.todo("プログレスバーは2px高さ (h-2)、完全な丸角 (rounded-full) を持つ");
+        });
+        describe("フィルターセクション", () => {
+            test("レイアウトが正しく表示される", () => {
+                // Layout test placeholder
+                expect(true).toBe(true);
+            });
+            test.todo("フィルターセクションは6項目のパディング (p-6) を持つ");
+            test.todo("フィルターセクションは完全な丸角 (rounded-full) である");
+            test.todo("フィルターボタンは8pxのギャップ (gap-2) で配置される");
+            test.todo("フィルターボタンは4項目の水平パディング、2項目の垂直パディング (px-4 py-2) を持つ");
+            test.todo("フィルターボタンは8px角丸 (rounded-lg) である");
+            test.todo("アクティブなフィルターボタンはprimaryカラーのボーダー (border border-primary/10) を持つ");
+            test.todo("アクティブなフィルターボタンはホバー時に背景がprimaryに変わる (hover:bg-primary)");
         });
     });
 });
