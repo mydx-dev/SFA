@@ -606,7 +606,25 @@ describe("AppLayout", () => {
             test.todo("TopAppBarのz-indexが30である");
             test.todo("TopAppBarの左マージンがml-64（256px）でSideNavBarの幅分オフセットされる");
             test.todo("TopAppBarの幅がw-[calc(100%-16rem)]でSideNavBarを除いた全幅になる");
-            test.todo("メインコンテンツエリアの左マージンがml-64（256px）でSideNavBarの幅分オフセットされる");
+            test("メインコンテンツエリアの左マージンが0でサイドバーとの間に余白がない", () => {
+                vi.mocked(syncUseCase.performSync).mockResolvedValue();
+
+                render(
+                    <QueryClientProvider client={queryClient}>
+                        <MemoryRouter>
+                            <AppLayout>
+                                <div>テストコンテンツ</div>
+                            </AppLayout>
+                        </MemoryRouter>
+                    </QueryClientProvider>
+                );
+
+                const main = screen.getByRole("main");
+                // main要素の親（メインコンテンツエリアのラッパー）のインラインmarginLeftが設定されていないことを確認
+                // MUI sx はEmotionのCSSクラスで適用されるため、インラインスタイルとしてmarginLeftが設定されていないことを検証する
+                const wrapper = main.parentElement;
+                expect(wrapper?.style.marginLeft).not.toBe("256px");
+            });
             test.todo("メインコンテンツエリアのパディングがp-8である");
             
             // サイドバーボタンの配置

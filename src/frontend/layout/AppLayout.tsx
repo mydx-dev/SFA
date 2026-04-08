@@ -193,7 +193,6 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                     display: "flex",
                     flexDirection: "column",
                     minHeight: "100vh",
-                    marginLeft: isMobile ? 0 : `${SIDEBAR_WIDTH}px`, // ml-64 (256px offset)
                 }}
             >
                 {/* Sticky Top AppBar - sticky top-0, z-index 30 */}
