@@ -1,5 +1,6 @@
 import { AppsScriptRouter } from "@mydx-dev/gas-boost-react-apps-script";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import { StyledEngineProvider } from "@mui/material/styles";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { SnackbarProvider } from "notistack";
 import { StrictMode } from "react";
@@ -22,35 +23,37 @@ import { MobileDealListPage } from "../page/MobileDealListPage";
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <AppsScriptRouter>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <SnackbarProvider
-                    anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "left",
-                    }}
-                >
-                    <QueryClientProvider client={queryClient}>
-                        <HashRouter>
-                            <AppLayout>
-                                <Routes>
-                                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                                    <Route path="/leads" element={<LeadListPage />} />
-                                    <Route path="/leads/:id" element={<LeadDetailPage />} />
-                                    <Route path="/deals" element={<DealListPage />} />
-                                    <Route path="/deals/:id" element={<DealDetailPage />} />
-                                    <Route path="/deals/kanban" element={<DealKanbanPage />} />
-                                    <Route path="/deals/mobile" element={<MobileDealListPage />} />
-                                    <Route path="/dashboard" element={<DashboardPage />} />
-                                    <Route path="/activities" element={<ActivityHistoryPage />} />
-                                    <Route path="/customers" element={<CustomerManagementPage />} />
-                                    <Route path="/phases" element={<PhaseManagementPage />} />
-                                </Routes>
-                            </AppLayout>
-                        </HashRouter>
-                    </QueryClientProvider>
-                </SnackbarProvider>
-            </ThemeProvider>
+            <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <SnackbarProvider
+                        anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "left",
+                        }}
+                    >
+                        <QueryClientProvider client={queryClient}>
+                            <HashRouter>
+                                <AppLayout>
+                                    <Routes>
+                                        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                                        <Route path="/leads" element={<LeadListPage />} />
+                                        <Route path="/leads/:id" element={<LeadDetailPage />} />
+                                        <Route path="/deals" element={<DealListPage />} />
+                                        <Route path="/deals/:id" element={<DealDetailPage />} />
+                                        <Route path="/deals/kanban" element={<DealKanbanPage />} />
+                                        <Route path="/deals/mobile" element={<MobileDealListPage />} />
+                                        <Route path="/dashboard" element={<DashboardPage />} />
+                                        <Route path="/activities" element={<ActivityHistoryPage />} />
+                                        <Route path="/customers" element={<CustomerManagementPage />} />
+                                        <Route path="/phases" element={<PhaseManagementPage />} />
+                                    </Routes>
+                                </AppLayout>
+                            </HashRouter>
+                        </QueryClientProvider>
+                    </SnackbarProvider>
+                </ThemeProvider>
+            </StyledEngineProvider>
         </AppsScriptRouter>
     </StrictMode>,
 );
