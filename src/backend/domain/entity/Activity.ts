@@ -4,7 +4,7 @@ export class Activity extends SheetEntity {
     constructor(
         public readonly id: string,
         public readonly dealId: string,
-        public readonly activityType: "面談" | "電話" | "メール" | "その他",
+        public readonly activityType: "面談" | "電話" | "メール" | "その他" | "会議",
         public readonly activityDate: Date,
         public readonly content: string,
         public readonly assigneeId: string,
@@ -41,7 +41,7 @@ export class Activity extends SheetEntity {
         );
     }
 
-    updateActivityType(newType: "面談" | "電話" | "メール" | "その他"): Activity {
+    updateActivityType(newType: "面談" | "電話" | "メール" | "その他" | "会議"): Activity {
         return new Activity(
             this.id,
             this.dealId,
