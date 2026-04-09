@@ -57,6 +57,7 @@ const activityTypeIcons: Record<ActivityType, React.ReactNode> = {
     電話: <CallIcon fontSize="small" sx={{ color: "#555f71" }} />,
     メール: <EmailIcon fontSize="small" sx={{ color: "#003f25" }} />,
     その他: <MoreHorizIcon fontSize="small" sx={{ color: "#74777f" }} />,
+    会議: <GroupsIcon fontSize="small" sx={{ color: "#002045" }} />,
 };
 
 const activityTypeColors: Record<ActivityType, string> = {
@@ -64,6 +65,7 @@ const activityTypeColors: Record<ActivityType, string> = {
     電話: "#d6e0f6",
     メール: "#9ff5c1",
     その他: "#e0e3e5",
+    会議: "#9ff5c1",
 };
 
 export const ActivityHistory = ({
@@ -124,6 +126,7 @@ export const ActivityHistory = ({
         <Box>
             {/* Filter panel */}
             <Box
+                data-testid="activity-filter-panel"
                 sx={{
                     p: 2,
                     mb: 2,
@@ -164,7 +167,7 @@ export const ActivityHistory = ({
                             </Box>
                         )}
                     >
-                        {(["面談", "電話", "メール", "その他"] as ActivityType[]).map((type) => (
+                        {(["面談", "電話", "メール", "その他", "会議"] as ActivityType[]).map((type) => (
                             <MenuItem key={type} value={type}>
                                 {activityTypeIcons[type]} {type}
                             </MenuItem>
@@ -274,6 +277,7 @@ export const ActivityHistory = ({
                         page={pageInfo.page}
                         onChange={(_, page) => onPageChange?.(page)}
                         color="primary"
+                        sx={{ color: "#002045", "& .MuiPaginationItem-root": { color: "#002045" } }}
                     />
                 </Box>
             )}
