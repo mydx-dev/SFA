@@ -1407,90 +1407,478 @@ describe("PipelineViewComponent", () => {
 
 describe("ActivityHistoryComponent", () => {
     describe("props", () => {
-        test.todo("activitiesが渡された場合、活動履歴一覧が表示される");
-        test.todo("filterOptionsが渡された場合、フィルター選択肢が表示される");
-        test.todo("onActivityClickが渡された場合、活動クリックで呼ばれる");
-        test.todo("pageInfoが渡された場合、ページネーションが表示される");
+        test.todo("activitiesが渡された場合、活動履歴がテーブル形式で表示される");
+        test.todo("filterOptions.keywordが渡された場合、検索フィールドの初期値としてセットされる");
+        test.todo("filterOptions.activityTypesが渡された場合、活動種別セレクトの初期値としてセットされる");
+        test.todo("onActivityClickが渡された場合、活動行クリックでonActivityClick(activity.id)が呼ばれる");
+        test.todo("onActivityClickが未指定の場合、行のcursorはdefaultになる");
+        test.todo("pageInfoが渡された場合でtotalPages > 1のとき、Paginationコンポーネントが表示される");
+        test.todo("pageInfoのtotalPagesが1以下の場合、Paginationコンポーネントは表示されない");
+        test.todo("onPageChangeが渡された場合、ページ切り替え時にonPageChange(page)が呼ばれる");
+        test.todo("onFilterChangeが渡された場合、フィルター変更時にonFilterChange({keyword, activityTypes})が呼ばれる");
     });
 
     describe("描画", () => {
-        test.todo("活動履歴がテーブル形式で表示される");
-        test.todo("各行に活動日時、活動種別、案件名、内容、担当者が表示される");
-        test.todo("活動種別ごとにアイコンと色が異なる");
-        test.todo("テーブルヘッダーでソート可能な列にソートアイコンが表示される");
-        test.todo("フィルターパネルが表示される");
+        test.todo("テーブルヘッダーに「活動日時」「活動種別」「案件」「内容」「担当者」の5列が表示される");
+        test.todo("「活動日時」列にTableSortLabelが表示され、デフォルトでアクティブ状態 (active=true, direction='desc') である");
+        test.todo("「活動種別」列にTableSortLabelが表示される");
+        test.todo("「内容」列にTableSortLabelが表示される");
+        test.todo("「案件」列と「担当者」列にはTableSortLabelが表示されない");
+        test.todo("活動種別セルにはChipコンポーネントが表示され、活動タイプに応じたアイコンと背景色が設定される");
+        test.todo("面談のChip背景色は#d6e3ffである");
+        test.todo("電話のChip背景色は#d6e0f6である");
+        test.todo("メールのChip背景色は#9ff5c1である");
+        test.todo("その他のChip背景色は#e0e3e5である");
+        test.todo("activitiesが空の場合、colSpan=5の中央寄せセルに「活動履歴がありません」が表示される");
+        test.todo("フィルターパネルに検索フィールドと活動種別セレクトが表示される");
+        test.todo("検索フィールドにSearchIconがstartAdornmentとして表示される");
+        test.todo("活動種別セレクトのlabelは「活動種別」である");
+        test.todo("活動種別セレクトは複数選択 (multiple) である");
+        test.todo("複数の活動種別が選択された場合、Chipとしてセレクト内に表示される (renderValue)");
     });
 
     describe("状態管理", () => {
-        test.todo("フィルター条件変更で活動履歴が絞り込まれる");
-        test.todo("ソート条件変更で活動履歴が並び替えられる");
-        test.todo("ページ番号変更で表示される活動が切り替わる");
+        test.todo("初期状態のsortFieldは'activityDate'、sortOrderは'desc'である");
+        test.todo("同じ列ヘッダーを再クリックするとsortOrderがasc/descで交互に切り替わる");
+        test.todo("別の列ヘッダーをクリックするとsortFieldが変わりsortOrderは'asc'にリセットされる");
+        test.todo("keywordを入力するとfilteredActivitiesがactivity.contentまたはactivityTypeで絞り込まれる");
+        test.todo("活動種別を選択するとfilteredActivitiesが選択種別のみに絞り込まれる");
+        test.todo("活動種別が未選択(空配列)の場合、全件が表示される");
     });
 
     describe("インタラクション", () => {
-        test.todo("活動種別フィルター選択で該当活動のみ表示される");
-        test.todo("期間フィルター選択で期間内の活動のみ表示される");
-        test.todo("検索ボックスに入力して活動を検索できる");
-        test.todo("ヘッダークリックでソート順が切り替わる");
-        test.todo("活動行クリックでonActivityClickイベントが発火する");
-        test.todo("ページネーションボタンクリックでページが切り替わる");
+        test.todo("検索フィールドに文字を入力するとhandleKeywordChangeが呼ばれonFilterChangeに{keyword, activityTypes}が渡される");
+        test.todo("活動種別セレクトで種別を選択するとhandleTypeChangeが呼ばれonFilterChangeに{keyword, activityTypes}が渡される");
+        test.todo("「活動日時」ヘッダーをクリックするとsortFieldが'activityDate'になる");
+        test.todo("「活動種別」ヘッダーをクリックするとsortFieldが'activityType'になる");
+        test.todo("「内容」ヘッダーをクリックするとsortFieldが'content'になる");
+        test.todo("活動行クリックでonActivityClick(activity.id)が発火する");
+        test.todo("Paginationのページ番号をクリックするとonPageChange(page)が発火する");
     });
 
     describe("副作用", () => {
-        test.todo("フィルター変更時に活動履歴を再取得する");
+        test.todo("マウント時に追加のAPI呼び出しは行われない (データはpropsから受け取る)");
     });
+
+    describe("レイアウト", () => {
+        describe("フィルターパネル", () => {
+            test.todo("フィルターパネルのbackgroundColorは'white'、borderRadiusは'0.75rem'(12px)である");
+            test.todo("フィルターパネルのパディングはMUIのp:2 (16px) である");
+            test.todo("フィルターパネルのマージン下はMUIのmb:2 (16px) である");
+            test.todo("フィルターパネルのdisplayはflexで、gapはMUI gap:2 (16px)、flexWrapはwrap、alignItemsはcenterである");
+            test.todo("検索フィールドのminWidthは200pxである");
+            test.todo("検索フィールドのsizeは'small'である");
+            test.todo("活動種別セレクトのminWidthは160pxである");
+            test.todo("活動種別セレクトのsizeは'small'である");
+        });
+
+        describe("テーブル", () => {
+            test.todo("TableContainerはelevation=0 (boxShadowなし) で表示される");
+            test.todo("TableContainerのborderRadiusは'0.75rem'(12px)である");
+            test.todo("テーブルヘッダー行の背景色は#f1f4f6である");
+            test.todo("テーブルボディ行はhoverプロパティが有効で、ホバー時に背景色が変化する");
+            test.todo("内容セルのmaxWidthは300pxでnoWrapが適用されている");
+            test.todo("活動日時セルはJP形式 (toLocaleDateString('ja-JP')) で日付が表示される");
+            test.todo("活動種別Chipのsizeはsmallである");
+        });
+
+        describe("ページネーション", () => {
+            test.todo("PaginationコンポーネントはdisplayがflexでjustifyContentはcenter、mt:3 (24px) である");
+            test.todo("Paginationのcolorは'primary' (#002045) である");
+            test.todo("PaginationのcountはpageInfo.totalPages、pageはpageInfo.pageである");
+        });
+    });
+});
+
+describe("ActivityCardComponent", () => {
+    describe("props", () => {
+        test.todo("activityTypeが'電話'の場合、アイコン背景クラスbg-secondary-fixedが適用される");
+        test.todo("activityTypeが'メール'の場合、アイコン背景クラスbg-primary-fixedが適用される");
+        test.todo("activityTypeが'面談'の場合、アイコン背景クラスbg-tertiary-fixedが適用される");
+        test.todo("activityTypeが'その他'の場合、アイコン背景クラスbg-surface-container-highが適用される");
+        test.todo("activity.contentが存在する場合、メモエリアが表示される");
+        test.todo("activity.contentが空の場合、メモエリアは表示されない");
+        test.todo("activity.activityDateから時刻がHH:MM形式で表示される");
+    });
+
+    describe("描画", () => {
+        test.todo("カードコンテナのクラスにbg-surface-container-lowest p-6 rounded-full shadow-sm border border-transparentが付与されている");
+        test.todo("アイコンコンテナのクラスにw-12 h-12 rounded-full flex items-center justify-center flex-shrink-0が付与されている");
+        test.todo("カードのコンテンツエリアにactivityTypeテキストがh4として表示される");
+        test.todo("時刻はtext-xs font-mediumクラスで表示される");
+        test.todo("メモエリアにmt-4 p-4 bg-surface-container-low rounded-xl border-l-4 border-tertiary-fixedクラスが付与されている");
+        test.todo("メモテキストにtext-sm italicクラスが付与されている");
+        test.todo("バッジはinline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-tertiary-fixed/20クラスで表示される");
+        test.todo("バッジにactivityTypeが表示される");
+        test.todo("アイコンエリアとコンテンツエリアはflex items-start space-x-6で水平配置される");
+        test.todo("タイトルと時刻はflex justify-between items-startで両端揃え配置される");
+    });
+
+    describe("状態管理", () => {
+        test.todo("ActivityCardコンポーネントは内部状態を持たない (表示のみ)");
+    });
+
+    describe("インタラクション", () => {
+        test.todo("カードがホバーされるとhover:shadow-xl hover:shadow-primary/5のシャドウが適用される");
+        test.todo("カードがホバーされるとhover:border-outline-variant/10のボーダーが表示される");
+        test.todo("カードのトランジションはtransition-all duration-300 (300ms) である");
+    });
+
+    describe("副作用", () => {
+        test.todo("ActivityCardコンポーネントはマウント・アンマウント時に副作用を持たない");
+    });
+
     describe("レイアウト", () => {
         describe("配置", () => {
-                test.todo("活動カードは垂直方向にスタック配置される (space-y-6)");
-                test.todo("活動カード内でアイコンとコンテンツは水平に配置される (flex items-start space-x-6)");
-                test.todo("タイトルと時刻は両端揃え (justify-between) で配置される");
-                test.todo("バッジは水平方向に4項目のギャップ (space-x-4) で配置される");
-            });
+            test.todo("アイコンとコンテンツエリアはspace-x-6 (24px) の水平ギャップで配置される");
+            test.todo("バッジエリアはmt-4 flex items-center space-x-4で配置される");
+            test.todo("メモエリアはコンテンツエリア内でmt-4のマージンを持つ");
+        });
+
         describe("サイズ", () => {
-                test.todo("活動カードのパディングは24px (p-6) である");
-                test.todo("活動タイプアイコンは48px×48px (w-12 h-12) の円形である");
-                test.todo("メモエリアのパディングは16px (p-4) である");
-            });
+            test.todo("カードのパディングはp-6 (24px) である");
+            test.todo("アイコンコンテナはw-12 h-12 (48px×48px) の正方形である");
+            test.todo("メモエリアのパディングはp-4 (16px) である");
+            test.todo("バッジのパディングはpx-3 py-1 (12px左右・4px上下) である");
+        });
+
         describe("色", () => {
-                test.todo("活動カードの背景色は#ffffff (bg-surface-container-lowest) である");
-                test.todo("通話アイコンの背景色は#d6e0f6 (bg-secondary-fixed) である");
-                test.todo("メールアイコンの背景色は#d6e3ff (bg-primary-fixed) である");
-                test.todo("会議アイコンの背景色は#9ff5c1 (bg-tertiary-fixed) である");
-                test.todo("活動カードのホバー時はxlシャドウ (hover:shadow-xl hover:shadow-primary/5) が表示される");
-                test.todo("メモエリアの背景色は#f1f4f6 (bg-surface-container-low) である");
-                test.todo("メモエリアの左ボーダー色は活動タイプに応じて変わる");
-            });
+            test.todo("カード背景色はbg-surface-container-lowest (#ffffff相当) である");
+            test.todo("電話アイコン背景はbg-secondary-fixed (#d6e0f6相当) である");
+            test.todo("メールアイコン背景はbg-primary-fixed (#d6e3ff相当) である");
+            test.todo("面談アイコン背景はbg-tertiary-fixed (#9ff5c1相当) である");
+            test.todo("その他アイコン背景はbg-surface-container-high (#e0e3e5相当) である");
+            test.todo("メモエリア背景はbg-surface-container-low (#f1f4f6相当) である");
+            test.todo("メモエリア左ボーダー色はborder-tertiary-fixed (#9ff5c1相当) である");
+            test.todo("バッジ背景はbg-tertiary-fixed/20 (rgba(159,245,193,0.2)) である");
+        });
+
         describe("タイポグラフィ", () => {
-                test.todo("活動タイトルはManropeフォント、太字 (font-bold) である");
-                test.todo("サブテキスト（会社名・案件名）はsmサイズ (text-sm) である");
-                test.todo("時刻表示はxsサイズ、ミディアムウェイト (text-xs font-medium) である");
-                test.todo("メモテキストはsmサイズ、イタリック体 (text-sm italic) である");
-                test.todo("バッジテキストは10pxサイズ (text-[10px])、太字 (font-bold)、大文字 (uppercase) である");
-            });
+            test.todo("活動タイトル (h4) はfont-headline (Manrope) font-boldが適用されている");
+            test.todo("時刻はtext-xs font-medium (12px, weight 500) である");
+            test.todo("メモテキストはtext-sm italic (14px, イタリック体) である");
+            test.todo("バッジテキストはtext-[10px] font-bold uppercase tracking-widerである");
+        });
+
         describe("形状", () => {
-                test.todo("活動カードは完全な丸角 (rounded-full) である");
-                test.todo("活動タイプアイコンは円形 (rounded-full) である");
-                test.todo("メモエリアは12px角丸 (rounded-xl) である");
-                test.todo("メモエリアの左ボーダーは4px幅 (border-l-4) である");
-                test.todo("バッジは完全な丸角 (rounded-full) である");
-            });
+            test.todo("カードコンテナはrounded-full (9999px) の角丸である");
+            test.todo("アイコンコンテナはrounded-full (円形) である");
+            test.todo("メモエリアはrounded-xl (12px) の角丸である");
+            test.todo("メモエリアの左ボーダーはborder-l-4 (4px) である");
+            test.todo("バッジはrounded-full (完全な丸角) である");
+        });
+
         describe("装飾", () => {
-                test.todo("活動カードはsmシャドウ (shadow-sm) を持つ");
-                test.todo("活動カードのホバー時はxlシャドウ (hover:shadow-xl) になる");
-                test.todo("活動カードのホバー時はボーダーが表示される (hover:border-outline-variant/10)");
-                test.todo("トランジションは300ms (transition-all duration-300) である");
-            });
+            test.todo("カードは通常時shadow-sm (軽いボックスシャドウ) を持つ");
+            test.todo("カードのホバー時はhover:shadow-xl hover:shadow-primary/5 (大きなシャドウ、primary色5%不透明度) になる");
+            test.todo("カードのボーダーは通常時border-transparent、ホバー時はhover:border-outline-variant/10になる");
+        });
+
         describe("インタラクション", () => {
-                test.todo("活動カードはホバー時にシャドウとボーダーが変化する");
-                test.todo("活動カード内のリンクはホバー時にアンダーラインが表示される");
-            });
-        describe("日付グループヘッダー", () => {
-                test.todo("日付グループヘッダーは左右に区切り線を持つ");
-                test.todo("区切り線は1px高さ (h-[1px])、#c4c6cf30 (bg-outline-variant/30) である");
-                test.todo("日付テキストはxsサイズ、太字 (font-bold)、大文字 (uppercase) である");
-                test.todo("日付テキストのletter-spacingは広い (tracking-widest) である");
-                test.todo("日付グループヘッダーのマージンは32px (mb-8) である");
-            });
+            test.todo("カードはホバー時にシャドウがshadow-smからhover:shadow-xlに変化する");
+            test.todo("カードはホバー時にボーダーがtransparentからoutline-variant/10に変化する");
+            test.todo("トランジションはtransition-all duration-300 (全プロパティ300ms) である");
+        });
+    });
+});
+
+describe("DateGroupHeaderComponent", () => {
+    describe("props", () => {
+        test.todo("dateが渡された場合、その日付文字列がヘッダーに表示される");
+        test.todo("dateが'今日'の場合、'今日'が表示される");
+    });
+
+    describe("描画", () => {
+        test.todo("コンテナのクラスにflex items-center space-x-4 mb-8が付与されている");
+        test.todo("左側の区切り線にh-[1px] flex-1 bg-outline-variant/30クラスが付与されている");
+        test.todo("右側の区切り線にh-[1px] flex-1 bg-outline-variant/30クラスが付与されている");
+        test.todo("日付テキストにtext-xs font-bold uppercase tracking-widestクラスが付与されている");
+        test.todo("区切り線は左右両方に1本ずつ配置され、日付テキストを中央で挟む構造になっている");
+    });
+
+    describe("状態管理", () => {
+        test.todo("DateGroupHeaderコンポーネントは内部状態を持たない (表示のみ)");
+    });
+
+    describe("インタラクション", () => {
+        test.todo("DateGroupHeaderコンポーネントはインタラクションを持たない");
+    });
+
+    describe("副作用", () => {
+        test.todo("DateGroupHeaderコンポーネントはマウント・アンマウント時に副作用を持たない");
+    });
+
+    describe("レイアウト", () => {
+        describe("配置", () => {
+            test.todo("コンテナはflex items-centerで水平中央揃えのフレックスレイアウトである");
+            test.todo("区切り線はflex-1でコンテナの残余幅を均等に占有する");
+            test.todo("日付テキストは2本の区切り線の間に配置される");
+            test.todo("各要素のギャップはspace-x-4 (16px) である");
+        });
+
+        describe("サイズ", () => {
+            test.todo("区切り線の高さはh-[1px] (1px) である");
+            test.todo("コンテナの下マージンはmb-8 (32px) である");
+        });
+
+        describe("色", () => {
+            test.todo("区切り線の背景色はbg-outline-variant/30 (rgba(85,95,113,0.3)) である");
+        });
+
+        describe("タイポグラフィ", () => {
+            test.todo("日付テキストはtext-xs (12px) である");
+            test.todo("日付テキストはfont-bold (太字) である");
+            test.todo("日付テキストはuppercase (大文字変換) が適用されている");
+            test.todo("日付テキストはtracking-widest (最大字間) が適用されている");
+        });
+
+        describe("形状", () => {
+            test.todo("区切り線は矩形のフラットな線である (角丸なし)");
+        });
+
+        describe("装飾", () => {
+            test.todo("区切り線にシャドウや装飾は付与されていない");
+        });
+
+        describe("インタラクション", () => {
+            test.todo("ホバー・フォーカス・アクティブ時のスタイル変化はない");
+        });
+    });
+});
+
+describe("QuickRecordFormComponent", () => {
+    describe("props", () => {
+        test.todo("selectedActivityTypeが'電話'の場合、電話ボタンにborder-2 border-primaryクラスが付与される");
+        test.todo("selectedActivityTypeが非選択の場合、対応ボタンにborder-2 border-transparentクラスが付与される");
+        test.todo("onSubmitが渡された場合、保存ボタンクリックで呼ばれる");
+    });
+
+    describe("描画", () => {
+        test.todo("セクション要素にaria-label='クイック記録フォーム'が設定されている");
+        test.todo("タイトル「活動を記録」がh3として表示される");
+        test.todo("活動タイプボタングリッドに「電話」「メール」「会議」の3つのボタンが表示される");
+        test.todo("テキストエリアがrows=4で表示される");
+        test.todo("テキストエリアのplaceholderは「何が起きましたか？」である");
+        test.todo("保存ボタンのラベルは「活動を保存」である");
+        test.todo("保存ボタンはtype='submit'である");
+        test.todo("活動タイプボタンのテキストはtext-[10px] font-boldで表示される");
+    });
+
+    describe("状態管理", () => {
+        test.todo("初期selectedActivityTypeは'電話'である");
+        test.todo("活動タイプボタンをクリックするとselectedActivityTypeが変更される");
+        test.todo("選択中の活動タイプボタンにborder-2 border-primaryが適用される");
+        test.todo("非選択の活動タイプボタンにborder-2 border-transparentが適用される");
+    });
+
+    describe("インタラクション", () => {
+        test.todo("活動タイプボタンをクリックするとsetSelectedActivityTypeが呼ばれてボタンのボーダースタイルが切り替わる");
+        test.todo("保存ボタンをクリックするとフォームのデフォルト送信が防止される (e.preventDefault)");
+    });
+
+    describe("副作用", () => {
+        test.todo("QuickRecordFormコンポーネントはマウント時に副作用を持たない");
+        test.todo("QuickRecordFormコンポーネントはアンマウント時に副作用を持たない");
+    });
+
+    describe("レイアウト", () => {
+        describe("配置", () => {
+            test.todo("セクション全体はbg-surface-container-highest p-8 rounded-full border border-outline-variant/20 shadow-lg shadow-primary/5クラスが付与されている");
+            test.todo("タイトルとアイコンエリアはflex items-center space-x-3で水平配置され、下マージンmb-8 (32px) を持つ");
+            test.todo("活動タイプボタンはgrid grid-cols-3 gap-2 (3列グリッド、8px間隔) で配置される");
+            test.todo("テキストエリアはmt-4 (16px上マージン) で配置される");
+            test.todo("保存ボタンはdisplay:flex justifyContent:flex-endで右揃えに配置される");
+            test.todo("保存ボタンエリアのmt:2 (8px上マージン) が適用されている");
+        });
+
+        describe("サイズ", () => {
+            test.todo("セクションのパディングはp-8 (32px) である");
+            test.todo("活動タイプボタンのパディングはp-3 (12px) である");
+            test.todo("テキストエリアはw-full (全幅) でpy-3 px-4 (12px上下・16px左右) のパディングである");
+            test.todo("保存ボタンのパディングはpx-8 py-3 (32px左右・12px上下) である");
+        });
+
+        describe("色", () => {
+            test.todo("セクション背景色はbg-surface-container-highest である");
+            test.todo("タイトル「活動を記録」の色はtext-primary (#002045) である");
+            test.todo("活動タイプボタンの背景はbg-surface-container-lowestである");
+            test.todo("選択中ボタンのボーダーはborder-2 border-primary (#002045) である");
+            test.todo("非選択ボタンのボーダーはborder-2 border-transparent (透明) である");
+            test.todo("テキストエリアの背景はbg-surface-container-lowestである");
+            test.todo("保存ボタンの背景はsilk-gradient (linear-gradient(135deg, #002045, #003066)) である");
+            test.todo("保存ボタンのテキスト色はtext-white (#ffffff) である");
+        });
+
+        describe("タイポグラフィ", () => {
+            test.todo("タイトル「活動を記録」はfont-headline (Manrope) font-bold text-xl (20px) である");
+            test.todo("活動タイプボタンラベルはtext-[10px] font-boldである");
+            test.todo("テキストエリアのフォントはtext-sm (14px/Inter) である");
+            test.todo("保存ボタンのフォントウェイトはfont-bold (700) である");
+        });
+
+        describe("形状", () => {
+            test.todo("セクションコンテナはrounded-full (9999px) の角丸である");
+            test.todo("活動タイプボタンはrounded-xl (12px) の角丸である");
+            test.todo("テキストエリアはrounded-xl (12px) の角丸でresize-noneが適用されている");
+            test.todo("保存ボタンはrounded-xl (12px) の角丸である");
+        });
+
+        describe("装飾", () => {
+            test.todo("セクションのボーダーはborder border-outline-variant/20 (rgba(85,95,113,0.2)) である");
+            test.todo("セクションにはshadow-lg shadow-primary/5 (largeシャドウ、primary色5%) が適用されている");
+            test.todo("保存ボタンにはshadow-lg shadow-primary/20 (largeシャドウ、primary色20%) が適用されている");
+        });
+
+        describe("インタラクション", () => {
+            test.todo("活動タイプボタンはホバー・フォーカス時にボーダースタイルが変化する");
+            test.todo("保存ボタンはfocus時にスタイルが変化する");
+        });
+    });
+});
+
+describe("ContextualStatsCardComponent", () => {
+    describe("props", () => {
+        test.todo("統計値 (例: 42) が渡された場合、text-3xl font-extrabold font-headlineで表示される");
+        test.todo("progressValueが渡された場合、プログレスバーの幅に反映される");
+    });
+
+    describe("描画", () => {
+        test.todo("セクション要素にaria-label='統計カード'が設定されている");
+        test.todo("統計値「42」がTypographyとして表示される");
+        test.todo("プログレスバー外枠がh-2 w-full bg-primary-container rounded-full overflow-hiddenで表示される");
+        test.todo("プログレスバーがh-full bg-tertiary-fixed w-3/4 rounded-fullで表示される");
+        test.todo("コンテンツエリアはrelative z-10クラスで前面に配置される");
+    });
+
+    describe("状態管理", () => {
+        test.todo("ContextualStatsCardコンポーネントは内部状態を持たない (表示のみ)");
+    });
+
+    describe("インタラクション", () => {
+        test.todo("ContextualStatsCardコンポーネントはユーザーインタラクションを持たない");
+    });
+
+    describe("副作用", () => {
+        test.todo("ContextualStatsCardコンポーネントはマウント・アンマウント時に副作用を持たない");
+    });
+
+    describe("レイアウト", () => {
+        describe("配置", () => {
+            test.todo("セクションコンテナはbg-primary text-white p-8 rounded-full overflow-hidden relativeクラスが付与されている");
+            test.todo("コンテンツエリアはrelative z-10で背景より前面に配置される");
+            test.todo("プログレスバーはmt-2 (8px上マージン) で統計値の下に配置される");
+        });
+
+        describe("サイズ", () => {
+            test.todo("セクションのパディングはp-8 (32px) である");
+            test.todo("プログレスバー外枠の高さはh-2 (8px) で幅はw-full (100%) である");
+            test.todo("プログレスバーの初期幅はw-3/4 (75%) である");
+            test.todo("プログレスバーの高さはh-full (親要素100%) である");
+        });
+
+        describe("色", () => {
+            test.todo("セクション背景色はbg-primary (#002045) である");
+            test.todo("セクションのテキスト色はtext-white (#ffffff) である");
+            test.todo("プログレスバー外枠の背景色はbg-primary-container である");
+            test.todo("プログレスバーの背景色はbg-tertiary-fixed (#9ff5c1相当) である");
+        });
+
+        describe("タイポグラフィ", () => {
+            test.todo("統計値はtext-3xl (30px) font-extrabold (800) font-headline (Manrope) である");
+        });
+
+        describe("形状", () => {
+            test.todo("セクションコンテナはrounded-full (9999px) の角丸である");
+            test.todo("プログレスバー外枠はrounded-full (完全な丸角) でoverflow-hidden (はみ出し非表示) である");
+            test.todo("プログレスバーはrounded-full (完全な丸角) である");
+        });
+
+        describe("装飾", () => {
+            test.todo("セクションはoverflow-hidden (コンテンツはみ出し非表示) が適用されている");
+            test.todo("セクションにはbox-shadowや追加の装飾は付与されていない");
+        });
+
+        describe("インタラクション", () => {
+            test.todo("ホバー・フォーカス・アクティブ時のスタイル変化はない");
+        });
+    });
+});
+
+describe("ActivityFilterSectionComponent", () => {
+    describe("props", () => {
+        test.todo("activeFilterが'すべての活動'の場合、'すべての活動'ボタンにbg-surface-container-lowest text-primary border border-primary/10クラスが付与される");
+        test.todo("activeFilterが'マイチーム'の場合、'マイチーム'ボタンにアクティブスタイルが適用される");
+        test.todo("activeFilterが非選択ボタンの場合、bg-surface-container-lowest text-on-surface-variant border border-transparentクラスが付与される");
+        test.todo("onFilterChangeが渡された場合、ボタンクリックで呼ばれる");
+    });
+
+    describe("描画", () => {
+        test.todo("セクション要素にaria-label='フィルターセクション'が設定されている");
+        test.todo("「すべての活動」「マイチーム」「結果のみ」「期限切れ」の4つのフィルターボタンが表示される");
+        test.todo("各ボタンはtype='button'である");
+        test.todo("ボタンコンテナはflex flex-wrap gap-2 (8px間隔) のフレックスレイアウトである");
+    });
+
+    describe("状態管理", () => {
+        test.todo("初期activeFilterは'すべての活動'である");
+        test.todo("フィルターボタンをクリックするとactiveFilterが変更される");
+        test.todo("クリックしたボタンにアクティブスタイル (text-primary border-primary/10) が適用される");
+        test.todo("クリックしなかったボタンには非アクティブスタイル (text-on-surface-variant border-transparent) が適用される");
+    });
+
+    describe("インタラクション", () => {
+        test.todo("フィルターボタンをクリックするとsetActiveFilterが呼ばれ、activeFilterが更新される");
+        test.todo("アクティブボタンはhover時にhover:bg-primary hover:text-whiteに変化する");
+        test.todo("非アクティブボタンはhover時にhover:border-outline-variantに変化する");
+    });
+
+    describe("副作用", () => {
+        test.todo("ActivityFilterSectionコンポーネントはマウント・アンマウント時に副作用を持たない");
+    });
+
+    describe("レイアウト", () => {
+        describe("配置", () => {
+            test.todo("セクションコンテナはp-6 bg-surface-container-low rounded-fullクラスが付与されている");
+            test.todo("ボタンコンテナはflex flex-wrap gap-2 (8px) で折り返し可能な横並びレイアウトである");
+        });
+
+        describe("サイズ", () => {
+            test.todo("セクションのパディングはp-6 (24px) である");
+            test.todo("各ボタンのパディングはpx-4 py-2 (16px左右・8px上下) である");
+        });
+
+        describe("色", () => {
+            test.todo("セクション背景色はbg-surface-container-low (#f1f4f6相当) である");
+            test.todo("アクティブボタンの背景色はbg-surface-container-lowestである");
+            test.todo("アクティブボタンのテキスト色はtext-primary (#002045) である");
+            test.todo("アクティブボタンのボーダーはborder border-primary/10 (rgba(0,32,69,0.1)) である");
+            test.todo("アクティブボタンのhover背景色はhover:bg-primary (#002045) である");
+            test.todo("アクティブボタンのhoverテキスト色はhover:text-white (#ffffff) である");
+            test.todo("非アクティブボタンの背景色はbg-surface-container-lowestである");
+            test.todo("非アクティブボタンのテキスト色はtext-on-surface-variantである");
+            test.todo("非アクティブボタンのボーダーはborder border-transparent (透明) である");
+            test.todo("非アクティブボタンのhoverボーダーはhover:border-outline-variantである");
+        });
+
+        describe("タイポグラフィ", () => {
+            test.todo("ボタンテキストはtext-xs (12px) font-bold (700) である");
+        });
+
+        describe("形状", () => {
+            test.todo("セクションコンテナはrounded-full (9999px) の角丸である");
+            test.todo("各ボタンはrounded-lg (8px) の角丸である");
+        });
+
+        describe("装飾", () => {
+            test.todo("セクションにボーダーやシャドウは付与されていない");
+            test.todo("各ボタンはborder-2ではなくborderクラス (1px) のボーダーを持つ");
+        });
+
+        describe("インタラクション", () => {
+            test.todo("各ボタンのトランジションはtransition-allが適用されている");
+            test.todo("アクティブボタンのhover時はbg-primaryに背景変化し文字がwhiteになる");
+            test.todo("非アクティブボタンのhover時はborder-outline-variantにボーダーが表示される");
+        });
     });
 });
 
