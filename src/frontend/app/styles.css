@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply font-sans text-on-surface bg-surface;
+    }
+
+    :focus-visible {
+        @apply outline outline-2 outline-offset-2 outline-surface-tint;
+    }
+}
+
+.silk-gradient {
+    background: linear-gradient(135deg, #002045 0%, #003066 100%);
+}

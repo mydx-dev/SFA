@@ -1,3 +1,4 @@
+import "./styles.css";
 import { AppsScriptRouter } from "@mydx-dev/gas-boost-react-apps-script";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { StyledEngineProvider } from "@mui/material/styles";
