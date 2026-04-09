@@ -1,8 +1,11 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Activity } from "../../backend/domain/entity/Activity";
 import { getActivitiesFromLocal } from "../usecase/activities";
+
+const Spinner = () => (
+    <div className="h-10 w-10 animate-spin rounded-full border-2 border-primary border-t-transparent" aria-label="読み込み中" />
+);
 
 const activityTypeIconBg: Record<string, string> = {
     電話: "bg-secondary-fixed",
@@ -47,44 +50,37 @@ export const ActivityHistoryPage = () => {
 
     if (isLoading) {
         return (
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
-                <CircularProgress />
-            </Box>
+            <div className="flex min-h-[400px] items-center justify-center">
+                <Spinner />
+            </div>
         );
     }
 
     if (error) {
         return (
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
-                <Typography color="error" variant="h3">エラーが発生しました</Typography>
-            </Box>
+            <div className="flex min-h-[400px] items-center justify-center">
+                <h3 className="font-headline text-2xl font-bold text-error">エラーが発生しました</h3>
+            </div>
         );
     }
 
     const grouped = groupActivitiesByDate(activities || []);
 
     return (
-        <Box
-            component="div"
-            className="ml-64 p-12 min-h-screen bg-surface"
-            data-testid="activity-history-main"
-        >
-            <Box className="max-w-6xl mx-auto">
+        <div className="ml-64 min-h-screen bg-surface p-12" data-testid="activity-history-main">
+            <div className="mx-auto max-w-6xl">
                 {/* Header Section */}
-                <Box className="flex justify-between items-end mb-12">
-                    <Box>
+                <div className="mb-12 flex items-end justify-between">
+                    <div>
                         <span className="text-xs font-bold tracking-[0.2em] uppercase mb-2 block">
                             エンゲージメント履歴
                         </span>
-                        <Typography
-                            component="h2"
-                            className="text-4xl font-extrabold font-headline text-primary tracking-tight"
-                        >
+                        <h2 className="font-headline text-4xl font-extrabold text-primary tracking-tight">
                             活動履歴フィード
-                        </Typography>
-                    </Box>
-                    <Box className="flex flex-wrap items-center justify-end gap-3">
-                        <Box component="nav" className="flex items-center gap-2">
+                        </h2>
+                    </div>
+                    <div className="flex flex-wrap items-center justify-end gap-3">
+                        <nav className="flex items-center gap-2">
                             {["概要", "インサイト", "タイムライン"].map((item) => (
                                 <a
                                     key={item}
@@ -94,8 +90,8 @@ export const ActivityHistoryPage = () => {
                                     {item}
                                 </a>
                             ))}
-                        </Box>
-                        <Box className="relative">
+                        </nav>
+                        <div className="relative">
                             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">
                                 search
                             </span>
@@ -104,7 +100,7 @@ export const ActivityHistoryPage = () => {
                                 className="w-64 bg-surface-container-high rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-surface-tint"
                                 placeholder="活動を検索..."
                             />
-                        </Box>
+                        </div>
                         <button
                             type="button"
                             className="silk-gradient text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95"
@@ -130,61 +126,58 @@ export const ActivityHistoryPage = () => {
                             src="https://placehold.co/40x40"
                             className="w-10 h-10 rounded-full"
                         />
-                        <Typography variant="h1" sx={{ display: "none" }}>活動履歴</Typography>
-                    </Box>
-                </Box>
+                        <h1 className="sr-only">活動履歴</h1>
+                    </div>
+                </div>
 
                 {/* Bento Layout Content */}
-                <Box className="grid grid-cols-12 gap-8">
+                <div className="grid grid-cols-12 gap-8">
                     {/* Left Column: Activity Feed */}
-                    <Box className="col-span-12 lg:col-span-8 space-y-6">
+                    <div className="col-span-12 space-y-6 lg:col-span-8">
                         {Object.entries(grouped).length === 0 ? (
                             <>
                                 {/* Empty state date header */}
-                                <Box className="flex items-center space-x-4 mb-8">
-                                    <Box className="h-[1px] flex-1 bg-outline-variant/30" />
+                                <div className="mb-8 flex items-center space-x-4">
+                                    <div className="h-[1px] flex-1 bg-outline-variant/30" />
                                     <span className="text-xs font-bold uppercase tracking-widest">今日</span>
-                                    <Box className="h-[1px] flex-1 bg-outline-variant/30" />
-                                </Box>
+                                    <div className="h-[1px] flex-1 bg-outline-variant/30" />
+                                </div>
                             </>
                         ) : (
                             Object.entries(grouped).map(([date, dateActivities]) => (
-                                <Box key={date}>
+                                <div key={date}>
                                     {/* Date Group Header */}
-                                    <Box className="flex items-center space-x-4 mb-8">
-                                        <Box className="h-[1px] flex-1 bg-outline-variant/30" />
+                                    <div className="mb-8 flex items-center space-x-4">
+                                        <div className="h-[1px] flex-1 bg-outline-variant/30" />
                                         <span className="text-xs font-bold uppercase tracking-widest">{date}</span>
-                                        <Box className="h-[1px] flex-1 bg-outline-variant/30" />
-                                    </Box>
+                                        <div className="h-[1px] flex-1 bg-outline-variant/30" />
+                                    </div>
                                     {/* Activity Cards */}
-                                    <Box className="space-y-6">
+                                    <div className="space-y-6">
                                         {dateActivities.map((activity) => (
-                                            <Box
+                                            <div
                                                 key={activity.id}
                                                 data-testid="activity-card"
                                                 className="group relative bg-surface-container-lowest p-6 rounded-full shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 border border-transparent hover:border-outline-variant/10"
                                             >
-                                                <Box className="flex items-start space-x-6">
+                                                <div className="flex items-start space-x-6">
                                                     {/* Icon */}
-                                                    <Box
+                                                    <div
                                                         className={`w-12 h-12 rounded-full ${activityTypeIconBg[activity.activityType] || "bg-surface-container-high"} flex items-center justify-center flex-shrink-0`}
                                                     >
                                                         <span className="material-symbols-outlined">
                                                             {activityTypeIconEl[activity.activityType] || "more_horiz"}
                                                         </span>
-                                                    </Box>
-                                                    <Box className="flex-1">
-                                                        <Box className="flex justify-between items-start">
-                                                            <Typography
-                                                                component="h4"
-                                                                className="font-headline font-bold text-on-surface"
-                                                            >
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <div className="flex items-start justify-between">
+                                                            <h4 className="font-headline font-bold text-on-surface">
                                                                 {activity.activityType}
-                                                            </Typography>
+                                                            </h4>
                                                             <span className="text-xs font-medium text-outline">
                                                                 {new Date(activity.activityDate).toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })}
                                                             </span>
-                                                        </Box>
+                                                        </div>
                                                         <a
                                                             href="#"
                                                             className="text-sm text-on-surface-variant hover:underline"
@@ -192,50 +185,43 @@ export const ActivityHistoryPage = () => {
                                                             案件: {activity.dealId}
                                                         </a>
                                                         {activity.content && (
-                                                            <Box className="mt-4 p-4 bg-surface-container-low rounded-xl border-l-4 border-tertiary-fixed">
-                                                                <Typography
-                                                                    component="p"
-                                                                    className="text-sm leading-relaxed italic"
-                                                                >
+                                                            <div className="mt-4 rounded-xl border-l-4 border-tertiary-fixed bg-surface-container-low p-4">
+                                                                <p className="text-sm leading-relaxed italic">
                                                                     {activity.content}
-                                                                </Typography>
-                                                            </Box>
+                                                                </p>
+                                                            </div>
                                                         )}
                                                         {/* Badge */}
-                                                        <Box className="mt-4 flex items-center space-x-4">
+                                                        <div className="mt-4 flex items-center space-x-4">
                                                             <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-tertiary-fixed/20">
                                                                 {activity.activityType}
                                                             </span>
-                                                        </Box>
-                                                    </Box>
-                                                </Box>
-                                            </Box>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         ))}
-                                    </Box>
-                                </Box>
+                                    </div>
+                                </div>
                             ))
                         )}
-                    </Box>
+                    </div>
 
                     {/* Right Column: Side Panel */}
-                    <Box className="col-span-12 lg:col-span-4 space-y-8">
+                    <div className="col-span-12 space-y-8 lg:col-span-4">
                         {/* Quick Record Form */}
-                        <Box
-                            component="section"
-                            className="bg-surface-container-highest p-8 rounded-full border border-outline-variant/20 shadow-lg shadow-primary/5"
+                        <section
+                            className="rounded-full border border-outline-variant/20 bg-surface-container-highest p-8 shadow-lg shadow-primary/5"
                             aria-label="クイック記録フォーム"
                         >
-                            <Box className="flex items-center space-x-3 mb-8">
-                                <Typography
-                                    component="h3"
-                                    className="font-headline font-bold text-xl text-primary"
-                                >
+                            <div className="mb-8 flex items-center space-x-3">
+                                <h3 className="font-headline text-xl font-bold text-primary">
                                     活動を記録
-                                </Typography>
-                            </Box>
-                            <Box component="form">
+                                </h3>
+                            </div>
+                            <form>
                                 {/* Activity Type Grid */}
-                                <Box className="grid grid-cols-3 gap-2">
+                                <div className="grid grid-cols-3 gap-2">
                                     {["電話", "メール", "会議"].map((type) => (
                                         <button
                                             key={type}
@@ -246,7 +232,7 @@ export const ActivityHistoryPage = () => {
                                             <span className="text-[10px] font-bold">{type}</span>
                                         </button>
                                     ))}
-                                </Box>
+                                </div>
                                 {/* Textarea */}
                                 <textarea
                                     rows={4}
@@ -254,7 +240,7 @@ export const ActivityHistoryPage = () => {
                                     placeholder="何が起きましたか？"
                                 />
                                 {/* Save Button */}
-                                <Box display="flex" justifyContent="flex-end" mt={2}>
+                                <div className="mt-2 flex justify-end">
                                     <button
                                         type="submit"
                                         className="silk-gradient text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-primary/20"
@@ -265,35 +251,25 @@ export const ActivityHistoryPage = () => {
                                     >
                                         活動を保存
                                     </button>
-                                </Box>
-                            </Box>
-                        </Box>
+                                </div>
+                            </form>
+                        </section>
 
                         {/* Contextual Stats Card */}
-                        <Box
-                            component="section"
-                            className="bg-primary text-white p-8 rounded-full overflow-hidden relative"
-                            aria-label="統計カード"
-                        >
-                            <Box className="relative z-10">
-                                <Typography className="text-3xl font-extrabold font-headline">
-                                    42
-                                </Typography>
-                                <Box className="h-2 w-full bg-primary-container rounded-full overflow-hidden mt-2">
-                                    <Box className="h-full bg-tertiary-fixed w-3/4 rounded-full" />
-                                </Box>
-                            </Box>
-                            <Box className="absolute top-4 right-4 w-32 h-32 bg-primary-container rounded-full opacity-50" />
-                            <Box className="absolute bottom-4 right-6 w-16 h-16 bg-tertiary-container rounded-full opacity-30" />
-                        </Box>
+                        <section className="relative overflow-hidden rounded-full bg-primary p-8 text-white" aria-label="統計カード">
+                            <div className="relative z-10">
+                                <p className="font-headline text-3xl font-extrabold">42</p>
+                                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-primary-container">
+                                    <div className="h-full w-3/4 rounded-full bg-tertiary-fixed" />
+                                </div>
+                            </div>
+                            <div className="absolute top-4 right-4 h-32 w-32 rounded-full bg-primary-container opacity-50" />
+                            <div className="absolute bottom-4 right-6 h-16 w-16 rounded-full bg-tertiary-container opacity-30" />
+                        </section>
 
                         {/* Filter Section */}
-                        <Box
-                            component="section"
-                            className="p-6 bg-surface-container-low rounded-full"
-                            aria-label="フィルターセクション"
-                        >
-                            <Box className="flex flex-wrap gap-2">
+                        <section className="rounded-full bg-surface-container-low p-6" aria-label="フィルターセクション">
+                            <div className="flex flex-wrap gap-2">
                                 {["すべての活動", "マイチーム", "結果のみ", "期限切れ"].map((filter) => (
                                     <button
                                         key={filter}
@@ -304,18 +280,16 @@ export const ActivityHistoryPage = () => {
                                         {filter}
                                     </button>
                                 ))}
-                            </Box>
-                        </Box>
-                    </Box>
-                </Box>
+                            </div>
+                        </section>
+                    </div>
+                </div>
 
                 {/* Pagination */}
-                <Box display="flex" justifyContent="center" mt={3}>
-                    <Typography variant="caption" color="text.secondary">
-                        ページ {page}
-                    </Typography>
-                </Box>
-            </Box>
-        </Box>
+                <div className="mt-3 flex justify-center">
+                    <span className="text-xs text-on-surface-variant">ページ {page}</span>
+                </div>
+            </div>
+        </div>
     );
 };
